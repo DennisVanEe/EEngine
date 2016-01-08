@@ -1,0 +1,46 @@
+Raptor::Raptor()
+
+Temps: 7, 8, 9, 10
+
+Variables: 
+ 000: Raptor this
+ 008: (heap) string {noname}
+ 009: (heap) eeContainer {noname}
+ 010: (heap) Entity {noname}
+ 007: string {noname}
+
+
+- 27,3 -
+    0  10 *    SUSPEND
+    1  10 *    PSF      v8
+    2  11 *    STR      1         (l:9 s:"raptorEnt")
+    3  13 *    CALLSYS  19           (const string& $str(const int, const uint8&in))
+    5  11 *    PshRPtr
+    6  12 *    PSF      v7
+    7  13 *    CALLSYS  21           (string::string(const string&in))
+               ObjInfo  v7, 1
+    9  11 *    PSF      v7
+   10  12 *    ALLOC    0xc65060, 21             (type:string, {no func})
+   13  10 *    PSF      v7
+   14  11 *    CALLSYS  22           (string::~string())
+               ObjInfo  v7, 0
+   16  10 *    VAR      v8
+   17  11 *    PshGPtr  143657624
+   19  12 *    GETOBJ   1
+   20  12 *    RefCpyV  v9, 143588720
+   22  12 *    CALLSYS  78           (Entity& eeContainer::getObject(string))
+   24  10 *    PshRPtr
+   25  11 *    RefCpyV  v10, 143589168
+   27  11 *    PopPtr
+   28  10 *    FREE     v9, 143588720
+   30  10 *    VAR      v10
+   31  11 *    PshVPtr  v0
+   32  12 *    ADDSi    v20, 134217743
+   34  12 *    GETOBJREF 1
+   35  12 *    REFCPY   0x88eff30
+   37  11 *    FREE     v10, 143589168
+   39  11 *    PopPtr
+- 28,3 -
+   40  10 *    SUSPEND
+            0:
+   41  10 *    RET      1

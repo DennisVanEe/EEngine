@@ -1,0 +1,22 @@
+void Raptor::move(float)
+
+Temps: 1
+
+Variables: 
+ -001: float time
+ 000: Raptor this
+
+
+- 32,3 -
+               VarDecl  0
+    0   1 *    SUSPEND
+    1   1 *    MULIf    v1, v-1, 22.500000
+    4   1 *    PshV4    v1
+    5   2 *    PshVPtr  v0
+    6   3 *    ADDSi    v20, 134217743
+    8   3 *    RDSPtr
+    9   3 *    CALLSYS  72           (void Entity::rotate(float))
+- 33,3 -
+   11   1 *    SUSPEND
+            0:
+   12   1 *    RET      2

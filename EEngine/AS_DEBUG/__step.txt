@@ -1,0 +1,35 @@
+void step(double)
+
+Temps: 2, 3, 4, 5
+
+Variables: 
+ 000: double time
+ 004: (heap) Eagle {noname}
+ 005: (heap) Raptor {noname}
+
+
+- 39,2 -
+               VarDecl  0
+    0   5 *    SUSPEND
+    1   5 *    CpyVtoV8 v2, v0
+    3   5 *    dTOf     v3, v2
+    5   5 *    PshV4    v3
+    6   6 *    PshGPtr  143657128
+    8   7 *    CHKREF
+    9   7 *    RefCpyV  v4, 143524672
+   11   7 *    CALLINTF 92           (void Eagle::move(float))
+   13   5 *    FREE     v4, 143524672
+- 40,2 -
+   15   5 *    SUSPEND
+   16   5 *    CpyVtoV8 v2, v0
+   18   5 *    dTOf     v3, v2
+   20   5 *    PshV4    v3
+   21   6 *    PshGPtr  143656232
+   23   7 *    CHKREF
+   24   7 *    RefCpyV  v5, 143525056
+   26   7 *    CALLINTF 93           (void Raptor::move(float))
+   28   5 *    FREE     v5, 143525056
+- 41,2 -
+   30   5 *    SUSPEND
+            0:
+   31   5 *    RET      2

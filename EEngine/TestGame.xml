@@ -1,0 +1,6 @@
+<! -- might add some other stuff to this-- >
+<Project name="test game">
+	<Level dir="directory"/>
+	<Resource dir="directory"/>
+</Project>
+	

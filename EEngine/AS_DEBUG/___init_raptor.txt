@@ -1,0 +1,17 @@
+<unrecognized token> _unnamed_function_()
+
+Temps: 1
+
+Variables: 
+ 001: (heap) Raptor {noname}
+
+
+- 35,8 -
+    0   1 *    SUSPEND
+    1   1 *    CALL     89           (Raptor@ Raptor())
+    3   1 *    STOREOBJ v1
+    4   1 *    PshVPtr  v1
+    5   2 *    PGA      143656232
+    7   3 *    REFCPY   0x88e04c0
+    9   2 *    FREE     v1, 143525056
+   11   1 *    RET      0

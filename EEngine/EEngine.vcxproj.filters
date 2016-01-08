@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\pre-generated">
+      <UniqueIdentifier>{19070855-527b-4741-a8df-8ebdb292f1a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\addons">
+      <UniqueIdentifier>{18a9c642-5e3c-4a5c-ba55-aa984f0c48e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Module Communication">
+      <UniqueIdentifier>{36fa3ad4-dfb8-41b3-98a9-01206181abd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Module Communication">
+      <UniqueIdentifier>{8f974d8f-a440-4031-b0ae-3afb58ce1cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Containers">
+      <UniqueIdentifier>{0da63e37-739b-4564-a188-2ec7bf74aefe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data Containers">
+      <UniqueIdentifier>{83bc202e-e3e4-44e9-a3c2-1da29909bf6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{cbe570e7-6cb3-45c0-8923-bfc27740f7ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{5dba732f-e6f3-4bc3-9b6b-8534c0cc715c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files\pre-generated</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\pre-generated</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Request.hpp">
+      <Filter>Header Files\Module Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_RequestQueue.hpp">
+      <Filter>Header Files\Module Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_RequestType.hpp">
+      <Filter>Header Files\Module Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_ScriptEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Module.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_DataContainer.hpp">
+      <Filter>Header Files\Data Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_DataContainerEngine.hpp">
+      <Filter>Header Files\Data Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_RenderEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Animator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Entity.hpp">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_AnimatedEntity.hpp">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_ResourceEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tinyxml2\tinyxml2.cpp">
+      <Filter>Source Files\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\local\angelscript\include\scriptstdstring\scriptstdstring.cpp">
+      <Filter>Source Files\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="EEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_RequestQueue.cpp">
+      <Filter>Source Files\Module Communication</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Request.cpp">
+      <Filter>Source Files\Module Communication</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_ScriptEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_DataContainer.cpp">
+      <Filter>Source Files\Data Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_DataContainerEngine.cpp">
+      <Filter>Source Files\Data Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_ResourceEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\..\..\..\local\angelscript\lib\angelscriptd.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

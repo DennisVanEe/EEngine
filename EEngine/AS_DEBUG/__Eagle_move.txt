@@ -1,0 +1,80 @@
+void Eagle::move(float)
+
+Temps: 1, 2, 3, 4
+
+Variables: 
+ -001: float time
+ 000: Eagle this
+
+
+- 12,3 -
+               VarDecl  0
+    0   4 *    SUSPEND
+    1   4 *    PshC4    0x16          (i:22, f:3.08286e-44)
+    3   5 *    CALLSYS  79           (bool keyBoardPress(Key))
+    5   4 *    JLowZ    +15              (d:22)
+- 13,4 -
+    7   4 *    SUSPEND
+    8   4 *    MULIf    v2, v-1, -100.000000
+   11   4 *    PshV4    v2
+   12   5 *    PshC4    0x0          (i:0, f:0)
+   14   6 *    PshVPtr  v0
+   15   7 *    ADDSi    v20, 134217742
+   17   7 *    RDSPtr
+   18   7 *    CALLSYS  66           (void Entity::move(float, float))
+   20   4 *    JMP      +64              (d:86)
+- 14,8 -
+            1:
+   22   4 *    SUSPEND
+   23   4 *    PshC4    0x0          (i:0, f:0)
+   25   5 *    CALLSYS  79           (bool keyBoardPress(Key))
+   27   4 *    JLowZ    +15              (d:44)
+- 15,4 -
+   29   4 *    SUSPEND
+   30   4 *    PshC4    0x0          (i:0, f:0)
+   32   5 *    MULIf    v3, v-1, -100.000000
+   35   5 *    PshV4    v3
+   36   6 *    PshVPtr  v0
+   37   7 *    ADDSi    v20, 134217742
+   39   7 *    RDSPtr
+   40   7 *    CALLSYS  66           (void Entity::move(float, float))
+   42   4 *    JMP      +42              (d:86)
+- 16,8 -
+            3:
+   44   4 *    SUSPEND
+   45   4 *    PshC4    0x12          (i:18, f:2.52234e-44)
+   47   5 *    CALLSYS  79           (bool keyBoardPress(Key))
+   49   4 *    JLowZ    +15              (d:66)
+- 17,4 -
+   51   4 *    SUSPEND
+   52   4 *    MULIf    v2, v-1, 100.000000
+   55   4 *    PshV4    v2
+   56   5 *    PshC4    0x0          (i:0, f:0)
+   58   6 *    PshVPtr  v0
+   59   7 *    ADDSi    v20, 134217742
+   61   7 *    RDSPtr
+   62   7 *    CALLSYS  66           (void Entity::move(float, float))
+   64   4 *    JMP      +20              (d:86)
+- 18,8 -
+            5:
+   66   4 *    SUSPEND
+   67   4 *    PshC4    0x3          (i:3, f:4.2039e-45)
+   69   5 *    CALLSYS  79           (bool keyBoardPress(Key))
+   71   4 *    JLowZ    +13              (d:86)
+- 19,4 -
+   73   4 *    SUSPEND
+   74   4 *    PshC4    0x0          (i:0, f:0)
+   76   5 *    MULIf    v4, v-1, 100.000000
+   79   5 *    PshV4    v4
+   80   6 *    PshVPtr  v0
+   81   7 *    ADDSi    v20, 134217742
+   83   7 *    RDSPtr
+   84   7 *    CALLSYS  66           (void Entity::move(float, float))
+- 20,3 -
+            7:
+            6:
+            4:
+            2:
+   86   4 *    SUSPEND
+            0:
+   87   4 *    RET      2
