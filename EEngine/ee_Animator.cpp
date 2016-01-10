@@ -1,24 +1,9 @@
 #include "ee_Animator.hpp"
 
-eeGames::Animation::Animation(sf::RenderWindow *rw) : render_window(rw), sprite_sheet(nullptr), current_frame(0), frame_time(0), frame_size(0, 0),
-	columns_rows(0, 0)
-{
-}
-
 eeGames::Animation::~Animation()
 {
 	for (sf::Sprite *sp : frames)
 		delete sp;
-}
-
-void eeGames::Animation::set_frame_size(unsigned int width, unsigned int height)
-{
-	frame_size = sf::Vector2f(width, height);
-}
-
-void eeGames::Animation::set_columns_rows(unsigned int columns, unsigned int row)
-{
-	columns_rows = sf::Vector2f(columns, row);
 }
 
 bool eeGames::Animation::create_frames()
@@ -27,9 +12,9 @@ bool eeGames::Animation::create_frames()
 	x = y = 0;
 	if (frame_size == sf::Vector2f(0, 0) || columns_rows == sf::Vector2f(0, 0))
 		return false;
-	for (int r = 0; r < columns_rows.y; r++)
+	for (uint8_t r = 0; r < columns_rows.y; r++)
 	{
-		for (int c = 0; c < columns_rows.x; c++)
+		for (uint8_t c = 0; c < columns_rows.x; c++)
 		{
 			sf::Sprite *sprite = new sf::Sprite();
 			sprite->setTexture(*sprite_sheet);
@@ -50,27 +35,7 @@ bool eeGames::Animation::set_sprite_sheet(sf::Texture *text)
 	return true;
 }
 
-void eeGames::Animation::set_frame_time(unsigned int fr)
-{
-	frame_time = fr;
-}
-
-void eeGames::Animation::set_position(int x, int y)
-{
-	position = sf::Vector2f(x, y);
-}
-
-sf::Texture *eeGames::Animation::get_sprite_sheet() const
-{
-	return sprite_sheet;
-}
-
-unsigned int eeGames::Animation::get_frame_time() const
-{
-	return frame_time;
-}
-
-void eeGames::Animation::play(unsigned int frame)
+void eeGames::Animation::play(uint16_t frame, sf::RenderWindow *target)
 {
 	if (frame + current_time > frame_time)
 	{
@@ -83,10 +48,5 @@ void eeGames::Animation::play(unsigned int frame)
 		current_time = current_time + frame;
 	
 	frames[current_frame]->setPosition(position);
-	render_window->draw(*frames[current_frame]);
-}
-
-void eeGames::Animation::restart()
-{
-	current_frame = 0;
+	target->draw(*frames[current_frame]);
 }

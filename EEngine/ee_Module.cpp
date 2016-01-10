@@ -63,17 +63,17 @@ bool eeGames::Module::initialize_module()
 	if (!module_loaded)
 		return false;
 
-	//context->Prepare(module->GetFunctionByDecl(init_decl.c_str()));
-	//context->Execute();
+	context->Prepare(module->GetFunctionByDecl(init_decl.c_str()));
+	context->Execute();
 
 	return true;
 }
 
-void eeGames::Module::step_module(asUINT frame_time)
+void eeGames::Module::step_module(uint16_t frame_time)
 {
-	prepare_step();
 	if (sleep)
 		return;
+	prepare_step();
 	context->SetArgDWord(0, frame_time);
 	int error = context->Execute();
 	if (error != asEXECUTION_FINISHED)

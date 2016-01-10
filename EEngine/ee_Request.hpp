@@ -10,8 +10,8 @@ namespace eeGames
 	class Request
 	{
 	private:
-		int priority; // lower value has highest priority
-		unsigned int ref_count;
+		uint16_t priority; // lower value has highest priority
+		uint8_t ref_count;
 		std::string dependency, id;
 		RequestType r_type;
 
@@ -20,7 +20,7 @@ namespace eeGames
 		std::string target_name;
 		byte *data;
 	public:
-		Request(const std::string &i, unsigned int p, RequestType rt);
+		Request(const std::string &i, uint16_t p, RequestType rt);
 		Request(const std::string &i, const std::string &dep, RequestType rt);
 
 		// TODO: Certain input methods do not require a name for the string (string input)
@@ -49,7 +49,7 @@ namespace eeGames
 		{
 			return r_type;
 		}
-		int get_priority() const
+		uint16_t get_priority() const
 		{
 			return priority;
 		}
@@ -88,13 +88,13 @@ namespace eeGames
 
 	};
 
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt);
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt, const std::string &d1);
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt, const std::string &d1, int *d2);
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt, const std::string &d1, float *d2);
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt, const std::string &d1, double *d2);
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt, const std::string &d1, bool *d2);
-	extern inline Request *create_request(const std::string &i, int p, RequestType rt, const std::string &d1, std::string &d2);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, int *d2);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, float *d2);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, double *d2);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, bool *d2);
+	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, std::string &d2);
 
 	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt);
 	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1);

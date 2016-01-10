@@ -1,9 +1,7 @@
 #include "ee_Request.hpp"
 
-eeGames::Request::Request(const std::string &i, unsigned int p, RequestType rt) : id(i), r_type(rt), priority(p), dependency(""), d_type(DataType::NONE), data(nullptr), ref_count(1)
+eeGames::Request::Request(const std::string &i, uint16_t p, RequestType rt) : id(i), r_type(rt), priority(p), dependency(""), d_type(DataType::NONE), data(nullptr), ref_count(1)
 {
-	if (p < 0)
-		priority = 0;
 }
 
 eeGames::Request::Request(const std::string &i, const std::string &dep, RequestType rt) : id(i), r_type(rt), priority(-1), dependency(dep), d_type(DataType::NONE), data(nullptr), ref_count(1)
@@ -161,14 +159,14 @@ std::string eeGames::Request::get_string()
 
 // the create_request form:
 
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt)
 {
 	if (rt == RequestType::CREATE_MODULE && rt == RequestType::READ_CONTAINER_FILE && rt == RequestType::READ_DATA && rt == RequestType::WRITE_CONTAINER_FILE
 		&& rt == RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	return new Request(i, p, rt);
 }
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt, const std::string &d1)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1)
 {
 	if (rt == RequestType::WRITE_DATA && rt == RequestType::CREATE_CONTAINER && rt == RequestType::REMOVE_CONTAINER
 		&& rt == RequestType::SLEEP_MODULE && rt == RequestType::TERMINATE_MODULE && rt == RequestType::WAKE_MODULE)
@@ -177,7 +175,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestTy
 	temp->add_target_name(d1);
 	return temp;
 }
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt, const std::string &d1, int *d2)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, int *d2)
 {
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
@@ -186,7 +184,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestTy
 	temp->add_target_name(d1);
 	return temp;
 }
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt, const std::string &d1, float *d2)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, float *d2)
 {
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
@@ -195,7 +193,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestTy
 	temp->add_target_name(d1);
 	return temp;
 }
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt, const std::string &d1, double *d2)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, double *d2)
 {
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
@@ -204,7 +202,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestTy
 	temp->add_target_name(d1);
 	return temp;
 }
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt, const std::string &d1, bool *d2)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, bool *d2)
 {
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
@@ -213,7 +211,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestTy
 	temp->add_target_name(d1);
 	return temp;
 }
-eeGames::Request *eeGames::create_request(const std::string &i, int p, RequestType rt, const std::string &d1, std::string &d2)
+eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, std::string &d2)
 {
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;

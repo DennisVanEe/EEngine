@@ -19,13 +19,13 @@ namespace eeGames
 		struct byte_arr
 		{
 			byte_arr() {} // default constructor
-			byte_arr(byte *d, unsigned int s)
+			byte_arr(byte *d, uint8_t s)
 			{
 				data = d;
 				size = s; // used during reading and writing to file
 			}
 			byte *data;
-			unsigned int size;
+			uint8_t size;
 		};
 	private:
 		std::unordered_map<std::string, byte_arr> data;

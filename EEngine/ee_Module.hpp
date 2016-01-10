@@ -32,7 +32,7 @@ namespace eeGames
 		std::string script, module_name; // TODO: load these values from xml
 
 		// TODO: load these from engine properties xml
-		std::string step_decl = "void step(uint)";
+		std::string step_decl = "void step(uint16)";
 		std::string init_decl = "void initialize()";
 
 		bool module_loaded, module_init, sleep, suspended;
@@ -49,7 +49,7 @@ namespace eeGames
 		const std::string &get_module_name() const;
 
 		bool initialize_module(); // run only once (so module can prepare for initial run)
-		void step_module(asUINT frame_time); // run only if module is "awake"
+		void step_module(uint16_t frame_time); // run only if module is "awake"
 		bool resume(); // should only be used when sleeping
 
 		void suspend();

@@ -8,11 +8,9 @@ namespace eeGames
 	{
 	protected:
 		sf::Texture *texture; // points to the texture in the resource container
-		sf::RenderWindow *render_window;
 	public:
-		Entity(sf::RenderWindow *rend_wid) : Transformable(), render_window(rend_wid) {}
+		Entity() : Transformable() {}
 
-		virtual void assign_texture(sf::Texture *text) = 0;
-		virtual void draw(unsigned int millisecond) = 0;
+		virtual void draw(uint16_t millisecond, sf::RenderWindow *target) = 0;
 	};
 }

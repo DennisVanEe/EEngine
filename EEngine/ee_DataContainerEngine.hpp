@@ -3,11 +3,10 @@
 #include <unordered_map>
 
 #include "ee_DataContainer.hpp"
+#include "ee_DataType.hpp"
 
 namespace eeGames
 {
-	enum class DataType { INT, FLOAT, DOUBLE, STRING, BOOL, NONE };
-
 	class DataContainerEngine
 	{
 	private:

@@ -45,7 +45,7 @@ bool eeGames::RequestQueue::add_request(const std::string &target, Request *requ
 	return true;
 }
 
-std::multimap<int, std::pair<eeGames::Request *, std::string>> *eeGames::RequestQueue::get_queue()
+std::multimap<uint16_t, std::pair<eeGames::Request *, std::string>> *eeGames::RequestQueue::get_queue()
 {
 	return &request_queue;
 }

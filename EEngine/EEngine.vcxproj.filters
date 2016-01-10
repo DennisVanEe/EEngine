@@ -81,15 +81,15 @@
     <ClInclude Include="ee_AnimatedEntity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ee_ResourceEngine.hpp">
+    <ClInclude Include="ee_World.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_DataType.hpp">
+      <Filter>Header Files\Data Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
-      <Filter>Source Files\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\local\angelscript\include\scriptstdstring\scriptstdstring.cpp">
       <Filter>Source Files\addons</Filter>
     </ClCompile>
     <ClCompile Include="EEngine.cpp">
@@ -116,8 +116,14 @@
     <ClCompile Include="ee_Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ee_ResourceEngine.cpp">
+    <ClCompile Include="C:\local\angelscript\include\scriptstdstring\scriptstdstring.cpp">
+      <Filter>Source Files\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_RenderEngine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_AnimatedEntity.cpp">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
