@@ -101,10 +101,10 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 			for (; buffer[i] != '\0'; i++)
 				temp_key += buffer[i];
 			j = ++i;
-			for (; i < j + sizeof(unsigned int); i++)
+			for (; i < j + sizeof(uint8_t); i++)
 				temp_size.push_back(buffer[i]);
 			j = i;
-			for (; i < j + *reinterpret_cast<unsigned int *>(temp_size.data()); i++)
+			for (; i < j + *reinterpret_cast<uint8_t *>(temp_size.data()); i++)
 				temp_data.push_back(buffer[i]);
 
 			byte *temp_container = new byte[temp_data.size()];
