@@ -4,13 +4,8 @@
 
 namespace eeGames
 {
-	class Entity : public sf::Transformable
+	class Entity : public sf::Transformable, sf::Drawable
 	{
-	protected:
-		sf::Texture *texture; // points to the texture in the resource container
-	public:
-		Entity() : Transformable() {}
-
-		virtual void draw(uint16_t millisecond, sf::RenderWindow *target) = 0;
+	// currently empty
 	};
 }

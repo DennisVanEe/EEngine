@@ -5,9 +5,9 @@
 #include <fstream>
 #include <unordered_map>
 #include <assert.h>
-#include <vector>
+#include <iostream>
 
-#include "ScriptedEntity.hpp"
+#include "ee_AnimatedEntity.hpp"
 
 // Module holds scripts that can communicate directly with each other
 // can create or destroy these scripts
@@ -19,13 +19,14 @@ namespace eeGames
 	class Module
 	{
 	protected:
-		typedef std::unordered_map<std::string, ScriptedEntity*> ent_list;
+		typedef std::unordered_map<std::string, AnimatedEntity*> animEnt_list;
+		typedef std::unordered_map<std::string, StaticEntity*> statEnt_list;
 	private:
 		asIScriptModule *module;
 		asIScriptContext *context;
 		asIScriptEngine *engine;
 
-		ent_list entities;
+		animEnt_list entities;
 
 		void prepare_step(); // might make this public, maybe
 

@@ -10,67 +10,18 @@ void eeGames::MessageCallback(const asSMessageInfo *msg, void *param)
 	printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
 }
 
-// definitions for script global functions
-
-inline bool eeGames::isKeyPressed(sf::Keyboard::Key k)
+bool eeGames::ScriptEngine::execute_scripts(uint16_t frame_time)
 {
-	return sf::Keyboard::isKeyPressed(k);
-}
-
-inline bool eeGames::isButtonPressed(sf::Mouse::Button b)
-{
-	return sf::Mouse::isButtonPressed(b);
-}
-
-inline int eeGames::getXPosMouse()
-{
-	return sf::Mouse::getPosition().x;
-}
-
-inline int eeGames::getYPosMouse()
-{
-	return sf::Mouse::getPosition().y;
-}
-
-void eeGames::consolePrintLine(const std::string &input)
-{
-	std::cout << input << std::endl;
-}
-
-void eeGames::consolePrint(const std::string &input)
-{
-	std::cout << input;
-}
-
-// Script Engine definitions
-
-eeGames::ScriptEngine::ScriptEngine()
-{
-	engine = asCreateScriptEngine();
-	register_engine();
-}
-
-eeGames::ScriptEngine::~ScriptEngine()
-{
-	engine->Release();
-	for (std::pair<std::string, Module*> mod : module_list)
+	for (auto &module : current_module_list)
 	{
-		delete mod.second;
-	}
-}
-
-bool eeGames::ScriptEngine::execute_scripts(float frame_time)
-{
-	for (auto module : module_list)
-	{
-		current_active_module = module.second;
+		current_active_module = module.second.get();
 		module.second->step_module(frame_time);
 	}
 
 	request_queue.finalize_requests();
 	execute_requests();
 
-	for (auto module : module_list)
+	for (auto &module : current_module_list)
 	{
 		if (module.second->is_suspended())
 			module.second->resume();
@@ -82,9 +33,9 @@ bool eeGames::ScriptEngine::execute_scripts(float frame_time)
 bool eeGames::ScriptEngine::execute_requests()
 {
 	bool success = true;
-	std::multimap<int, std::pair<Request *, std::string>> *req_queue = request_queue.get_queue();
+	auto *req_queue = request_queue.get_queue();
 
-	for (std::pair<int, std::pair<Request *, std::string>> req : *req_queue)
+	for (auto req : *req_queue)
 	{
 		switch (req.second.first->get_request())
 		{
@@ -156,13 +107,13 @@ void eeGames::ScriptEngine::register_engine()
 
 	// register request
 	error = engine->RegisterObjectType("Request", 0, asOBJ_REF); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType), Request*), asCALL_CDECL); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType, const string &in)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType, const std::string&), Request*), asCALL_CDECL); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType, const string &in, int &in)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType, const std::string&, int*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType, const string &in, float &in)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType, const std::string&, float*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType, const string &in, double &in)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType, const std::string&, double*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType, const string &in, bool &in)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType, const std::string&, bool*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int, RequestType, const string &in, string &in)", asFUNCTIONPR(create_request, (const std::string&, int, RequestType, const std::string&, std::string&), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, int &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, int*), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, float &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, float*), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, double &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, double*), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, bool &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, bool*), Request*), asCALL_CDECL); assert(error >= 0);
+	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, string &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, std::string&), Request*), asCALL_CDECL); assert(error >= 0);
 	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType), Request*), asCALL_CDECL); assert(error >= 0);
 	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&), Request*), asCALL_CDECL); assert(error >= 0);
 	error = engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in, int &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&, int*), Request*), asCALL_CDECL); assert(error >= 0);
@@ -189,10 +140,8 @@ void eeGames::ScriptEngine::register_engine()
 	error = engine->RegisterObjectMethod("RequestQueue", "bool add_request(const string &in, Request@)", asMETHOD(RequestQueue, add_request), asCALL_THISCALL); assert(error >= 0);
 	error = engine->RegisterGlobalProperty("RequestQueue requestQueue", &request_queue); assert(error >= 0);
 
-	// register ScriptEngine
-	error = engine->RegisterObjectType("ScriptEngine", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
-	error = engine->RegisterObjectMethod("ScriptEngine", "void waitForRequestQueueComp()", asMETHOD(ScriptEngine, waitForRequestQueueComp), asCALL_THISCALL); assert(error >= 0);
-	error = engine->RegisterGlobalProperty("ScriptEngine scriptEngine", this); assert(error >= 0);
+	// register ScriptEngine Methods
+	error = engine->RegisterObjectMethod("ScriptEngine", "void waitForRequestQueueComp()", asMETHOD(ScriptEngine, waitForRequestQueueComp), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
 	// register enums for key presses
 	error = engine->RegisterEnum("Button"); assert(error >= 0);
@@ -310,42 +259,41 @@ void eeGames::ScriptEngine::register_engine()
 
 bool eeGames::ScriptEngine::start_module(const std::string &name, const std::string &dir)
 {
-	Module *mod = new Module(name, engine);
-	if (!mod->load_script(dir))
+	std::unique_ptr<Module> mod_ptr(new Module(name, engine));
+	if (!mod_ptr->load_script(dir))
 		return false;
-	//mod->initialize_module();
-	module_list[name] = mod;
+	mod_ptr->initialize_module();
+	current_module_list.insert(std::make_pair(name, std::move(mod_ptr)));
 	return true;
 }
 
 bool eeGames::ScriptEngine::terminate_module(const std::string &name)
 {
-	if (!module_list.count(name))
+	auto it = current_module_list.find(name);
+	if (it == current_module_list.end())
 		return false;
 
-	mod_list::iterator it = module_list.find(name);
-	delete it->second;
-	module_list.erase(it);
+	it->second.release();
+	current_module_list.erase(it);
 	return true;
 }
 
 bool eeGames::ScriptEngine::sleep_module(const std::string &name)
 {
-	if (!module_list.count(name))
+	auto it = current_module_list.find(name);
+	if (it == current_module_list.end())
 		return false;
 
-	module_list.at(name)->set_sleep(true);
+	it->second->set_sleep(true);
+	return true;
 }
 
 bool eeGames::ScriptEngine::wake_module(const std::string &name)
 {
-	if (!module_list.count(name))
+	auto it = current_module_list.find(name);
+	if (it == current_module_list.end())
 		return false;
 
-	module_list.at(name)->set_sleep(false);
-}
-
-void eeGames::ScriptEngine::waitForRequestQueueComp()
-{
-	current_active_module->suspend();
+	it->second->set_sleep(false);
+	return true;
 }

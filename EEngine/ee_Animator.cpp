@@ -1,14 +1,8 @@
 #include "ee_Animator.hpp"
 
-eeGames::Animation::~Animation()
-{
-	for (sf::Sprite *sp : frames)
-		delete sp;
-}
-
 bool eeGames::Animation::create_frames()
 {
-	unsigned int x, y, x1, y1;
+	uint8_t x, y, x1, y1;
 	x = y = 0;
 	if (frame_size == sf::Vector2f(0, 0) || columns_rows == sf::Vector2f(0, 0))
 		return false;
@@ -16,10 +10,10 @@ bool eeGames::Animation::create_frames()
 	{
 		for (uint8_t c = 0; c < columns_rows.x; c++)
 		{
-			sf::Sprite *sprite = new sf::Sprite();
+			std::unique_ptr<sf::Sprite> sprite(new sf::Sprite());
 			sprite->setTexture(*sprite_sheet);
-			frames.push_back(sprite);
 			sprite->setTextureRect(sf::IntRect(x, y, frame_size.x, frame_size.y));
+			frames.push_back(std::move(sprite));
 			x += frame_size.x;
 		}
 		y += frame_size.y;
@@ -27,15 +21,7 @@ bool eeGames::Animation::create_frames()
 	}
 }
 
-bool eeGames::Animation::set_sprite_sheet(sf::Texture *text)
-{
-	if (text == nullptr)
-		return false;
-	sprite_sheet = text;
-	return true;
-}
-
-void eeGames::Animation::play(uint16_t frame, sf::RenderWindow *target)
+void eeGames::Animation::play(uint16_t frame)
 {
 	if (frame + current_time > frame_time)
 	{
@@ -46,7 +32,4 @@ void eeGames::Animation::play(uint16_t frame, sf::RenderWindow *target)
 	}
 	else
 		current_time = current_time + frame;
-	
-	frames[current_frame]->setPosition(position);
-	target->draw(*frames[current_frame]);
 }

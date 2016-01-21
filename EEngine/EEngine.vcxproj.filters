@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{5dba732f-e6f3-4bc3-9b6b-8534c0cc715c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{c69ec95a-a631-4e4f-b706-5ac8ff676fec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{3877d132-a62a-4ebb-869a-4671b0dab298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -69,23 +75,26 @@
     <ClInclude Include="ee_DataContainerEngine.hpp">
       <Filter>Header Files\Data Containers</Filter>
     </ClInclude>
-    <ClInclude Include="ee_RenderEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_Animator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ee_Entity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="ee_AnimatedEntity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ee_World.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ee_DataType.hpp">
       <Filter>Header Files\Data Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Animator.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_RenderEngine.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_EntityContainer.hpp">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_StaticEntity.hpp">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,17 +122,17 @@
     <ClCompile Include="ee_DataContainerEngine.cpp">
       <Filter>Source Files\Data Containers</Filter>
     </ClCompile>
-    <ClCompile Include="ee_Animator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C:\local\angelscript\include\scriptstdstring\scriptstdstring.cpp">
       <Filter>Source Files\addons</Filter>
     </ClCompile>
-    <ClCompile Include="ee_RenderEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ee_AnimatedEntity.cpp">
       <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Animator.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_RenderEngine.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
