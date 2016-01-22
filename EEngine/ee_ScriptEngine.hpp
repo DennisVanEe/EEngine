@@ -20,29 +20,38 @@ namespace eeGames
 
 	class ScriptEngine
 	{
-	protected:
-		typedef std::unordered_map<std::string, std::unique_ptr<Module>> mod_list;
 	private:
-		Module *current_active_module; // current module that is being executed
-		mod_list current_module_list; // active list of modules
-		DataContainerEngine data_container;
-		RequestQueue request_queue;
+		Module *_m_currentActiveModule; // current module that is being executed
+		std::unordered_map<std::string, std::unique_ptr<Module>> _m_currentModuleList; // active list of modules
 
-		asIScriptEngine *engine;
+		DataContainerEngine _m_dataContainerEngine;
+		RequestQueue _m_requestQueue;
 
-		void register_engine();
+		asIScriptEngine *_m_engine;
+
+		void registerEngine();
 	public:
 		ScriptEngine()
 		{
 			engine = asCreateScriptEngine();
 			register_engine();
 		}
+		~ScriptEngine()
+		{
+			engine->ShutDownAndRelease();
+		}
+
 		ScriptEngine(const ScriptEngine &) = delete;
 		ScriptEngine &operator=(const ScriptEngine &) = delete;
 
-		bool execute_scripts(uint16_t frame_time);
+		// used by other parts to register their own functions for the script engine
+		asIScriptEngine *getEngine()
+		{
+			return engine;
+		} 
 
-		bool execute_requests();	
+		bool executeScripts(uint16_t _p_frameTime);
+		bool executeRequests();	
 
 		// will act as a global function, even though it is part of this object
 		void waitForRequestQueueComp()
@@ -50,9 +59,9 @@ namespace eeGames
 			current_active_module->suspend();
 		} 
 
-		bool start_module(const std::string &name, const std::string &dir);
-		bool terminate_module(const std::string &name); // will terminate module from memory (and all data)
-		bool sleep_module(const std::string &name); // will keep module in memory (and all data), but it won't be executed
-		bool wake_module(const std::string &name);
+		bool startModule(const std::string &_p_name, const std::string &_p_dir);
+		bool terminateModule(const std::string &_p_name); // will terminate module from memory (and all data)
+		bool sleepModule(const std::string &_p_name); // will keep module in memory (and all data), but it won't be executed
+		bool wakeModule(const std::string &_p_name);
 	};
 }

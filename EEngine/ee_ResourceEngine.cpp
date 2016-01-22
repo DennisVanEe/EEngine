@@ -1,93 +1,83 @@
 #include "ee_ResourceEngine.hpp"
 
-eeGames::ResourceEngine::~ResourceEngine()
+bool eeGames::ResourceEngine::loadTexture(const std::string &_p_id, const std::string &_p_directory)
 {
-	for (std::pair<std::string, sf::Texture*> t : textures)
-		delete t.second;
-	for (std::pair<std::string, sf::Font*> f : fonts)
-		delete f.second;
-	for (std::pair<std::string, sf::SoundBuffer*> s : sounds)
-		delete s.second;
-}
-
-bool eeGames::ResourceEngine::load_texture(const std::string & id, const std::string & dir)
-{
-	sf::Texture *text = new sf::Texture();
-	if (!text->loadFromFile(dir))
+	std::unique_ptr<sf::Texture> _tmp_texture(new sf::Texture());
+	if (!_tmp_texture->loadFromFile(_p_directory))
 		return false;
-	textures.insert(std::make_pair(id, text));
+	_m_textures.insert(std::make_pair(_p_id, std::move(_tmp_texture)));
 	return true;
 }
 
-bool eeGames::ResourceEngine::load_font(const std::string & id, const std::string & dir)
+bool eeGames::ResourceEngine::loadFont(const std::string &_p_id, const std::string &_p_directory)
 {
-	sf::Font *font = new sf::Font();
-	if (!font->loadFromFile(dir))
+	std::unique_ptr<sf::Font> _tmp_font(new sf::Font());
+	if (!_tmp_font->loadFromFile(_p_directory))
 		return false;
-	fonts.insert(std::make_pair(id, font));
+	_m_fonts.insert(std::make_pair(_p_id, std::move(_tmp_font)));
 	return true;
 }
 
-bool eeGames::ResourceEngine::load_sound(const std::string & id, const std::string & dir)
+bool eeGames::ResourceEngine::loadSound(const std::string &_p_id, const std::string &_p_directory)
 {
-	sf::SoundBuffer *sound = new sf::SoundBuffer();
-	if (!sound->loadFromFile(dir))
+	std::unique_ptr<sf::SoundBuffer> _tmp_soundBuffer(new sf::SoundBuffer());
+	if (!_tmp_soundBuffer->loadFromFile(_p_directory))
 		return false;
-	sounds.insert(std::make_pair(id, sound));
+	_m_sounds.insert(std::make_pair(_p_id, std::move(_tmp_soundBuffer)));
 	return true;
 }
 
-bool eeGames::ResourceEngine::delete_texture(const std::string & id)
+bool eeGames::ResourceEngine::deleteTexture(const std::string &_p_id)
 {
-	auto t = textures.find(id);
-	if (t == textures.end())
+	auto _tmp_textureIterator = _m_textures.find(_p_id);
+	if (_tmp_textureIterator == _m_textures.end())
 		return false;
-	delete t->second;
-	textures.erase(t);
+	_tmp_textureIterator->second.release;
+	_m_textures.erase(_tmp_textureIterator);
 	return true;
 }
 
-bool eeGames::ResourceEngine::delete_font(const std::string & id)
+bool eeGames::ResourceEngine::deleteFont(const std::string &_p_id)
 {
-	auto f = fonts.find(id);
-	if (f == fonts.end())
+	auto _tmp_fontIterator = _m_fonts.find(_p_id);
+	if (_tmp_fontIterator == _m_fonts.end())
 		return false;
-	delete f->second;
-	fonts.erase(f);
+	_tmp_fontIterator->second.release();
+	_m_fonts.erase(_tmp_fontIterator);
 	return true;
 }
 
-bool eeGames::ResourceEngine::delete_sound(const std::string & id)
+bool eeGames::ResourceEngine::deleteSound(const std::string &_p_id)
 {
-	auto s = sounds.find(id);
-	if (s == sounds.end())
+	auto _tmp_soundIterator = _m_sounds.find(_p_id);
+	if (_tmp_soundIterator == _m_sounds.end())
 		return false;
-	delete s->second;
-	sounds.erase(s);
+	_tmp_soundIterator->second.release();
+	_m_sounds.erase(_tmp_soundIterator);
 	return true;
 }
 
-sf::Texture * eeGames::ResourceEngine::get_texture(const std::string & id)
+sf::Texture *eeGames::ResourceEngine::getTexture(const std::string &_p_id)
 {
-	auto t = textures.find(id);
-	if (t == textures.end())
+	auto _tmp_textureIterator = _m_textures.find(_p_id);
+	if (_tmp_textureIterator == _m_textures.end())
 		return nullptr;
-	return t->second;
+	return _tmp_textureIterator->second.get();
 }
 
-sf::Font * eeGames::ResourceEngine::get_font(const std::string & id)
+sf::Font *eeGames::ResourceEngine::getFont(const std::string &_p_id)
 {
-	auto f = fonts.find(id);
-	if (f == fonts.end())
+	auto _tmp_fontIterator = _m_fonts.find(_p_id);
+	if (_tmp_fontIterator == _m_fonts.end())
 		return nullptr;
-	return f->second;
+	return _tmp_fontIterator->second.get();
 }
 
-sf::SoundBuffer * eeGames::ResourceEngine::get_sound(const std::string & id)
+sf::SoundBuffer *eeGames::ResourceEngine::getSound(const std::string &_p_id)
 {
-	auto s = sounds.find(id);
-	if (s == sounds.end())
+	auto _tmp_soundIterator = _m_sounds.find(_p_id);
+	if (_tmp_soundIterator == _m_sounds.end())
 		return nullptr;
-	return s->second;
+	return _tmp_soundIterator->second.get();
 }
 

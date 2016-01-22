@@ -1,160 +1,152 @@
 #include "ee_Request.hpp"
 
-eeGames::Request::Request(const std::string &i, uint16_t p, RequestType rt) : id(i), r_type(rt), priority(p), dependency(""), d_type(DataType::NONE), data(nullptr), ref_count(1)
+void eeGames::Request::addData(void *_p_data, DataType _p_dataType)
 {
-}
-
-eeGames::Request::Request(const std::string &i, const std::string &dep, RequestType rt) : id(i), r_type(rt), priority(-1), dependency(dep), d_type(DataType::NONE), data(nullptr), ref_count(1)
-{
-}
-
-void eeGames::Request::add_data(void *d, DataType dt)
-{
-	d_type = dt;
-	switch (dt)
+	_m_dataType = _p_dataType;
+	switch (_p_dataType)
 	{
 	case DataType::INT:
-		data = new byte[sizeof(int)];
-		memcpy(data, d, sizeof(int));
+		_m_data = new byte[sizeof(int)];
+		memcpy(_m_data, _p_data, sizeof(int));
 		break;
 	case DataType::FLOAT:
-		data = new byte[sizeof(float)];
-		memcpy(data, d, sizeof(float));
+		_m_data = new byte[sizeof(float)];
+		memcpy(_m_data, _p_data, sizeof(float));
 		break;
 	case DataType::DOUBLE:
-		data = new byte[sizeof(double)];
-		memcpy(data, d, sizeof(double));
+		_m_data = new byte[sizeof(double)];
+		memcpy(_m_data, _p_data, sizeof(double));
 		break;
 	case DataType::BOOL:
-		data = new byte[sizeof(bool)];
-		memcpy(data, d, sizeof(bool));
+		_m_data = new byte[sizeof(bool)];
+		memcpy(_m_data, _p_data, sizeof(bool));
 		break;
 	case DataType::STRING:
-		data = new byte[reinterpret_cast<std::string*>(d)->length() + 1];
-		int len = reinterpret_cast<std::string*>(d)->length() + 1;
-		memcpy(data, reinterpret_cast<std::string*>(d)->c_str(), reinterpret_cast<std::string*>(d)->length() + 1);
+		_m_data = new byte[reinterpret_cast<std::string*>(_p_data)->length() + 1];
+		int len = reinterpret_cast<std::string*>(_p_data)->length() + 1;
+		memcpy(_m_data, reinterpret_cast<std::string*>(_p_data)->c_str(), reinterpret_cast<std::string*>(_p_data)->length() + 1);
 		break;
 	}
 }
 
-int eeGames::Request::get_int(bool *t)
+int eeGames::Request::getInt(bool *t)
 {
-	if (r_type != RequestType::READ_DATA)
+	if (_m_requestType != RequestType::READ_DATA)
 	{
 		*t = false;
 		return 0;
 	}
 
-	if (data == nullptr)
+	if (_m_data == nullptr)
 	{
 		*t = false;
 		return 0;
 	}
 
-	return *reinterpret_cast<int*>(data);
+	return *reinterpret_cast<int*>(_m_data);
 }
 
-int eeGames::Request::get_int()
+int eeGames::Request::getInt()
 {
-	if (data == nullptr)
+	if (_m_data == nullptr)
 		return 0;
-	return *reinterpret_cast<int*>(data);
+	return *reinterpret_cast<int*>(_m_data);
 }
 
-float eeGames::Request::get_float(bool *t)
+float eeGames::Request::getFloat(bool *t)
 {
-	if (r_type != RequestType::READ_DATA)
+	if (_m_requestType != RequestType::READ_DATA)
 	{
 		*t = false;
 		return 0.f;
 	}
 
-	if (data == nullptr)
+	if (_m_data == nullptr)
 	{
 		*t = false;
 		return 0.f;
 	}
 
-	return *reinterpret_cast<float*>(data);
+	return *reinterpret_cast<float*>(_m_data);
 }
 
-float eeGames::Request::get_float()
+float eeGames::Request::getFloat()
 {
-	if (data == nullptr)
+	if (_m_data == nullptr)
 		return 0.f;
-	return *reinterpret_cast<float*>(data);
+	return *reinterpret_cast<float*>(_m_data);
 }
 
-double eeGames::Request::get_double(bool *t)
+double eeGames::Request::getDouble(bool *t)
 {
-	if (r_type != RequestType::READ_DATA)
+	if (_m_requestType != RequestType::READ_DATA)
 	{
 		*t = false;
 		return 0.0;
 	}
 
-	if (data == nullptr)
+	if (_m_data == nullptr)
 	{
 		*t = false;
 		return 0.0;
 	}
 
-	return *reinterpret_cast<double*>(data);
+	return *reinterpret_cast<double*>(_m_data);
 }
 
-double eeGames::Request::get_double()
+double eeGames::Request::getDouble()
 {
-	if (data == nullptr)
+	if (_m_data == nullptr)
 		return 0.0;
-	return *reinterpret_cast<double*>(data);
+	return *reinterpret_cast<double*>(_m_data);
 }
 
-bool eeGames::Request::get_bool(bool *t)
+bool eeGames::Request::getBool(bool *t)
 {
-	if (r_type != RequestType::READ_DATA)
+	if (_m_requestType != RequestType::READ_DATA)
 	{
 		*t = false;
 		return false;
 	}
 
-	if (data == nullptr)
+	if (_m_data == nullptr)
 	{
 		*t = false;
 		return false;
 	}
 
-	return *reinterpret_cast<bool*>(data);
+	return *reinterpret_cast<bool*>(_m_data);
 }
 
-bool eeGames::Request::get_bool()
+bool eeGames::Request::getBool()
 {
-	if (data == nullptr)
+	if (_m_data == nullptr)
 		return false;
-	return *reinterpret_cast<bool*>(data);
+	return *reinterpret_cast<bool*>(_m_data);
 }
 
-std::string eeGames::Request::get_string(bool *t)
+std::string eeGames::Request::getString(bool *t)
 {
-	if (r_type != RequestType::READ_DATA)
+	if (_m_requestType != RequestType::READ_DATA)
 	{
 		*t = false;
 		return "";
 	}
 
-	if (data == nullptr)
+	if (_m_data == nullptr)
 	{
 		*t = false;
 		return "";
 	}
 
-	return std::string(data);
+	return std::string(_m_data);
 }
 
-std::string eeGames::Request::get_string()
+std::string eeGames::Request::getString()
 {
-	if (data == nullptr)
+	if (_m_data == nullptr)
 		return "";
-	return std::string(data);
+	return std::string(_m_data);
 }
 
 // the create_request form:
@@ -172,7 +164,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, Requ
 		&& rt == RequestType::SLEEP_MODULE && rt == RequestType::TERMINATE_MODULE && rt == RequestType::WAKE_MODULE)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, p, rt);
-	temp->add_target_name(d1);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, int *d2)
@@ -180,8 +172,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, Requ
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, p, rt);
-	temp->add_data(d2, DataType::INT);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::INT);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, float *d2)
@@ -189,8 +181,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, Requ
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, p, rt);
-	temp->add_data(d2, DataType::FLOAT);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::FLOAT);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, double *d2)
@@ -198,8 +190,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, Requ
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, p, rt);
-	temp->add_data(d2, DataType::DOUBLE);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::DOUBLE);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, bool *d2)
@@ -207,8 +199,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, Requ
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, p, rt);
-	temp->add_data(d2, DataType::BOOL);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::BOOL);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, std::string &d2)
@@ -216,8 +208,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, Requ
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, p, rt);
-	temp->add_data(&d2, DataType::STRING);
-	temp->add_target_name(d1);
+	temp->addData(&d2, DataType::STRING);
+	temp->addTargetName(d1);
 	return temp;
 }
 
@@ -234,7 +226,7 @@ eeGames::Request *eeGames::create_request(const std::string &i, const std::strin
 		&& rt == RequestType::SLEEP_MODULE && rt == RequestType::TERMINATE_MODULE && rt == RequestType::WAKE_MODULE)
 		rt == RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, dep, rt);
-	temp->add_target_name(d1);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, int *d2)
@@ -242,8 +234,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, const std::strin
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, dep, rt);
-	temp->add_data(d2, DataType::INT);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::INT);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, float *d2)
@@ -251,8 +243,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, const std::strin
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, dep, rt);
-	temp->add_data(d2, DataType::FLOAT);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::FLOAT);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, double *d2)
@@ -260,8 +252,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, const std::strin
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, dep, rt);
-	temp->add_data(d2, DataType::DOUBLE);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::DOUBLE);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, bool *d2)
@@ -269,8 +261,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, const std::strin
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, dep, rt);
-	temp->add_data(d2, DataType::BOOL);
-	temp->add_target_name(d1);
+	temp->addData(d2, DataType::BOOL);
+	temp->addTargetName(d1);
 	return temp;
 }
 eeGames::Request *eeGames::create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, std::string &d2)
@@ -278,8 +270,8 @@ eeGames::Request *eeGames::create_request(const std::string &i, const std::strin
 	if (rt != RequestType::WRITE_DATA)
 		rt = RequestType::ERROR_MISMATCH_TYPE;
 	Request *temp = new Request(i, dep, rt);
-	temp->add_data(&d2, DataType::STRING);
-	temp->add_target_name(d1);
+	temp->addData(&d2, DataType::STRING);
+	temp->addTargetName(d1);
 	return temp;
 }
 

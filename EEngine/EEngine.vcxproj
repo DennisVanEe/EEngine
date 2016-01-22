@@ -155,16 +155,19 @@
   <ItemGroup>
     <ClInclude Include="ee_AnimatedEntity.hpp" />
     <ClInclude Include="ee_Animator.hpp" />
+    <ClInclude Include="ee_Camera.hpp" />
     <ClInclude Include="ee_DataContainer.hpp" />
     <ClInclude Include="ee_DataContainerEngine.hpp" />
     <ClInclude Include="ee_DataType.hpp" />
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
+    <ClInclude Include="ee_GameEngine.hpp" />
     <ClInclude Include="ee_Module.hpp" />
     <ClInclude Include="ee_RenderEngine.hpp" />
     <ClInclude Include="ee_Request.hpp" />
     <ClInclude Include="ee_RequestQueue.hpp" />
     <ClInclude Include="ee_RequestType.hpp" />
+    <ClInclude Include="ee_ResourceEngine.hpp" />
     <ClInclude Include="ee_ScriptEngine.hpp" />
     <ClInclude Include="ee_StaticEntity.hpp" />
     <ClInclude Include="stdafx.h" />
@@ -181,6 +184,7 @@
     <ClCompile Include="ee_Request.cpp" />
     <ClCompile Include="ee_RequestQueue.cpp" />
     <ClCompile Include="EEngine.cpp" />
+    <ClCompile Include="ee_ResourceEngine.cpp" />
     <ClCompile Include="ee_ScriptEngine.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
   </ItemGroup>

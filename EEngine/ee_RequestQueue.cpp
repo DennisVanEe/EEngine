@@ -2,73 +2,76 @@
 
 #include "ee_RequestQueue.hpp"
 
-int eeGames::RequestQueue::find_dependency(const std::string &dep) const
+int eeGames::RequestQueue::findDependency(const std::string &dep) const
 {
-	for (auto req : request_queue)
+	for (auto request : _m_requestQueue)
 	{
-		if (req.second.first->get_id() == dep)
-			return req.first;
+		if (request.second.first->getID() == dep)
+			return request.first;
 	}
 	return -1;
 }
 
-bool eeGames::RequestQueue::add_request(const std::string &target, Request *request)
+bool eeGames::RequestQueue::addRequest(const std::string &target, Request *request)
 {
 	if (request == nullptr)
 	{
 		std::cout << "[ERROR]: added request points to NULL";
 		return false;
 	}
-	if (request->get_request() == RequestType::ERROR_MISMATCH_TYPE)
+	if (request->getRequest() == RequestType::ERROR_MISMATCH_TYPE)
 	{
-		std::cout << "[ERROR]: request: " << request->get_id() << " has mismatch error\n";
+		std::cout << "[ERROR]: request: " << request->getID() << " has mismatch error\n";
 		return false;
 	}
 		
-	int temp_priority = request->get_priority();
+	int _tmp_priority = request->getPriority();
 
 	// request->AddRef();
 
-	if (temp_priority < 0)
+	if (_tmp_priority < 0)
 	{
-		int dep_priority = find_dependency(request->get_dependency());
+		int dep_priority = findDependency(request->getDependency());
 		if (dep_priority < 0)
-			dep_cache.push_back(std::make_pair(request, target));
+			_m_dependencyCache.push_back(std::make_pair(request, target));
 		else
-			request_queue.insert(std::make_pair(dep_priority + 1, std::make_pair(request, target)));
+			_m_requestQueue.insert(std::make_pair(dep_priority + 1, std::make_pair(request, target)));
 	}
 	else
 	{
-		request_queue.insert(std::make_pair(temp_priority, std::make_pair(request, target)));
+		_m_requestQueue.insert(std::make_pair(_tmp_priority, std::make_pair(request, target)));
 	}
 
 	return true;
 }
 
-std::multimap<uint16_t, std::pair<eeGames::Request *, std::string>> *eeGames::RequestQueue::get_queue()
+std::multimap<uint16_t, std::pair<eeGames::Request *, std::string>> *eeGames::RequestQueue::getQueue()
 {
-	return &request_queue;
+	return &_m_requestQueue;
 }
 
-bool eeGames::RequestQueue::finalize_requests()
+bool eeGames::RequestQueue::finalizeRequests()
 {
 	bool success = true;
 	int priority;
 
-	for (auto req : dep_cache)
+	for (auto request : _m_dependencyCache)
 	{
-		priority = find_dependency(req.first->get_dependency());
+		priority = findDependency(request.first->getDependency());
 		if (priority < 0)
+		{
 			success = false;
+			std::cout << "[ERROR]: Request: " << request.first->getID() << " had finalize request error\n";
+		}
 		else
-			request_queue.insert(std::make_pair(priority + 1, req));
+			_m_requestQueue.insert(std::make_pair(priority + 1, request));
 	}
 	
-	dep_cache.clear();
+	_m_dependencyCache.clear();
 	return success;
 }
 
-void eeGames::RequestQueue::clear_queue()
+void eeGames::RequestQueue::clearQueue()
 {
-	request_queue.clear();
+	_m_requestQueue.clear();
 }

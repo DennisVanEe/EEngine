@@ -1,129 +1,78 @@
 #include "ee_Module.hpp"
 
-eeGames::Module::Module(const std::string &n, asIScriptEngine *eng) : module_name(n), engine (eng),
-	module_loaded(false), suspended(false)
+eeGames::Module::Module(const std::string &n, asIScriptEngine *eng) : _m_moduleName(n), _m_engine (eng),
+	_m_moduleLoaded(false), _m_suspended(false)
 { 
-	module = engine->GetModule(module_name.c_str(), asGM_ALWAYS_CREATE);
-	context = engine->CreateContext();
+	_m_module = _m_engine->GetModule(_m_moduleName.c_str(), asGM_ALWAYS_CREATE);
+	_m_context = _m_engine->CreateContext();
 }
 
 eeGames::Module::~Module()
 {
-	context->Release();
-	module->Discard();
-
-	// clear_entities();
+	_m_context->Release();
+	_m_module->Discard();
 }
 
-bool eeGames::Module::is_suspended() const
+void eeGames::Module::prepareStep()
 {
-	return suspended;
+	_m_context->Prepare(_m_module->GetFunctionByDecl(_m_stepDecl.c_str()));
 }
 
-bool eeGames::Module::is_sleep() const
+bool eeGames::Module::loadScript(const std::string &_p_directory)
 {
-	return sleep;
-}
-
-void eeGames::Module::set_sleep(bool slp)
-{
-	sleep = slp;
-}
-
-void eeGames::Module::prepare_step()
-{
-	context->Prepare(module->GetFunctionByDecl(step_decl.c_str()));
-}
-
-bool eeGames::Module::load_script(const std::string &dir)
-{
-	std::ifstream ifs(dir);
+	std::ifstream ifs(_p_directory);
 	if (ifs.is_open())
 	{
-		script.assign((std::istreambuf_iterator<char>(ifs)),
+		_m_scriptString.assign((std::istreambuf_iterator<char>(ifs)),
 			(std::istreambuf_iterator<char>()));
 		ifs.close();
 
-		module->AddScriptSection(module_name.c_str(), script.c_str());
-		module->Build();
-		module_loaded = true;
+		_m_module->AddScriptSection(_m_moduleName.c_str(), _m_scriptString.c_str());
+		_m_module->Build();
+		_m_moduleLoaded = true;
 		return true;
 	}
 	else
 		return false;
 }
 
-const std::string &eeGames::Module::get_module_name() const
+const std::string &eeGames::Module::getModuleName() const
 {
-	return module_name;
+	return _m_moduleName;
 }
 
-bool eeGames::Module::initialize_module()
+bool eeGames::Module::initializeModule()
 {
-	if (!module_loaded)
+	if (!_m_moduleLoaded)
 		return false;
 
-	context->Prepare(module->GetFunctionByDecl(init_decl.c_str()));
-	context->Execute();
+	_m_context->Prepare(_m_module->GetFunctionByDecl(_m_initDecl.c_str()));
+	_m_context->Execute();
 
 	return true;
 }
 
-void eeGames::Module::step_module(uint16_t frame_time)
+void eeGames::Module::stepModule(uint16_t frame_time)
 {
-	if (sleep)
+	if (_m_sleep)
 		return;
-	prepare_step();
-	context->SetArgDWord(0, frame_time);
-	int error = context->Execute();
+	prepareStep();
+	_m_context->SetArgDWord(0, frame_time);
+	int error = _m_context->Execute();
 	if (error != asEXECUTION_FINISHED)
-		std::cout << "Module " << module_name << " disrupted from call\n";
+		std::cout << "Module " << _m_moduleName << " disrupted from call\n";
 }
 
 bool eeGames::Module::resume()
 {
-	if (!suspended)
+	if (!_m_suspended)
 		return false;
-	context->Execute();
+	_m_context->Execute();
 	return true;
 }
 
 void eeGames::Module::suspend()
 {
-	suspended = true; // obviously, it is now in suspension
-	context->Suspend();
+	_m_suspended = true; // obviously, it is now in suspension
+	_m_context->Suspend();
 }
-
-// eeGames::ScriptedEntity &eeGames::Module::create_entity(const std::string &name/*entity stuff*/)
-// {
-// 	 ScriptedEntity *ent = new ScriptedEntity(); // TODO: add ScriptedEntity constructor parameters
-// 	 entities[name] = ent;
-// 	 return *ent;
-// }
-
-/*
-bool eeGames::Module::get_entity(const std::string &name, ScriptedEntity *ent) const
-{
-	if (!entities.count(name))
-		return false;
-	ent = entities.find(name)->second;
-	return true;
-}
-
-bool eeGames::Module::destroy_entity(const std::string &name)
-{
-	if (!entities.count(name))
-		return false;
-
-	ent_list::iterator ent = entities.find(name);
-	delete ent->second;
-	entities.erase(ent);
-	return true;
-}
-
-void eeGames::Module::clear_entities()
-{
-	for (std::pair<std::string, ScriptedEntity*> ent : entities)
-		delete ent.second;
-}
-*/

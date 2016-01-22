@@ -96,6 +96,15 @@
     <ClInclude Include="ee_StaticEntity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="ee_ResourceEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_GameEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
@@ -133,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="ee_RenderEngine.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_ResourceEngine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,82 +10,83 @@ namespace eeGames
 	class Request
 	{
 	private:
-		uint16_t priority; // lower value has highest priority
-		uint8_t ref_count;
-		std::string dependency, id;
-		RequestType r_type;
+		uint16_t _m_priority; // lower value has highest priority
+		uint8_t _m_refCount;
+		std::string _m_dependency, _m_id;
+		RequestType _m_requestType;
 
 		// for storing data
-		DataType d_type;
-		std::string target_name;
-		byte *data;
+		DataType _m_dataType;
+		std::string _m_targetName;
+		byte *_m_data;
 	public:
-		Request(const std::string &i, uint16_t p, RequestType rt);
-		Request(const std::string &i, const std::string &dep, RequestType rt);
+		Request(const std::string &_p_id, uint16_t _p_priority, RequestType _p_requestType) : _m_id(_p_id), _m_requestType(_p_requestType), 
+			_m_priority(_p_priority), _m_dependency(""), _m_dataType(DataType::NONE), _m_data(nullptr), _m_refCount(1) {}
+		Request(const std::string &_p_id, const std::string &_p_dependency, RequestType _p_requestType) : _m_id(_p_id), _m_requestType(_p_requestType), 
+			_m_priority(-1), _m_dependency(_p_dependency), _m_dataType(DataType::NONE), _m_data(nullptr), _m_refCount(1) {}
 
 		// TODO: Certain input methods do not require a name for the string (string input)
-		void add_data(void *d, DataType dt);
-		void add_data(byte *d)
+		void addData(void *_p_data, DataType _p_dataType);
+		void addData(byte *_p_data)
 		{
-			data = d;
+			_m_data = _p_data;
 		}
-		void add_target_name(const std::string &n)
+		void addTargetName(const std::string &_p_name)
 		{
-			target_name = n;
-		}
-
-		int get_int(bool *t);
-		int get_int();
-		float get_float(bool *t);
-		float get_float();
-		double get_double(bool *t);
-		double get_double();
-		bool get_bool(bool *t);
-		bool get_bool();
-		std::string get_string(bool *t);
-		std::string get_string();
-
-		RequestType get_request() const
-		{
-			return r_type;
-		}
-		uint16_t get_priority() const
-		{
-			return priority;
-		}
-		const std::string &get_dependency() const
-		{
-			return dependency;
-		}
-		const std::string &get_id() const
-		{
-			return id;
+			_m_targetName = _p_name;
 		}
 
-		DataType get_data_type() const
+		int getInt(bool *t);
+		int getInt();
+		float getFloat(bool *t);
+		float getFloat();
+		double getDouble(bool *t);
+		double getDouble();
+		bool getBool(bool *t);
+		bool getBool();
+		std::string getString(bool *t);
+		std::string getString();
+
+		RequestType getRequest() const
 		{
-			return d_type;
+			return _m_requestType;
 		}
-		const std::string &get_target_name() const
+		uint16_t getPriority() const
 		{
-			return target_name;
+			return _m_priority;
 		}
-		byte *get_data() // can't gaurentee data will remain unchanged
+		const std::string &getDependency() const
 		{
-			return data;
+			return _m_dependency;
+		}
+		const std::string &getID() const
+		{
+			return _m_id;
+		}
+
+		DataType getDataType() const
+		{
+			return _m_dataType;
+		}
+		const std::string &getTargetName() const
+		{
+			return _m_targetName;
+		}
+		byte *getData() // can't gaurentee data will remain unchanged
+		{
+			return _m_data;
 		}
 
 		// angelscript
 		void AddRef()
 		{
-			ref_count++;
+			_m_refCount++;
 		}
 		void ReleaseRef()
 		{
-			if (--ref_count == 0)
+			if (--_m_refCount == 0)
 				delete this;
 		}
-
 	};
 
 	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt);

@@ -4,29 +4,31 @@
 #include <SFML/Audio.hpp>
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 namespace eeGames
 {
 	class ResourceEngine
 	{
 	private:
-		std::unordered_map<std::string, sf::Texture*> textures;
-		std::unordered_map<std::string, sf::Font*> fonts;
-		std::unordered_map<std::string, sf::SoundBuffer*> sounds;
+		std::unordered_map<std::string, std::unique_ptr<sf::Texture>> _m_textures;
+		std::unordered_map<std::string, std::unique_ptr<sf::Font>> _m_fonts;
+		std::unordered_map<std::string, std::unique_ptr<sf::SoundBuffer>> _m_sounds;
 	public:
-		~ResourceEngine(); // only the resource manager will delete resources
+		ResourceEngine(const ResourceEngine&) = delete;
+		const ResourceEngine &operator=(const ResourceEngine&) = delete;
 
-		bool load_texture(const std::string &id, const std::string &dir);
-		bool load_font(const std::string &id, const std::string &dir);
-		bool load_sound(const std::string &id, const std::string &dir);
+		bool loadTexture(const std::string &_p_id, const std::string &_p_directory);
+		bool loadFont(const std::string &_p_id, const std::string &_p_directory);
+		bool loadSound(const std::string &_p_id, const std::string &_p_directory);
 
-		bool delete_texture(const std::string &id);
-		bool delete_font(const std::string &id);
-		bool delete_sound(const std::string &id);
+		bool deleteTexture(const std::string &_p_id);
+		bool deleteFont(const std::string &_p_id);
+		bool deleteSound(const std::string &_p_id);
 
 		// resources can be changed
-		sf::Texture *get_texture(const std::string &id);
-		sf::Font *get_font(const std::string &id);
-		sf::SoundBuffer *get_sound(const std::string &id);
+		sf::Texture *getTexture(const std::string &_p_id);
+		sf::Font *getFont(const std::string &_p_id);
+		sf::SoundBuffer *getSound(const std::string &_p_id);
 	};
 }

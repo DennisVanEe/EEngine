@@ -9,54 +9,54 @@ namespace eeGames
 	class Animation
 	{
 	private:
-		const sf::Texture *sprite_sheet;
-		std::vector<std::unique_ptr<sf::Sprite>> frames;
-		sf::Vector2f frame_size, columns_rows;
+		const sf::Texture *_m_spriteSheet;
+		std::vector<std::unique_ptr<sf::Sprite>> _m_frames;
+		sf::Vector2f _m_frameSize, _m_columnsRows;
 
 		// time units
-		uint16_t frame_time, current_time;
-		uint16_t current_frame;
+		uint16_t _m_frameTime, _m_currentTime;
+		uint16_t _m_currentFrame;
 	public:
 		Animation() : sprite_sheet(nullptr), current_frame(0), frame_time(0), frame_size(0, 0),
 			columns_rows(0, 0)
 		{
 		}
 
-		void set_frame_size(uint32_t width, uint32_t height) // sets the size of each sprite on the sprite sheet
+		void setFrameSize(uint32_t _p_width, uint32_t _p_height) // sets the size of each sprite on the sprite sheet
 		{
-			frame_size = sf::Vector2f(width, height);
+			_m_frameSize = sf::Vector2f(_p_width, _p_height);
 		}
-		void set_columns_rows(uint8_t columns, uint8_t rows) // set the number of columns and rows in the sprite sheet
+		void setColumnsRows(uint8_t _p_columns, uint8_t _p_rows) // set the number of columns and rows in the sprite sheet
 		{
-			columns_rows = sf::Vector2f(columns, rows);
+			_m_columnsRows = sf::Vector2f(_p_columns, _p_rows);
 		}
-		bool create_frames(); // create the frames using the values
+		bool createFrames(); // create the frames using the values
 
-		bool set_sprite_sheet(const sf::Texture *text)
+		bool setSpriteSheet(const sf::Texture *_p_texture)
 		{
-			if (text == nullptr)
+			if (_p_texture == nullptr)
 				return false;
-			sprite_sheet = text;
+			_m_spriteSheet = _p_texture;
 			return true;
 		}
 
-		void set_frame_time(uint16_t fr)
+		void setFrameTime(uint16_t _p_frameTime)
 		{
-			frame_time = fr;
+			_m_frameTime = _p_frameTime;
 		}
-		void set_current_frame(uint16_t frame)
+		void setCurrentFrame(uint16_t _p_frame)
 		{
-			current_frame = frame;
+			_m_currentFrame = _p_frame;
 		}
-		uint16_t get_frame_time() const
+		uint16_t getFrameTime() const
 		{
-			return frame_time;
+			return _m_frameTime;
 		}
 
-		void play(uint16_t frame_time);
-		const sf::Sprite &get_current_frame() const
+		void play(uint16_t _p_frameTime);
+		const sf::Sprite &getCurrentFrame() const
 		{
-			return *frames[current_frame];
+			return *_m_frames[_m_currentFrame];
 		}
 	};
 }

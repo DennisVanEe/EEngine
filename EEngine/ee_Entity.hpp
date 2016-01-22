@@ -4,7 +4,7 @@
 
 namespace eeGames
 {
-	class Entity : public sf::Transformable, sf::Drawable
+	class Entity : public sf::Transformable, public sf::Drawable
 	{
 	// currently empty
 	};
