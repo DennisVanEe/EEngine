@@ -63,9 +63,6 @@
     <ClInclude Include="ee_RequestType.hpp">
       <Filter>Header Files\Module Communication</Filter>
     </ClInclude>
-    <ClInclude Include="ee_ScriptEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ee_Module.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,6 +97,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ee_Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_LoadScriptEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ee_GameEngine.hpp">

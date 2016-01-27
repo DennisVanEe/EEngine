@@ -26,20 +26,22 @@ namespace eeGames
 		EntityContainer(const EntityContainer& ent) = delete;
 		EntityContainer& operator=(const EntityContainer& ent) = delete;
 
-		AnimatedEntity *createAnimatedEntity(const std::string &_p_id, const sf::Texture *_p_texture, uint32_t _p_width, 
+		AnimatedEntity *createAnimatedEntity(const std::string &_p_id, const sf::Texture *_p_texture, uint32_t _p_width,
 			uint32_t _p_height, uint8_t _p_columns, uint8_t _p_rows)
 		{
 			std::unique_ptr<Entity> entity(new AnimatedEntity());
 			AnimatedEntity *returnEntity = static_cast<AnimatedEntity*>(entity.get());
-			returnEntity->assignTexture(_p_texture, _p_width, _p_height, _p_columns, _p_rows);
+			if (!returnEntity->assignTexture(_p_texture, _p_width, _p_height, _p_columns, _p_rows))
+				return nullptr;
 			_m_allCurrentEntities.insert(std::make_pair(_p_id, _str_Entity(std::move(entity), _e_EntityType::ANIMATED)));
 			return returnEntity;
-		}	
+		}
 		StaticEntity *createStaticEntity(const std::string &_p_id, const sf::Texture *_p_texture)
 		{
 			std::unique_ptr<Entity> entity(new StaticEntity());
 			StaticEntity *returnEntity = static_cast<StaticEntity*>(entity.get());
-			returnEntity->assignTexture(_p_texture);
+			if (!returnEntity->assignTexture(_p_texture))
+				return nullptr;
 			_m_allCurrentEntities.insert(std::make_pair(_p_id, _str_Entity(std::move(entity), _e_EntityType::STATIC)));
 			return returnEntity;
 		}
@@ -48,7 +50,8 @@ namespace eeGames
 		{
 			std::unique_ptr<Entity> entity(new StaticEntity());
 			StaticEntity *returnEntity = static_cast<StaticEntity*>(entity.get());
-			returnEntity->assignTexture(_p_texture, _p_x, _p_y, width, height);
+			if (!returnEntity->assignTexture(_p_texture, _p_x, _p_y, width, height))
+				return nullptr;
 			_m_allCurrentEntities.insert(std::make_pair(_p_id, _str_Entity(std::move(entity), _e_EntityType::STATIC)));
 			return returnEntity;
 		}
@@ -70,6 +73,25 @@ namespace eeGames
 			if (entityIterator->second._m_type == _e_EntityType::STATIC)
 				return static_cast<StaticEntity *>(entityIterator->second._m_entity.get());
 			return nullptr;
+		}
+
+		AnimatedEntity *createAnimatedEntityCopy(const std::string &_p_id, const std::string &_p_idNew)
+		{
+			AnimatedEntity *returnEntity = getAnimatedEntity(_p_id);
+			if (!returnEntity)
+				return nullptr;
+			std::unique_ptr<Entity> entity(new AnimatedEntity(*returnEntity));
+			_m_allCurrentEntities.insert(std::make_pair(_p_idNew, _str_Entity(std::move(entity), _e_EntityType::ANIMATED)));
+			return returnEntity;
+		}
+		StaticEntity *createStaticEntityCopy(const std::string &_p_id, const std::string &_p_idNew)
+		{
+			StaticEntity *returnEntity = getStaticEntity(_p_id);
+			if (!returnEntity)
+				return nullptr;
+			std::unique_ptr<Entity> entity(new StaticEntity(*getStaticEntity(_p_id)));
+			_m_allCurrentEntities.insert(std::make_pair(_p_idNew, _str_Entity(std::move(entity), _e_EntityType::ANIMATED)));
+			return returnEntity;
 		}
 
 		bool removeEntity(const std::string &id)

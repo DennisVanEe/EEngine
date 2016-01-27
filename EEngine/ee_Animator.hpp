@@ -22,6 +22,23 @@ namespace eeGames
 		{
 		}
 
+		Animation(const Animation& _p_copiedAnimation) 
+		{
+			_m_spriteSheet = _p_copiedAnimation._m_spriteSheet;
+			_m_frameSize = _p_copiedAnimation._m_frameSize;
+			_m_columnsRows = _p_copiedAnimation._m_columnsRows;
+			_m_frameTime = _p_copiedAnimation._m_frameTime;
+			_m_currentTime = _p_copiedAnimation._m_currentTime;
+			_m_currentFrame = _p_copiedAnimation._m_currentFrame;
+
+			for (auto &frameIterator : _p_copiedAnimation._m_frames)
+			{
+				_m_frames.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*frameIterator.get())));
+			}
+
+		}
+		void operator=(const Animation&) = delete;
+
 		void setFrameSize(uint32_t _p_width, uint32_t _p_height) // sets the size of each sprite on the sprite sheet
 		{
 			_m_frameSize = sf::Vector2f(_p_width, _p_height);

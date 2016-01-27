@@ -161,14 +161,14 @@
     <ClInclude Include="ee_DataType.hpp" />
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
-    <ClInclude Include="ee_GameEngine.hpp" />
+    <ClInclude Include="ee_LoadScriptEngine.hpp" />
     <ClInclude Include="ee_Module.hpp" />
     <ClInclude Include="ee_RenderEngine.hpp" />
     <ClInclude Include="ee_Request.hpp" />
     <ClInclude Include="ee_RequestQueue.hpp" />
     <ClInclude Include="ee_RequestType.hpp" />
     <ClInclude Include="ee_ResourceEngine.hpp" />
-    <ClInclude Include="ee_ScriptEngine.hpp" />
+    <ClInclude Include="ee_GameEngine.hpp" />
     <ClInclude Include="ee_StaticEntity.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

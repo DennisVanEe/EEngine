@@ -12,7 +12,9 @@
 #include "ee_RequestQueue.hpp"
 #include "ee_DataContainerEngine.hpp"
 #include "ee_RequestType.hpp"
+#include "ee_EntityContainer.hpp"
 #include "ee_ScriptInterface.hpp"
+#include "ee_SoundContainer.hpp"
 
 namespace eeGames
 {
@@ -24,31 +26,28 @@ namespace eeGames
 		Module *_m_currentActiveModule; // current module that is being executed
 		std::unordered_map<std::string, std::unique_ptr<Module>> _m_currentModuleList; // active list of modules
 
-		DataContainerEngine _m_dataContainerEngine;
-		RequestQueue _m_requestQueue;
+		DataContainerEngine *_m_dataContainerEngine;
+		EntityContainer *_m_entityContainer;
+		SoundContainer *_m_soundContainer;
+		RequestQueue *_m_requestQueue;
 
 		asIScriptEngine *_m_engine;
 
 		void registerEngine();
 	public:
-		ScriptEngine()
+		ScriptEngine(DataContainerEngine *_p_dataContainerEngine, RequestQueue *_p_requestQueue) : _m_dataContainerEngine(_p_dataContainerEngine),
+			_m_requestQueue(_p_requestQueue)
 		{
-			engine = asCreateScriptEngine();
-			register_engine();
+			_m_engine = asCreateScriptEngine();
+			registerEngine();
 		}
 		~ScriptEngine()
 		{
-			engine->ShutDownAndRelease();
+			_m_engine->ShutDownAndRelease();
 		}
 
 		ScriptEngine(const ScriptEngine &) = delete;
 		ScriptEngine &operator=(const ScriptEngine &) = delete;
-
-		// used by other parts to register their own functions for the script engine
-		asIScriptEngine *getEngine()
-		{
-			return engine;
-		} 
 
 		bool executeScripts(uint16_t _p_frameTime);
 		bool executeRequests();	
@@ -56,7 +55,7 @@ namespace eeGames
 		// will act as a global function, even though it is part of this object
 		void waitForRequestQueueComp()
 		{
-			current_active_module->suspend();
+			_m_currentActiveModule->suspend();
 		} 
 
 		bool startModule(const std::string &_p_name, const std::string &_p_dir);

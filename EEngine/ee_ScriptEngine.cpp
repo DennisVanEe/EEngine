@@ -15,15 +15,15 @@ bool eeGames::ScriptEngine::executeScripts(uint16_t _p_frame_time)
 	for (auto &module : _m_currentModuleList)
 	{
 		_m_currentActiveModule = module.second.get();
-		module.second->step_module(_p_frame_time);
+		module.second->stepModule(_p_frame_time);
 	}
 
-	_m_requestQueue.finalize_requests();
+	_m_requestQueue->finalizeRequests();
 	executeRequests();
 
 	for (auto &module : _m_currentModuleList)
 	{
-		if (module.second->is_suspended())
+		if (module.second->isSuspended())
 			module.second->resume();
 	}
 
@@ -33,23 +33,23 @@ bool eeGames::ScriptEngine::executeScripts(uint16_t _p_frame_time)
 bool eeGames::ScriptEngine::executeRequests()
 {
 	bool exitSuccess = true;
-	auto *reqQueue = _m_requestQueue.get_queue();
+	auto *reqQueue = _m_requestQueue->getQueue();
 
 	for (auto req : *reqQueue)
 	{
-		switch (req.second.first->get_request())
+		switch (req.second.first->getRequest())
 		{
 		case RequestType::WRITE_DATA:
-			_m_dataContainerEngine.add_data(req.second.second, req.second.first->get_data_type(), req.second.first->get_target_name(), req.second.first->get_data());
+			_m_dataContainerEngine->add_data(req.second.second, req.second.first->getDataType(), req.second.first->getTargetName(), req.second.first->getData());
 			break;
 		case RequestType::READ_DATA:
-			req.second.first->add_data(_m_dataContainerEngine.get_data(req.second.second, req.second.first->get_target_name()));
+			req.second.first->addData(_m_dataContainerEngine->get_data(req.second.second, req.second.first->getTargetName()));
 			break;
 		case RequestType::TERMINATE_MODULE:
 			terminateModule(req.second.second);
 			break;
 		case RequestType::CREATE_MODULE:
-			startModule(req.second.second, req.second.first->get_target_name());
+			startModule(req.second.second, req.second.first->getTargetName());
 			break;
 		case RequestType::SLEEP_MODULE:
 			sleepModule(req.second.second);
@@ -58,16 +58,16 @@ bool eeGames::ScriptEngine::executeRequests()
 			wakeModule(req.second.second);
 			break;
 		case RequestType::CREATE_CONTAINER:
-			_m_dataContainerEngine.add_container(req.second.second);
+			_m_dataContainerEngine->add_container(req.second.second);
 			break;
 		case RequestType::REMOVE_CONTAINER:
-			_m_dataContainerEngine.remove_container(req.second.second);
+			_m_dataContainerEngine->remove_container(req.second.second);
 			break;
 		case RequestType::WRITE_CONTAINER_FILE:
-			_m_dataContainerEngine.save_container(req.second.second, req.second.first->get_target_name());
+			_m_dataContainerEngine->save_container(req.second.second, req.second.first->getTargetName());
 			break;
 		case RequestType::READ_CONTAINER_FILE:
-			_m_dataContainerEngine.load_container(req.second.second, req.second.first->get_target_name());
+			_m_dataContainerEngine->load_container(req.second.second, req.second.first->getTargetName());
 			break;
 		default:
 			exitSuccess = false;
@@ -75,7 +75,7 @@ bool eeGames::ScriptEngine::executeRequests()
 		}
 		req.second.first->AddRef();
 	}
-	_m_requestQueue.clear_queue();
+	_m_requestQueue->clearQueue();
 	return exitSuccess;
 }
 
@@ -124,20 +124,20 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_ADDREF, "void f()", asMETHOD(Request, AddRef), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_RELEASE, "void f()", asMETHOD(Request, ReleaseRef), asCALL_THISCALL); assert(error >= 0);
 
-	error = _m_engine->RegisterObjectMethod("Request", "int get_int(bool &out)", asMETHODPR(Request, get_int, (bool*), int), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "int get_int()", asMETHODPR(Request, get_int, (), int), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "float get_float(bool &out)", asMETHODPR(Request, get_float, (bool*), float), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "float get_float()", asMETHODPR(Request, get_float, (), float), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "double get_double(bool &out)", asMETHODPR(Request, get_double, (bool*), double), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "double get_double()", asMETHODPR(Request, get_double, (), double), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool get_bool(bool &out)", asMETHODPR(Request, get_bool, (bool*), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool get_bool()", asMETHODPR(Request, get_bool, (bool*), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "string get_string(bool &out)", asMETHODPR(Request, get_string, (bool*), std::string), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "string get_string()", asMETHODPR(Request, get_string, (), std::string), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "int getInt(bool &out)", asMETHODPR(Request, getInt, (bool*), int), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "int getInt()", asMETHODPR(Request, getInt, (), int), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "float getFloat(bool &out)", asMETHODPR(Request, getFloat, (bool*), float), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "float getFloat()", asMETHODPR(Request, getFloat, (), float), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "double getDouble(bool &out)", asMETHODPR(Request, getDouble, (bool*), double), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "double getDouble()", asMETHODPR(Request, getDouble, (), double), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getBool(bool &out)", asMETHODPR(Request, getBool, (bool*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getBool()", asMETHODPR(Request, getBool, (bool*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "string getString(bool &out)", asMETHODPR(Request, getString, (bool*), std::string), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "string getString()", asMETHODPR(Request, getString, (), std::string), asCALL_THISCALL); assert(error >= 0);
 
 	// register request queue
 	error = _m_engine->RegisterObjectType("RequestQueue", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("RequestQueue", "bool add_request(const string &in, Request@)", asMETHOD(RequestQueue, add_request), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RequestQueue", "bool addRequest(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalProperty("RequestQueue requestQueue", &_m_requestQueue); assert(error >= 0);
 
 	// register ScriptEngine Methods
@@ -258,15 +258,19 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterGlobalFunction("int getYPosMouse()", asFUNCTION(getYPosMouse), asCALL_CDECL); assert(error >= 0);
 
 	// register entity creation and functions
+	error = _m_engine->RegisterObjectType("AnimatedEntity", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void playFrame(uint16)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setFrame(uint16)", asMETHOD(AnimatedEntity, setFrame), asCALL_THISCALL); assert(error >= 0);
+
 	
 }
 
 bool eeGames::ScriptEngine::startModule(const std::string &_p_name, const std::string &_p_dir)
 {
 	std::unique_ptr<Module> mod_ptr(new Module(_p_name, _m_engine));
-	if (!mod_ptr->load_script(_p_dir))
+	if (!mod_ptr->loadScript(_p_dir))
 		return false;
-	mod_ptr->initialize_module();
+	mod_ptr->initializeModule();
 	_m_currentModuleList.insert(std::make_pair(_p_name, std::move(mod_ptr)));
 	return true;
 }
@@ -288,7 +292,7 @@ bool eeGames::ScriptEngine::sleepModule(const std::string &_p_name)
 	if (it == _m_currentModuleList.end())
 		return false;
 
-	it->second->set_sleep(true);
+	it->second->setSleep(true);
 	return true;
 }
 
@@ -298,6 +302,6 @@ bool eeGames::ScriptEngine::wakeModule(const std::string &_p_name)
 	if (it == _m_currentModuleList.end())
 		return false;
 
-	it->second->set_sleep(false);
+	it->second->setSleep(false);
 	return true;
 }
