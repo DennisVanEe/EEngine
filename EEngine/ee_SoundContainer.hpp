@@ -1,5 +1,13 @@
 #pragma once
 
+// EEngine Copyright (c) 2016
+// ee_SoundContainer.hpp
+// --------------------------------------------------------
+// A container used to manage sound objects in the world.
+// SoundEffect and SoundMusic objects are managed and owned
+// by an object of this type. Access is granted to others
+// (such as a script module) to manipulate these objects.
+
 #include <SFML/Audio.hpp>
 #include <unordered_map>
 #include <string>
@@ -71,4 +79,18 @@ namespace eeGames
 			return returnSound;
 		}
 	};
+
+	// used to control the "microphone" or listner:
+	float getMicrophonePositionX()
+	{
+		return sf::Listener::getPosition().x;
+	}
+	float getMicrophonePositionY()
+	{
+		return sf::Listener::getPosition().y;
+	}
+	float getMicrophonePositionZ()
+	{
+		return sf::Listener::getPosition().z;
+	}
 }

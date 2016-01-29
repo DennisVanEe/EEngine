@@ -15,6 +15,7 @@
 #include "ee_EntityContainer.hpp"
 #include "ee_ScriptInterface.hpp"
 #include "ee_SoundContainer.hpp"
+#include "ee_RenderEngine.hpp"
 
 namespace eeGames
 {
@@ -30,13 +31,16 @@ namespace eeGames
 		EntityContainer *_m_entityContainer;
 		SoundContainer *_m_soundContainer;
 		RequestQueue *_m_requestQueue;
+		RenderEngine *_m_renderEngine;
 
 		asIScriptEngine *_m_engine;
 
 		void registerEngine();
 	public:
-		ScriptEngine(DataContainerEngine *_p_dataContainerEngine, RequestQueue *_p_requestQueue) : _m_dataContainerEngine(_p_dataContainerEngine),
-			_m_requestQueue(_p_requestQueue)
+		ScriptEngine(DataContainerEngine *_p_dataContainerEngine, RequestQueue *_p_requestQueue, EntityContainer *_p_entityContainer,
+			SoundContainer *_p_soundContainer, RenderEngine *_p_renderEngine) : _m_dataContainerEngine(_p_dataContainerEngine),
+			_m_requestQueue(_p_requestQueue), _m_entityContainer(_p_entityContainer), _m_soundContainer(_p_soundContainer), 
+			_m_renderEngine(_p_renderEngine)
 		{
 			_m_engine = asCreateScriptEngine();
 			registerEngine();

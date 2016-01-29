@@ -257,12 +257,111 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterGlobalFunction("int getXPosMouse()", asFUNCTION(getXPosMouse), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalFunction("int getYPosMouse()", asFUNCTION(getYPosMouse), asCALL_CDECL); assert(error >= 0);
 
-	// register entity creation and functions
+	// register AnimatedEntity creation and functions
 	error = _m_engine->RegisterObjectType("AnimatedEntity", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void playFrame(uint16)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setFrame(uint16)", asMETHOD(AnimatedEntity, setFrame), asCALL_THISCALL); assert(error >= 0);
-
 	
+	// scale and position
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getPositionX()", asMETHOD(AnimatedEntity, getPositionX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getPositionY()", asMETHOD(AnimatedEntity, getPositionY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getScaleX()", asMETHOD(AnimatedEntity, getScaleX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getScaleY()", asMETHOD(AnimatedEntity, getScaleY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getOriginX()", asMETHOD(AnimatedEntity, getOriginX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getOriginY()", asMETHOD(AnimatedEntity, getOriginY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getRotation()", asMETHOD(AnimatedEntity, getRotation), asCALL_THISCALL); assert(error >= 0);
+
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(AnimatedEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setScale(float, float)", asMETHODPR(AnimatedEntity, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setOrigin(float, float)", asMETHODPR(AnimatedEntity, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(AnimatedEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setRotation(float)", asMETHOD(AnimatedEntity, setRotation), asCALL_THISCALL); assert(error >= 0);
+	
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void move(float, float)", asMETHODPR(AnimatedEntity, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void scale(float, float)", asMETHODPR(AnimatedEntity, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void rotate(float)", asMETHOD(AnimatedEntity, rotate), asCALL_THISCALL); assert(error >= 0);
+
+	// register StaticEntity creation and functions
+	error = _m_engine->RegisterObjectType("StaticEntity", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
+
+	// scale and position
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getPositionX()", asMETHOD(StaticEntity, getPositionX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getPositionY()", asMETHOD(StaticEntity, getPositionY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getScaleX()", asMETHOD(StaticEntity, getScaleX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getScaleY()", asMETHOD(StaticEntity, getScaleY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getOriginX()", asMETHOD(StaticEntity, getOriginX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getOriginY()", asMETHOD(StaticEntity, getOriginY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "float getRotation()", asMETHOD(StaticEntity, getRotation), asCALL_THISCALL); assert(error >= 0);
+
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void setPosition(float, float)", asMETHODPR(StaticEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void setScale(float, float)", asMETHODPR(StaticEntity, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void setOrigin(float, float)", asMETHODPR(StaticEntity, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void setPosition(float, float)", asMETHODPR(StaticEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void setRotation(float)", asMETHOD(StaticEntity, setRotation), asCALL_THISCALL); assert(error >= 0);
+
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void move(float, float)", asMETHODPR(StaticEntity, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void scale(float, float)", asMETHODPR(StaticEntity, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("StaticEntity", "void rotate(float)", asMETHOD(StaticEntity, rotate), asCALL_THISCALL); assert(error >= 0);
+
+	// set up entity management software
+	error = _m_engine->RegisterObjectMethod("EntityContainer", "AnimatedEntity @getAnimatedEntity(string &in)", asMETHOD(EntityContainer, getAnimatedEntity), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("EntityContainer", "StaticEntity @getStaticEntity(string &in)", asMETHOD(EntityContainer, getStaticEntity), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("EntityContainer", "AnimatedEntity @createAnimatedEntityCopy(string &in, string &in)", asMETHOD(EntityContainer, createAnimatedEntityCopy), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("EntityContainer", "StaticEntity @createStaticEntityCopy(string &in, string &in)", asMETHOD(EntityContainer, createStaticEntityCopy), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+
+	// adding stuff to the render engine
+	error = _m_engine->RegisterObjectMethod("RenderEngine", "void addEntityToRender(uint16, AnimatedEntity, string &in)", asMETHOD(RenderEngine, addEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RenderEngine", "void addEntityToRender(uint16, StaticEntity, string &in)", asMETHOD(RenderEngine, addEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RenderEngine", "bool removeEntityToRender(string &in)", asMETHOD(RenderEngine, removeEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RenderEngine", "void clearAllEntityToRender()", asMETHOD(RenderEngine, clearAllEntities), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
+
+	// register SoundEffect functions
+	error = _m_engine->RegisterObjectType("SoundEffect", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void play()", asMETHODPR(SoundEffect, play, (), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void play(uint32)", asMETHODPR(SoundEffect, play, (uint32_t), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void setLoop(bool)", asMETHOD(SoundEffect, setLoop), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void pause()", asMETHOD(SoundEffect, pause), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void stop()", asMETHOD(SoundEffect, stop), asCALL_THISCALL); assert(error >= 0);
+	
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void setPosition(float, float, float)", asMETHOD(SoundEffect, setPosition), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "float getPositionX()", asMETHOD(SoundEffect, getPositionX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "float getPositionY()", asMETHOD(SoundEffect, getPositionY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "float getPositionZ()", asMETHOD(SoundEffect, getPositionZ), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "uint32 getPositionZ()", asMETHOD(SoundEffect, getPlayPosition), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "bool getLoopStatus()", asMETHOD(SoundEffect, getLoopStatus), asCALL_THISCALL); assert(error >= 0);
+
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void setVolume(uint8)", asMETHOD(SoundEffect, setVolume), asCALL_THISCALL); assert(error >= 0);
+
+	// register Music functions
+	error = _m_engine->RegisterObjectType("Music", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "void play()", asMETHODPR(SoundMusic, play, (), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "void play(uint32)", asMETHODPR(SoundMusic, play, (uint32_t), void), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "void setLoop(bool)", asMETHOD(SoundMusic, setLoop), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "void pause()", asMETHOD(SoundMusic, pause), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "void stop()", asMETHOD(SoundMusic, stop), asCALL_THISCALL); assert(error >= 0);
+
+	error = _m_engine->RegisterObjectMethod("Music", "void setPosition(float, float, float)", asMETHOD(SoundMusic, setPosition), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "float getPositionX()", asMETHOD(SoundMusic, getPositionX), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "float getPositionY()", asMETHOD(SoundMusic, getPositionY), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "float getPositionZ()", asMETHOD(SoundMusic, getPositionZ), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "uint32 getPositionZ()", asMETHOD(SoundMusic, getPlayPosition), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Music", "bool getLoopStatus()", asMETHOD(SoundMusic, getLoopStatus), asCALL_THISCALL); assert(error >= 0);
+
+	error = _m_engine->RegisterObjectMethod("SoundEffect", "void setVolume(uint8)", asMETHOD(SoundMusic, setVolume), asCALL_THISCALL); assert(error >= 0);
+
+	// set up music management software
+	error = _m_engine->RegisterObjectMethod("SoundContainer", "SoundEffect @getSoundEffect(string &in)", asMETHOD(SoundContainer, getSoundEffect), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundContainer", "SoundEffect @createSoundEffectCopy(string &in, string &in)", asMETHOD(SoundContainer, createSoundEffectCopy), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("SoundContainer", "Music @getMusic(string &in)", asMETHOD(SoundContainer, getSoundMusic), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
+
+	// register Microphone functions
+	error = _m_engine->RegisterGlobalFunction("void setMicrophonePosition(float, float, float)", asFUNCTIONPR(sf::Listener::setPosition, (float,float,float), void), asCALL_CDECL); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("float getMicrophonePositionX()", asFUNCTION(getMicrophonePositionX), asCALL_CDECL); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("float getMicrophonePositionY()", asFUNCTION(getMicrophonePositionY), asCALL_CDECL); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("float getMicrophonePositionZ()", asFUNCTION(getMicrophonePositionZ), asCALL_CDECL); assert(error >= 0);
+
+	error = _m_engine->RegisterGlobalFunction("float getMicrophoneVolume()", asFUNCTION(sf::Listener::getGlobalVolume), asCALL_CDECL); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("void setMicrophoneVolume(float)", asFUNCTION(sf::Listener::setGlobalVolume), asCALL_CDECL); assert(error >= 0);
 }
 
 bool eeGames::ScriptEngine::startModule(const std::string &_p_name, const std::string &_p_dir)

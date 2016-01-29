@@ -43,6 +43,12 @@
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{3877d132-a62a-4ebb-869a-4671b0dab298}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Sound">
+      <UniqueIdentifier>{fac406eb-a662-459e-9daa-0079248e418b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{04efb39f-02e0-4255-90eb-d1664811f112}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -102,6 +108,24 @@
     <ClInclude Include="ee_LoadScriptEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ee_ScriptEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundEffect.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundMusic.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundContainer.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_ScriptInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ee_GameEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,6 +168,9 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="ee_ResourceEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_ScriptInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -23,6 +23,7 @@ namespace eeGames
 	private:
 		std::unordered_map<std::string, _str_Entity> _m_allCurrentEntities;
 	public:
+		EntityContainer() {}
 		EntityContainer(const EntityContainer& ent) = delete;
 		EntityContainer& operator=(const EntityContainer& ent) = delete;
 
