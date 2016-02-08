@@ -162,7 +162,7 @@
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
     <ClInclude Include="ee_GameEngine.hpp" />
-    <ClInclude Include="ee_LoadScriptEngine.hpp" />
+    <ClInclude Include="ee_LoadEngine.hpp" />
     <ClInclude Include="ee_ScriptInterface.hpp" />
     <ClInclude Include="ee_SoundContainer.hpp" />
     <ClInclude Include="ee_Module.hpp" />
@@ -193,6 +193,7 @@
     <ClCompile Include="ee_ResourceEngine.cpp" />
     <ClCompile Include="ee_ScriptEngine.cpp" />
     <ClCompile Include="ee_ScriptInterface.cpp" />
+    <ClCompile Include="ee_GameEngine.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>

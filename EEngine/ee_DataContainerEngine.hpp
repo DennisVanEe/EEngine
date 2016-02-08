@@ -10,14 +10,14 @@ namespace eeGames
 	class DataContainerEngine
 	{
 	private:
-		std::unordered_map<std::string, DataContainer*> containers;
+		std::unordered_map<std::string, DataContainer*> _m_containerList;
 	public:
-		bool add_container(const std::string &name);
-		bool load_container(const std::string &name, const std::string &dir);
-		bool remove_container(const std::string &name);
-		bool save_container(const std::string &name, const std::string &dir) const;
+		bool addContainer(const std::string &_p_name);
+		bool loadContainer(const std::string &_p_name, const std::string &_p_directory);
+		bool removeContainer(const std::string &_p_name);
+		bool saveContainer(const std::string &_p_name, const std::string &_p_directory) const;
 
-		bool add_data(const std::string &name, DataType type, const std::string &d_name, byte *data);
-		byte *get_data(const std::string &name, const std::string &d_name) const;
+		bool addData(const std::string &_p_name, DataType _p_dataType, const std::string &_p_dataName, byte *_p_data);
+		byte *getData(const std::string &_p_name, const std::string &_p_dataName) const;
 	};
 }

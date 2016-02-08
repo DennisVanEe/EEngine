@@ -9,6 +9,8 @@
 // Each value has a specific key in the form of a standard c++ array
 // can write and load binary files
 
+// TODO: added a better more efficient byte storage system
+
 namespace eeGames
 {
 	typedef char byte; //this will be used by Request as well for data storage
@@ -47,7 +49,7 @@ namespace eeGames
 		// removing elements
 		bool remove(const std::string&);
 
-		// getting elements (returns false if it can't find it)
+		// getting elements (returns nullptr if it can't find it)
 		byte *get_data(const std::string&) const;
 
 		// file I/O

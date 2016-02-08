@@ -9,6 +9,8 @@ namespace eeGames
 	class GameEngine
 	{
 	private:
+		bool gameRunning;
+	private:
 		std::unique_ptr<DataContainerEngine> _m_dataContainerEngine;
 		std::unique_ptr<EntityContainer> _m_entityContainer;
 		std::unique_ptr<SoundContainer> _m_soundContainer;
@@ -22,5 +24,8 @@ namespace eeGames
 				_m_soundContainer.get(), _m_renderEngine.get()))
 		{
 		}
+
+		void playIntoScene();
+		void gameLoop();
 	};
 }

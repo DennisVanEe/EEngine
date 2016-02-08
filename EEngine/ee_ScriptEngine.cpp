@@ -1,89 +1,20 @@
 #include "ee_ScriptEngine.hpp"
 
-void eeGames::MessageCallback(const asSMessageInfo *msg, void *param)
+void eeGames::ScriptEngine::errorMessageCaller(const asSMessageInfo *msg, void *param)
 {
-	const char *type = "ERR ";
+	std::string type("ERR ");
 	if (msg->type == asMSGTYPE_WARNING)
 		type = "WARN";
 	else if (msg->type == asMSGTYPE_INFORMATION)
 		type = "INFO";
-	printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
-}
-
-bool eeGames::ScriptEngine::executeScripts(uint16_t _p_frame_time)
-{
-	for (auto &module : _m_currentModuleList)
-	{
-		_m_currentActiveModule = module.second.get();
-		module.second->stepModule(_p_frame_time);
-	}
-
-	_m_requestQueue->finalizeRequests();
-	executeRequests();
-
-	for (auto &module : _m_currentModuleList)
-	{
-		if (module.second->isSuspended())
-			module.second->resume();
-	}
-
-	return true;
-}
-
-bool eeGames::ScriptEngine::executeRequests()
-{
-	bool exitSuccess = true;
-	auto *reqQueue = _m_requestQueue->getQueue();
-
-	for (auto req : *reqQueue)
-	{
-		switch (req.second.first->getRequest())
-		{
-		case RequestType::WRITE_DATA:
-			_m_dataContainerEngine->add_data(req.second.second, req.second.first->getDataType(), req.second.first->getTargetName(), req.second.first->getData());
-			break;
-		case RequestType::READ_DATA:
-			req.second.first->addData(_m_dataContainerEngine->get_data(req.second.second, req.second.first->getTargetName()));
-			break;
-		case RequestType::TERMINATE_MODULE:
-			terminateModule(req.second.second);
-			break;
-		case RequestType::CREATE_MODULE:
-			startModule(req.second.second, req.second.first->getTargetName());
-			break;
-		case RequestType::SLEEP_MODULE:
-			sleepModule(req.second.second);
-			break;
-		case RequestType::WAKE_MODULE:
-			wakeModule(req.second.second);
-			break;
-		case RequestType::CREATE_CONTAINER:
-			_m_dataContainerEngine->add_container(req.second.second);
-			break;
-		case RequestType::REMOVE_CONTAINER:
-			_m_dataContainerEngine->remove_container(req.second.second);
-			break;
-		case RequestType::WRITE_CONTAINER_FILE:
-			_m_dataContainerEngine->save_container(req.second.second, req.second.first->getTargetName());
-			break;
-		case RequestType::READ_CONTAINER_FILE:
-			_m_dataContainerEngine->load_container(req.second.second, req.second.first->getTargetName());
-			break;
-		default:
-			exitSuccess = false;
-			break;
-		}
-		req.second.first->AddRef();
-	}
-	_m_requestQueue->clearQueue();
-	return exitSuccess;
+	std::cout << msg->section << "(" << msg->row << ", " << msg->col << ") : " << type << " : " << msg->message << std::endl;
 }
 
 void eeGames::ScriptEngine::registerEngine()
 {
-	_m_engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
-
-	int error; // used for error checking
+	// set up the error handler:
+	_m_engine->SetMessageCallback(asMETHOD(ScriptEngine, errorMessageCaller), this, asCALL_THISCALL);
+	int error; 
 
 	// register the standard string
 	RegisterStdString(_m_engine);
@@ -136,9 +67,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("Request", "string getString()", asMETHODPR(Request, getString, (), std::string), asCALL_THISCALL); assert(error >= 0);
 
 	// register request queue
-	error = _m_engine->RegisterObjectType("RequestQueue", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("RequestQueue", "bool addRequest(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterGlobalProperty("RequestQueue requestQueue", &_m_requestQueue); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("bool addRequest(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL, _m_requestQueue); assert(error >= 0);
 
 	// register ScriptEngine Methods
 	error = _m_engine->RegisterObjectMethod("ScriptEngine", "void waitForRequestQueueComp()", asMETHOD(ScriptEngine, waitForRequestQueueComp), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
@@ -257,11 +186,11 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterGlobalFunction("int getXPosMouse()", asFUNCTION(getXPosMouse), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalFunction("int getYPosMouse()", asFUNCTION(getYPosMouse), asCALL_CDECL); assert(error >= 0);
 
-	// register AnimatedEntity creation and functions
+	// register AnimatedEntity creation and functions6
 	error = _m_engine->RegisterObjectType("AnimatedEntity", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void playFrame(uint16)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setFrame(uint16)", asMETHOD(AnimatedEntity, setFrame), asCALL_THISCALL); assert(error >= 0);
-	
+
 	// scale and position
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getPositionX()", asMETHOD(AnimatedEntity, getPositionX), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "float getPositionY()", asMETHOD(AnimatedEntity, getPositionY), asCALL_THISCALL); assert(error >= 0);
@@ -276,7 +205,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setOrigin(float, float)", asMETHODPR(AnimatedEntity, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(AnimatedEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setRotation(float)", asMETHOD(AnimatedEntity, setRotation), asCALL_THISCALL); assert(error >= 0);
-	
+
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void move(float, float)", asMETHODPR(AnimatedEntity, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void scale(float, float)", asMETHODPR(AnimatedEntity, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void rotate(float)", asMETHOD(AnimatedEntity, rotate), asCALL_THISCALL); assert(error >= 0);
@@ -322,7 +251,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("SoundEffect", "void setLoop(bool)", asMETHOD(SoundEffect, setLoop), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("SoundEffect", "void pause()", asMETHOD(SoundEffect, pause), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("SoundEffect", "void stop()", asMETHOD(SoundEffect, stop), asCALL_THISCALL); assert(error >= 0);
-	
+
 	error = _m_engine->RegisterObjectMethod("SoundEffect", "void setPosition(float, float, float)", asMETHOD(SoundEffect, setPosition), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("SoundEffect", "float getPositionX()", asMETHOD(SoundEffect, getPositionX), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("SoundEffect", "float getPositionY()", asMETHOD(SoundEffect, getPositionY), asCALL_THISCALL); assert(error >= 0);
@@ -355,13 +284,82 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("SoundContainer", "Music @getMusic(string &in)", asMETHOD(SoundContainer, getSoundMusic), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
 
 	// register Microphone functions
-	error = _m_engine->RegisterGlobalFunction("void setMicrophonePosition(float, float, float)", asFUNCTIONPR(sf::Listener::setPosition, (float,float,float), void), asCALL_CDECL); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("void setMicrophonePosition(float, float, float)", asFUNCTIONPR(sf::Listener::setPosition, (float, float, float), void), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalFunction("float getMicrophonePositionX()", asFUNCTION(getMicrophonePositionX), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalFunction("float getMicrophonePositionY()", asFUNCTION(getMicrophonePositionY), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalFunction("float getMicrophonePositionZ()", asFUNCTION(getMicrophonePositionZ), asCALL_CDECL); assert(error >= 0);
 
 	error = _m_engine->RegisterGlobalFunction("float getMicrophoneVolume()", asFUNCTION(sf::Listener::getGlobalVolume), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterGlobalFunction("void setMicrophoneVolume(float)", asFUNCTION(sf::Listener::setGlobalVolume), asCALL_CDECL); assert(error >= 0);
+}
+
+bool eeGames::ScriptEngine::executeScripts(uint16_t _p_frame_time)
+{
+	for (auto &module : _m_currentModuleList)
+	{
+		_m_currentActiveModule = module.second.get();
+		module.second->stepModule(_p_frame_time);
+	}
+
+	_m_requestQueue->finalizeRequests();
+	executeRequests();
+
+	for (auto &module : _m_currentModuleList)
+	{
+		if (module.second->isSuspended())
+			module.second->resume();
+	}
+
+	return true;
+}
+
+bool eeGames::ScriptEngine::executeRequests()
+{
+	bool exitSuccess = true;
+	auto *reqQueue = _m_requestQueue->getQueue();
+
+	for (auto req : *reqQueue)
+	{
+		switch (req.second.first->getRequest())
+		{
+		case RequestType::WRITE_DATA:
+			_m_dataContainerEngine->addData(req.second.second, req.second.first->getDataType(), req.second.first->getTargetName(), req.second.first->getData());
+			break;
+		case RequestType::READ_DATA:
+			req.second.first->addData(_m_dataContainerEngine->getData(req.second.second, req.second.first->getTargetName()));
+			break;
+		case RequestType::TERMINATE_MODULE:
+			terminateModule(req.second.second);
+			break;
+		case RequestType::CREATE_MODULE:
+			startModule(req.second.second, req.second.first->getTargetName());
+			break;
+		case RequestType::SLEEP_MODULE:
+			sleepModule(req.second.second);
+			break;
+		case RequestType::WAKE_MODULE:
+			wakeModule(req.second.second);
+			break;
+		case RequestType::CREATE_CONTAINER:
+			_m_dataContainerEngine->addContainer(req.second.second);
+			break;
+		case RequestType::REMOVE_CONTAINER:
+			_m_dataContainerEngine->removeContainer(req.second.second);
+			break;
+		case RequestType::WRITE_CONTAINER_FILE:
+			_m_dataContainerEngine->saveContainer(req.second.second, req.second.first->getTargetName());
+			break;
+		case RequestType::READ_CONTAINER_FILE:
+			_m_dataContainerEngine->loadContainer(req.second.second, req.second.first->getTargetName());
+			break;
+		default:
+			exitSuccess = false;
+			break;
+		}
+		req.second.first->AddRef();
+	}
+	_m_requestQueue->clearQueue();
+	return exitSuccess;
 }
 
 bool eeGames::ScriptEngine::startModule(const std::string &_p_name, const std::string &_p_dir)

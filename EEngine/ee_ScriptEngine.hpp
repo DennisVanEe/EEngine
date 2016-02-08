@@ -16,11 +16,10 @@
 #include "ee_ScriptInterface.hpp"
 #include "ee_SoundContainer.hpp"
 #include "ee_RenderEngine.hpp"
+#include "ee_ResourceEngine.hpp"
 
 namespace eeGames
 {
-	extern void MessageCallback(const asSMessageInfo *msg, void *param); // for error handeling
-
 	class ScriptEngine
 	{
 	private:
@@ -32,15 +31,17 @@ namespace eeGames
 		SoundContainer *_m_soundContainer;
 		RequestQueue *_m_requestQueue;
 		RenderEngine *_m_renderEngine;
+		ResourceEngine *_m_resourceEngine;
 
 		asIScriptEngine *_m_engine;
 
+		void errorMessageCaller(const asSMessageInfo *msg, void *param);
 		void registerEngine();
 	public:
 		ScriptEngine(DataContainerEngine *_p_dataContainerEngine, RequestQueue *_p_requestQueue, EntityContainer *_p_entityContainer,
-			SoundContainer *_p_soundContainer, RenderEngine *_p_renderEngine) : _m_dataContainerEngine(_p_dataContainerEngine),
+			SoundContainer *_p_soundContainer, RenderEngine *_p_renderEngine, ResourceEngine *_p_resourceEngine) : _m_dataContainerEngine(_p_dataContainerEngine),
 			_m_requestQueue(_p_requestQueue), _m_entityContainer(_p_entityContainer), _m_soundContainer(_p_soundContainer), 
-			_m_renderEngine(_p_renderEngine)
+			_m_renderEngine(_p_renderEngine), _m_resourceEngine(_p_resourceEngine)
 		{
 			_m_engine = asCreateScriptEngine();
 			registerEngine();

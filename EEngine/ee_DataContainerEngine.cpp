@@ -1,78 +1,78 @@
 #include "ee_DataContainerEngine.hpp"
 
-bool eeGames::DataContainerEngine::add_container(const std::string &name)
+bool eeGames::DataContainerEngine::addContainer(const std::string &_p_name)
 {
-	if (containers.count(name) != 0) // make sure it doesn't already exist
+	if (_m_containerList.count(_p_name) != 0) // make sure it doesn't already exist
 		return false;
 
 	DataContainer *temp_cont = new DataContainer();
-	containers[name] = temp_cont;
+	_m_containerList[_p_name] = temp_cont;
 	return true;
 }
 
-bool eeGames::DataContainerEngine::load_container(const std::string &name, const std::string &dir)
+bool eeGames::DataContainerEngine::loadContainer(const std::string &_p_name, const std::string &_p_directory)
 {
-	if (containers.count(name) != 0) // make sure it doesn't already exist
+	if (_m_containerList.count(_p_name) != 0) // make sure it doesn't already exist
 		return false;
 
 	DataContainer *temp_cont = new DataContainer();
-	if (temp_cont->load_from_file(dir) == false)
+	if (temp_cont->load_from_file(_p_directory) == false)
 		return false;
-	containers[name] = temp_cont;
+	_m_containerList[_p_name] = temp_cont;
 	return true;
 }
 
-bool eeGames::DataContainerEngine::remove_container(const std::string &name)
+bool eeGames::DataContainerEngine::removeContainer(const std::string &_p_name)
 {
-	auto it = containers.find(name);
-	if (it == containers.end()) // if it can't find it
+	auto it = _m_containerList.find(_p_name);
+	if (it == _m_containerList.end()) // if it can't find it
 		return false;
 	delete it->second;
-	containers.erase(it);
+	_m_containerList.erase(it);
 	return true;
 }
 
-bool eeGames::DataContainerEngine::save_container(const std::string &name, const std::string &dir) const
+bool eeGames::DataContainerEngine::saveContainer(const std::string &_p_name, const std::string &_p_directory) const
 {
-	auto it = containers.find(name);
-	if (it == containers.end()) // if it can't find it
+	auto it = _m_containerList.find(_p_name);
+	if (it == _m_containerList.end()) // if it can't find it
 		return false;
-	it->second->save_to_file(dir);
+	it->second->save_to_file(_p_directory);
 	return true;
 }
 
-bool eeGames::DataContainerEngine::add_data(const std::string &name, DataType type, const std::string &d_name, byte *data)
+bool eeGames::DataContainerEngine::addData(const std::string &_p_name, DataType _p_dataType, const std::string &_p_dataName, byte *_p_data)
 {
-	auto it = containers.find(name);
-	if (it == containers.end())
+	auto it = _m_containerList.find(_p_name);
+	if (it == _m_containerList.end())
 		return false;
 
-	switch (type)
+	switch (_p_dataType)
 	{
 	case DataType::INT:
-		it->second->add_int(d_name, *reinterpret_cast<int*>(data));
+		it->second->add_int(_p_dataName, *reinterpret_cast<int*>(_p_data));
 		break;
 	case DataType::FLOAT:
-		it->second->add_float(d_name, *reinterpret_cast<float*>(data));
+		it->second->add_float(_p_dataName, *reinterpret_cast<float*>(_p_data));
 		break;
 	case DataType::DOUBLE:
-		it->second->add_double(d_name, *reinterpret_cast<double*>(data));
+		it->second->add_double(_p_dataName, *reinterpret_cast<double*>(_p_data));
 		break;
 	case DataType::STRING:
-		it->second->add_string(d_name, std::string(data));
+		it->second->add_string(_p_dataName, std::string(_p_data));
 		break;
 	case DataType::BOOL:
-		it->second->add_bool(d_name, *reinterpret_cast<bool*>(data));
+		it->second->add_bool(_p_dataName, *reinterpret_cast<bool*>(_p_data));
 		break;
 	}
 	return true;
 }
 
-eeGames::byte *eeGames::DataContainerEngine::get_data(const std::string &name, const std::string &d_name) const
+eeGames::byte *eeGames::DataContainerEngine::getData(const std::string &_p_name, const std::string &_p_dataName) const
 {
-	auto it = containers.find(name);
-	if (it == containers.end())
+	auto it = _m_containerList.find(_p_name);
+	if (it == _m_containerList.end())
 		return nullptr;
 	
-	return it->second->get_data(d_name);
+	return it->second->get_data(_p_dataName);
 }
