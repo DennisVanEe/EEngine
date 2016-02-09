@@ -13,14 +13,17 @@
 
 namespace eeGames
 {
-	typedef char byte; //this will be used by Request as well for data storage
+	typedef char byte; // this will be used by Request as well for data storage
+
+	// TODO: manually convert units into their array of bytes
 
 	class DataContainer
 	{
 	protected:
 		struct byte_arr
 		{
-			byte_arr() {} // default constructor
+			byte_arr() {}
+
 			byte_arr(byte *d, uint8_t s)
 			{
 				data = d;
