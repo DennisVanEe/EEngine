@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 #include <fstream>
 #include <string>
 
@@ -13,41 +14,64 @@
 
 namespace eeGames
 {
-	typedef char byte; // this will be used by Request as well for data storage
-
 	// TODO: manually convert units into their array of bytes
 
 	class DataContainer
 	{
-	protected:
-		struct byte_arr
-		{
-			byte_arr() {}
-
-			byte_arr(byte *d, uint8_t s)
-			{
-				data = d;
-				size = s; // used during reading and writing to file
-			}
-			byte *data;
-			uint8_t size;
-		};
 	private:
-		std::unordered_map<std::string, byte_arr> data;
+		std::unordered_map<std::string, std::vector<uint8_t>> _m_data;
+
+		template <typename dataType> // utilizes move-semantics
+		std::vector<uint8_t> createByteArray(dataType _p_data, uint8_t _p_size) const
+		{
+			std::vector<uint8_t> byteArray(_p_size);
+			for (int i = 1; i <= _p_size; i++)
+			{
+				byteArray[sizeof(x) - i] = x % 256;
+				x /= 256;
+			}
+			return byteArray;
+		}
+		template<typename dataType>
+		void getDataFromByteArray(const std::vector<uint8_t> &byteArray, dataType *_p_data, uint8_t _p_size) const
+		{
+			*_p_data = 0;
+			for (int i = 0; i < _p_size; i++)
+			{
+				*_p_data = *_p_data * 256 + byteArray[i];
+			}
+		}
 	public:
-		DataContainer();
+		DataContainer() {}
 		~DataContainer(); // releases data from memory
 
 		// non-copyable (for now)
 		DataContainer(const DataContainer&) = delete;
 		DataContainer& operator=(const DataContainer&) = delete;
 
-		// adding elements
-		void add_int(const std::string&, int);
-		void add_float(const std::string&, float);
-		void add_double(const std::string&, double);
-		void add_string(const std::string&, const std::string&);
-		void add_bool(const std::string &, bool);
+		template <typename dataType> // utilizes move-semantics
+		void addIntData(const std::string &_p_id, dataType _p_data)
+		{
+			_m_data.insert(std::make_pair(_p_id, createByteArray(_p_datat, sizeof(dataType)));
+		}
+		template <typename dataType> // utilizes move-semantics
+		void addFloatData(const std::string &_p_id, dataType _p_data)
+		{
+			if (sizeof(dataType) <= 1)
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint8_t*)&_p_data), sizeof(uint8_t)));
+			else if (sizeof(dataType) <= 2)
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint16_t*)&_p_data), sizeof(uint16_t)));
+			else if (sizeof(dataType) <= 3)
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint32_t*)&_p_data), sizeof(uint32_t)));
+			else if (sizeof(dataType) <= 4)
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint64_t*)&_p_data), sizeof(uint64_t)));
+			else
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uintmax_t*)&_p_data), sizeof(uintmax_t)));
+		}
+		void addStringData(const std::string &_p_id, const std::string &_p_name)
+		{
+			_m_data.insert(std::make_pair(_p_id, std::vector<uint8_t>(_p_name.begin(), _p_name.end())));
+		}
 
 		// removing elements
 		bool remove(const std::string&);

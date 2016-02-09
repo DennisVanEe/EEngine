@@ -1,58 +1,5 @@
 #include "ee_DataContainer.hpp"
 
-eeGames::DataContainer::DataContainer() {}
-
-eeGames::DataContainer::~DataContainer()
-{
-	for (std::pair<std::string, byte_arr> pair : data)
-		delete pair.second.data;
-}
-
-void eeGames::DataContainer::add_int(const std::string &k, int d)
-{
-	byte *tmp = new byte[sizeof(d)];
-	memcpy(tmp, &d, sizeof(d));
-	data[k] = byte_arr(tmp, sizeof(d));
-}
-
-void eeGames::DataContainer::add_float(const std::string &k, float d)
-{
-	byte *tmp = new byte[sizeof(d)];
-	memcpy(tmp, &d, sizeof(d));
-	data[k] = byte_arr(tmp, sizeof(d));
-}
-
-void eeGames::DataContainer::add_double(const std::string &k, double d)
-{
-	byte *tmp = new byte[sizeof(d)];
-	memcpy(tmp, &d, sizeof(d));
-	data[k] = byte_arr(tmp, sizeof(d));
-}
-
-void eeGames::DataContainer::add_string(const std::string &k, const std::string &d)
-{
-	byte *tmp = new byte[d.length() + 1];
-	memcpy(tmp, d.c_str(), d.length() + 1);
-	data[k] = byte_arr(tmp, d.length() + 1);
-}
-
-void eeGames::DataContainer::add_bool(const std::string &k, bool d)
-{
-	byte *tmp = new byte[sizeof(d)];
-	memcpy(tmp, &d, sizeof(d));
-	data[k] = byte_arr(tmp, sizeof(d));
-}
-
-eeGames::byte *eeGames::DataContainer::get_data(const std::string &k) const
-{
-	auto it = data.find(k);
-	if (it == data.end())
-		return nullptr;
-	byte *temp = new byte[it->second.size];
-	memcpy(temp, it->second.data, it->second.size);
-	return temp;
-}
-
 bool eeGames::DataContainer::remove(const std::string &k)
 {
 	if (!data.count(k))
