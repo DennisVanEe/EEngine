@@ -2,31 +2,33 @@
 
 bool eeGames::DataContainer::remove(const std::string &k)
 {
-	if (!data.count(k))
+	auto dataIterator = _m_data.find(k);
+	if (dataIterator == _m_data.end())
 		return false;
-	delete data.at(k).data;
-	data.erase(k);
+	_m_data.erase(dataIterator);
 	return true;
 }
 
-bool eeGames::DataContainer::save_to_file(const std::string & dir)
+bool eeGames::DataContainer::saveToFile(const std::string & dir)
 {
 	std::ofstream file; 
 	file.open(dir, std::ios::binary);
 
 	if (file.is_open())
 	{
-		for (std::pair<std::string, byte_arr> pair : data)
+		for (auto pair : _m_data)
 		{
 			file.write(pair.first.c_str(), pair.first.size() + 1);
-			file.write(reinterpret_cast<const byte*>(&pair.second.size), sizeof(pair.second.size));
-			file.write(pair.second.data, pair.second.size);
+			file.write(reinterpret_cast<char*>(createByteArray(pair.second.size(), sizeof(uint8_t)).data()),
+				sizeof(uint8_t));
+			file.write(reinterpret_cast<char*>(pair.second.data()), pair.second.size());
 		}
 		return true;
 	}
 	return false;
 }
 
+// TODO: Finish this
 bool eeGames::DataContainer::load_from_file(const std::string & dir)
 {
 	std::ifstream file;
@@ -37,9 +39,9 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 		clear(); // empty the current data container
 
 		// write file info to buffer:
-		std::vector<byte> buffer((std::istreambuf_iterator<byte>(file)), (std::istreambuf_iterator<byte>()));
+		std::vector<uint8_t> buffer((std::istreambuf_iterator<uint8_t>(file)), (std::istreambuf_iterator<uint8_t>()));
 		std::string temp_key;
-		std::vector<byte> temp_data, temp_size;
+		std::vector<uint8_t> temp_data, temp_size;
 
 		// parse buffer:
 		int i = 0, j;

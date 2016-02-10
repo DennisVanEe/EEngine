@@ -10,12 +10,8 @@
 // Each value has a specific key in the form of a standard c++ array
 // can write and load binary files
 
-// TODO: added a better more efficient byte storage system
-
 namespace eeGames
 {
-	// TODO: manually convert units into their array of bytes
-
 	class DataContainer
 	{
 	private:
@@ -43,7 +39,6 @@ namespace eeGames
 		}
 	public:
 		DataContainer() {}
-		~DataContainer(); // releases data from memory
 
 		// non-copyable (for now)
 		DataContainer(const DataContainer&) = delete;
@@ -58,18 +53,19 @@ namespace eeGames
 		void addFloatData(const std::string &_p_id, dataType _p_data)
 		{
 			if (sizeof(dataType) <= 1)
-				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint8_t*)&_p_data), sizeof(uint8_t)));
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*(reinterpret_cast<uint8_t*>(&_p_data)), sizeof(uint8_t)));
 			else if (sizeof(dataType) <= 2)
-				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint16_t*)&_p_data), sizeof(uint16_t)));
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*(reinterpret_cast<uint16_t*>(&_p_data)), sizeof(uint16_t)));
 			else if (sizeof(dataType) <= 3)
-				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint32_t*)&_p_data), sizeof(uint32_t)));
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*(reinterpret_cast<uint32_t*>(&_p_data)), sizeof(uint32_t)));
 			else if (sizeof(dataType) <= 4)
-				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uint64_t*)&_p_data), sizeof(uint64_t)));
-			else
-				_m_data.insert(std::make_pair(_p_id, createByteArray(*((uintmax_t*)&_p_data), sizeof(uintmax_t)));
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*(reinterpret_cast<uint64_t*>(&_p_data)), sizeof(uint64_t)));
+			else // if it is so big, just use the largest one 
+				_m_data.insert(std::make_pair(_p_id, createByteArray(*(reinterpret_cast<uintmax_t*>(&_p_data)), sizeof(uintmax_t)));
 		}
 		void addStringData(const std::string &_p_id, const std::string &_p_name)
 		{
+			// simple add an array of characters for a string
 			_m_data.insert(std::make_pair(_p_id, std::vector<uint8_t>(_p_name.begin(), _p_name.end())));
 		}
 
@@ -80,7 +76,7 @@ namespace eeGames
 		byte *get_data(const std::string&) const;
 
 		// file I/O
-		bool save_to_file(const std::string&);
+		bool saveToFile(const std::string&);
 		bool load_from_file(const std::string&);
 
 		void clear();
