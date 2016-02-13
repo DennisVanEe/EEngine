@@ -67,7 +67,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("Request", "string getString()", asMETHODPR(Request, getString, (), std::string), asCALL_THISCALL); assert(error >= 0);
 
 	// register request queue
-	error = _m_engine->RegisterGlobalFunction("bool addRequest(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL, _m_requestQueue); assert(error >= 0);
+	error = _m_engine->RegisterGlobalFunction("int", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL, _m_requestQueue); assert(error >= 0);
 
 	// register ScriptEngine Methods
 	error = _m_engine->RegisterObjectMethod("ScriptEngine", "void waitForRequestQueueComp()", asMETHOD(ScriptEngine, waitForRequestQueueComp), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
@@ -76,6 +76,9 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterEnum("Button"); assert(error >= 0);
 	error = _m_engine->RegisterEnumValue("Button", "Left", 0); assert(error >= 0);
 	error = _m_engine->RegisterEnumValue("Button", "Right", 1); assert(error >= 0);
+	error = _m_engine->RegisterEnumValue("Button", "Middle", 2); assert(error >= 0);
+	error = _m_engine->RegisterEnumValue("Button", "XButton1", 3); assert(error >= 0);
+	error = _m_engine->RegisterEnumValue("Button", "XButton2", 4); assert(error >= 0);
 
 	error = _m_engine->RegisterEnum("Key"); assert(error >= 0);
 	error = _m_engine->RegisterEnumValue("Key", "A", 0); assert(error >= 0);
@@ -203,7 +206,6 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(AnimatedEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setScale(float, float)", asMETHODPR(AnimatedEntity, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setOrigin(float, float)", asMETHODPR(AnimatedEntity, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(AnimatedEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void setRotation(float)", asMETHOD(AnimatedEntity, setRotation), asCALL_THISCALL); assert(error >= 0);
 
 	error = _m_engine->RegisterObjectMethod("AnimatedEntity", "void move(float, float)", asMETHODPR(AnimatedEntity, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
@@ -239,8 +241,8 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectMethod("EntityContainer", "StaticEntity @createStaticEntityCopy(string &in, string &in)", asMETHOD(EntityContainer, createStaticEntityCopy), asCALL_THISCALL_ASGLOBAL, _m_soundContainer); assert(error >= 0);
 
 	// adding stuff to the render engine
-	error = _m_engine->RegisterObjectMethod("RenderEngine", "void addEntityToRender(uint16, AnimatedEntity, string &in)", asMETHOD(RenderEngine, addEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("RenderEngine", "void addEntityToRender(uint16, StaticEntity, string &in)", asMETHOD(RenderEngine, addEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RenderEngine", "void addEntityToRender(uint16, AnimatedEntity@, string &in)", asMETHOD(RenderEngine, addEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RenderEngine", "void addEntityToRender(uint16, StaticEntity@, string &in)", asMETHOD(RenderEngine, addEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("RenderEngine", "bool removeEntityToRender(string &in)", asMETHOD(RenderEngine, removeEntity), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
 	error = _m_engine->RegisterObjectMethod("RenderEngine", "void clearAllEntityToRender()", asMETHOD(RenderEngine, clearAllEntities), asCALL_THISCALL_ASGLOBAL, _m_renderEngine); assert(error >= 0);
 

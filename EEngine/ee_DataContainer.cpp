@@ -39,9 +39,9 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 		clear(); // empty the current data container
 
 		// write file info to buffer:
-		std::vector<uint8_t> buffer((std::istreambuf_iterator<uint8_t>(file)), (std::istreambuf_iterator<uint8_t>()));
+		std::vector<byte> buffer((std::istreambuf_iterator<byte>(file)), (std::istreambuf_iterator<uint8_t>()));
 		std::string temp_key;
-		std::vector<uint8_t> temp_data, temp_size;
+		std::vector<byte> temp_data, temp_size;
 
 		// parse buffer:
 		int i = 0, j;

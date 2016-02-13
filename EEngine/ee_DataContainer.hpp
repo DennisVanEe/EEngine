@@ -12,15 +12,17 @@
 
 namespace eeGames
 {
+	typedef uint8_t byte;
+
 	class DataContainer
 	{
 	private:
-		std::unordered_map<std::string, std::vector<uint8_t>> _m_data;
+		std::unordered_map<std::string, std::vector<byte>> _m_data;
 
 		template <typename dataType> // utilizes move-semantics
-		std::vector<uint8_t> createByteArray(dataType _p_data, uint8_t _p_size) const
+		std::vector<byte> createByteArray(dataType _p_data, byte _p_size) const
 		{
-			std::vector<uint8_t> byteArray(_p_size);
+			std::vector<byte> byteArray(_p_size);
 			for (int i = 1; i <= _p_size; i++)
 			{
 				byteArray[sizeof(x) - i] = x % 256;
