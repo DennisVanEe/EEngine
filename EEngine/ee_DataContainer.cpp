@@ -2,10 +2,10 @@
 
 bool eeGames::DataContainer::remove(const std::string &k)
 {
-	auto dataIterator = _m_data.find(k);
-	if (dataIterator == _m_data.end())
+	auto dataIterator = _data.find(k);
+	if (dataIterator == _data.end())
 		return false;
-	_m_data.erase(dataIterator);
+	_data.erase(dataIterator);
 	return true;
 }
 
@@ -16,7 +16,7 @@ bool eeGames::DataContainer::saveToFile(const std::string & dir)
 
 	if (file.is_open())
 	{
-		for (auto pair : _m_data)
+		for (auto pair : _data)
 		{
 			file.write(pair.first.c_str(), pair.first.size() + 1);
 			file.write(reinterpret_cast<char*>(createByteArray(pair.second.size(), sizeof(uint8_t)).data()),
@@ -34,12 +34,18 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 	std::ifstream file;
 	file.open(dir, std::ios::binary);
 
+	boost::interprocess::file_mapping fmap(dir.c_str(), boost::interprocess::read_only);
+	boost::interprocess::mapped_region region(fmap, boost::interprocess::read_only);
+	float *addrress = reinterpret_cast<float *>(region.get_address());
+	s
+
 	if (file.is_open())
 	{
 		clear(); // empty the current data container
 
+		/*
 		// write file info to buffer:
-		std::vector<byte> buffer((std::istreambuf_iterator<byte>(file)), (std::istreambuf_iterator<uint8_t>()));
+		std::vector<byte> buffer((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
 		std::string temp_key;
 		std::vector<byte> temp_data, temp_size;
 
@@ -67,11 +73,12 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 		}
 		return true;
 	}
+	*/
 	return false;
 }
 
 void eeGames::DataContainer::clear()
 {
-	data.clear();
+	_data.clear();
 }
 
