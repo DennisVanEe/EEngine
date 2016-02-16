@@ -84,9 +84,6 @@
     <ClInclude Include="ee_AnimatedEntity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ee_DataType.hpp">
-      <Filter>Header Files\Data Containers</Filter>
-    </ClInclude>
     <ClInclude Include="ee_Animator.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>

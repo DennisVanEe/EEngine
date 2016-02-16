@@ -1,23 +1,63 @@
 #pragma once
 
 #include <unordered_map>
+#include <memory>
 
 #include "ee_DataContainer.hpp"
-#include "ee_DataType.hpp"
 
 namespace eeGames
 {
 	class DataContainerEngine
 	{
 	private:
-		std::unordered_map<std::string, DataContainer*> _m_containerList;
+		std::unordered_map<std::string, std::unique_ptr<DataContainer>> _containerList;
 	public:
-		bool addContainer(const std::string &_p_name);
-		bool loadContainer(const std::string &_p_name, const std::string &_p_directory);
-		bool removeContainer(const std::string &_p_name);
-		bool saveContainer(const std::string &_p_name, const std::string &_p_directory) const;
+		bool add_container(const std::string &);
+		bool load_container(const std::string &, const std::string &);
+		bool remove_container(const std::string &);
+		bool save_container(const std::string &, const std::string &) const;
 
-		bool addData(const std::string &_p_name, DataType _p_dataType, const std::string &_p_dataName, byte *_p_data);
-		byte *getData(const std::string &_p_name, const std::string &_p_dataName) const;
+		// TODO: return false if it already exists
+		template<typename T>
+		bool add_int(const std::string &c_name, const std::string &d_name, T data)
+		{
+			auto it = _containerList.find(c_name);
+			if (it == _containerList.end())
+				return false;
+			it->second->add_int(d_name, data);
+		}
+		template<typename T>
+		bool add_float(const std::string &c_name, const std::string &d_name, T data)
+		{
+			auto it = _containerList.find(c_name);
+			if (it == _containerList.end())
+				return false;
+			it->second->add_float(d_name, data);
+		}
+		bool add_string(const std::string &c_name, const std::string &d_name, const std::string &data)
+		{
+			auto it = _containerList.find(c_name);
+			if (it == _containerList.end())
+				return false;
+			it->second->add_string(d_name, data);
+		}
+
+		template<typename T>
+		bool get_num(const std::string &c_name, const std::string &d_name, T *data) const
+		{
+			auto it = _containerList.find(c_name);
+			if (it == _containerList.end())
+				return false;
+
+			return it->second->get_num(d_name, data);
+		}
+		bool get_string(const std::string &c_name, const std::string &d_name, std::string *data) const
+		{
+			auto it = _containerList.find(c_name);
+			if (it == _containerList.end())
+				return false;
+
+			return it->second->get_string(d_name, data);
+		}
 	};
 }

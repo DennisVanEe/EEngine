@@ -162,7 +162,6 @@
     <ClInclude Include="ee_Camera.hpp" />
     <ClInclude Include="ee_DataContainer.hpp" />
     <ClInclude Include="ee_DataContainerEngine.hpp" />
-    <ClInclude Include="ee_DataType.hpp" />
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
     <ClInclude Include="ee_GameEngine.hpp" />

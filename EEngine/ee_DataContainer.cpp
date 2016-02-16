@@ -9,7 +9,7 @@ bool eeGames::DataContainer::remove(const std::string &k)
 	return true;
 }
 
-bool eeGames::DataContainer::saveToFile(const std::string & dir)
+bool eeGames::DataContainer::save_to_file(const std::string & dir)
 {
 	std::ofstream file; 
 	file.open(dir, std::ios::binary);
@@ -19,9 +19,11 @@ bool eeGames::DataContainer::saveToFile(const std::string & dir)
 		for (auto pair : _data)
 		{
 			file.write(pair.first.c_str(), pair.first.size() + 1);
-			file.write(reinterpret_cast<char*>(createByteArray(pair.second.size(), sizeof(uint8_t)).data()),
+			file.write(reinterpret_cast<char*>(get_byteVec(pair.second.byte_vec.size()).data()),
+				sizeof(size_t));
+			file.write(reinterpret_cast<char*>(get_byteVec(pair.second.data_type).data()),
 				sizeof(uint8_t));
-			file.write(reinterpret_cast<char*>(pair.second.data()), pair.second.size());
+			file.write(reinterpret_cast<char*>(pair.second.byte_vec.data()), pair.second.byte_vec.size());
 		}
 		return true;
 	}
@@ -34,20 +36,16 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 	std::ifstream file;
 	file.open(dir, std::ios::binary);
 
-	boost::interprocess::file_mapping fmap(dir.c_str(), boost::interprocess::read_only);
-	boost::interprocess::mapped_region region(fmap, boost::interprocess::read_only);
-	float *addrress = reinterpret_cast<float *>(region.get_address());
-	s
-
 	if (file.is_open())
 	{
 		clear(); // empty the current data container
 
-		/*
 		// write file info to buffer:
 		std::vector<byte> buffer((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+		std::vector<byte> temp_size, temp_data, temp_type;
 		std::string temp_key;
-		std::vector<byte> temp_data, temp_size;
+		size_t num;
+		uint8_t type;
 
 		// parse buffer:
 		int i = 0, j;
@@ -56,16 +54,23 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 			for (; buffer[i] != '\0'; i++)
 				temp_key += buffer[i];
 			j = ++i;
-			for (; i < j + sizeof(uint8_t); i++)
+
+			temp_size.reserve(sizeof(size_t)); // prepare for addition of memory
+			for (; i < j + sizeof(size_t); i++)
 				temp_size.push_back(buffer[i]);
 			j = i;
-			for (; i < j + *reinterpret_cast<uint8_t *>(temp_size.data()); i++)
+
+			temp_type.reserve(sizeof(uint8_t));
+			for (; i < j + sizeof(uint8_t); i++)
+				temp_type.push_back(buffer[i]);
+			j = i;
+
+			get_byteData(temp_size, &num);
+			for (; i < j + num; i++)
 				temp_data.push_back(buffer[i]);
 
-			byte *temp_container = new byte[temp_data.size()];
-			memcpy(temp_container, temp_data.data(), temp_data.size());
-
-			data[temp_key] = byte_arr(temp_container, temp_data.size());
+			get_byteData(temp_type, &type);
+			_data[temp_key] = ByteData(std::move(temp_data), type);
 
 			temp_key.clear(); // clear string
 			temp_data.clear(); // clear data
@@ -73,7 +78,6 @@ bool eeGames::DataContainer::load_from_file(const std::string & dir)
 		}
 		return true;
 	}
-	*/
 	return false;
 }
 
