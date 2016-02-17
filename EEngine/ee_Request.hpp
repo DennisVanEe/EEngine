@@ -34,16 +34,20 @@ namespace eeGames
 
 		// TODO: no point in using double move semantics?
 		template <typename T> // utilizes move-semantics
-		void add_int(const std::string &id, T data)
+		bool add_int(const std::string &id, T data)
 		{
+			if (_requestType != RequestType::WRITE_DATA)
+				return false;
 			_targetName = id;
 			_dataType = INT;
 			_data = std::move(get_byteVec(data));
-
+			return true;
 		}
 		template <typename T> // utilizes move-semantics
-		void add_float(const std::string &id, T data)
+		bool add_float(const std::string &id, T data)
 		{
+			if (_requestType != RequestType::WRITE_DATA)
+				return false;
 			_targetName = id;
 			_dataType = FLOAT;
 			switch (sizeof(T))
@@ -64,18 +68,36 @@ namespace eeGames
 				_data = std::move(get_byteVec(*(reinterpret_cast<uintmax_t*>(&data))));
 				break;
 			}
+			return true;
 		}
-		void add_string(const std::string &id, const std::string &data)
+		bool add_string(const std::string &id, const std::string &data)
 		{
+			if (_requestType != RequestType::WRITE_DATA)
+				return false;
 			_targetName = id;
 			_dataType = STRING;
 			_data = std::move(std::vector<byte>(data.begin(), data.end()));
+			return true;
+		}
+		// used by the data container to write data
+		void add_rawData(const std::vector<byte> &data)
+		{
+			_data = data;
+		}
+		
+		void set_TargetName(const std::string &name)
+		{
+			_targetName = name;
 		}
 
 		template <typename T>
 		bool get_data(const std::string &id, T *data) const
 		{
 			if (_dataType == STRING || _dataType == NONE)
+				return false;
+			if (_requestType != RequestType::READ_DATA)
+				return false;
+			if (_data.size() == 0)
 				return false;
 
 			switch (dataType)
@@ -103,8 +125,20 @@ namespace eeGames
 		{
 			if (_dataType != STRING)
 				return false;
+			if (_requestType != RequestType::READ_DATA)
+				return false;
+			if (_data.size() == 0)
+				return false;
+
 			*data = std::string(_data.begin(), _data.end());
 			return true;
+		}
+
+		void change_requestType(RequestType type)
+		{
+			if (_data.size() != 0)
+				_data.clear();
+			_requestType == type;
 		}
 
 		RequestType getRequest() const
@@ -132,6 +166,7 @@ namespace eeGames
 		{
 			return _targetName;
 		}
+		// used by the DataContainer
 		std::vector<byte> &getData() // can't gaurentee data will remain unchanged
 		{
 			return _data;
