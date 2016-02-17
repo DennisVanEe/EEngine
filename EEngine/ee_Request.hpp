@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "ee_DataContainerEngine.hpp"
 #include "ee_RequestType.hpp"
@@ -10,98 +11,144 @@ namespace eeGames
 	class Request
 	{
 	private:
-		uint16_t _m_priority; // lower value has highest priority
-		uint8_t _m_refCount;
-		std::string _m_dependency, _m_id;
-		RequestType _m_requestType;
+		uint32_t _refCount;
 
-		// for storing data
-		DataType _m_dataType;
-		std::string _m_targetName;
-		byte *_m_data;
+		// request info
+		int32_t _priority; // lower value has highest priority
+		std::string _dependency, _id;
+		RequestType _requestType;
+
+		// data storage
+		uint8_t _dataType;
+		std::string _targetName;
+		std::vector<uint8_t> _data;
 	public:
-		Request(const std::string &_p_id, uint16_t _p_priority, RequestType _p_requestType) : _m_id(_p_id), _m_requestType(_p_requestType), 
-			_m_priority(_p_priority), _m_dependency(""), _m_dataType(DataType::NONE), _m_data(nullptr), _m_refCount(1) {}
-		Request(const std::string &_p_id, const std::string &_p_dependency, RequestType _p_requestType) : _m_id(_p_id), _m_requestType(_p_requestType), 
-			_m_priority(-1), _m_dependency(_p_dependency), _m_dataType(DataType::NONE), _m_data(nullptr), _m_refCount(1) {}
-
-		// TODO: Certain input methods do not require a name for the string (string input)
-		void addData(void *_p_data, DataType _p_dataType);
-		void addData(byte *_p_data)
+		Request(const std::string &id, uint16_t priority, RequestType requestType) : _id(id), _requestType(requestType), 
+			_priority(priority), _dependency(""), _dataType(NONE), _refCount(1) 
 		{
-			_m_data = _p_data;
+			if (_priority < 0)
+				_priority = 0;
 		}
-		void addTargetName(const std::string &_p_name)
+		Request(const std::string &id, const std::string &dependency, RequestType requestType) : _id(id), _requestType(requestType), 
+			_priority(-1), _dependency(dependency), _dataType(NONE), _refCount(1) {}
+
+		// TODO: no point in using double move semantics?
+		template <typename T> // utilizes move-semantics
+		void add_int(const std::string &id, T data)
 		{
-			_m_targetName = _p_name;
+			_targetName = id;
+			_dataType = INT;
+			_data = std::move(get_byteVec(data));
+
+		}
+		template <typename T> // utilizes move-semantics
+		void add_float(const std::string &id, T data)
+		{
+			_targetName = id;
+			_dataType = FLOAT;
+			switch (sizeof(T))
+			{
+			case sizeof(uint8_t) :
+				_data = std::move(get_byteVec(*(reinterpret_cast<uint8_t*>(&data))));
+				break;
+			case sizeof(uint16_t) :
+				_data = std::move(get_byteVec(*(reinterpret_cast<uint16_t*>(&data))));
+				break;
+			case sizeof(uint32_t) :
+				_data = std::move(get_byteVec(*(reinterpret_cast<uint32_t*>(&data))));
+				break;
+			case sizeof(uint64_t) :
+				_data = std::move(get_byteVec(*(reinterpret_cast<uint64_t*>(&data))));
+				break;
+			default:
+				_data = std::move(get_byteVec(*(reinterpret_cast<uintmax_t*>(&data))));
+				break;
+			}
+		}
+		void add_string(const std::string &id, const std::string &data)
+		{
+			_targetName = id;
+			_dataType = STRING;
+			_data = std::move(std::vector<byte>(data.begin(), data.end()));
 		}
 
-		int getInt(bool *t);
-		int getInt();
-		float getFloat(bool *t);
-		float getFloat();
-		double getDouble(bool *t);
-		double getDouble();
-		bool getBool(bool *t);
-		bool getBool();
-		std::string getString(bool *t);
-		std::string getString();
+		template <typename T>
+		bool get_data(const std::string &id, T *data) const
+		{
+			if (_dataType == STRING || _dataType == NONE)
+				return false;
+
+			switch (dataType)
+			{
+			case INT:
+				get_byteData(_data, data);
+				break;
+			case FLOAT:
+				switch (_data.size())
+				{
+				case sizeof(float) :
+					get_byteData(_data, reinterpret_cast<uintmax_t*>(data));
+					*data = *reinterpret_cast<float*>(data);
+					break;
+				case sizeof(double) :
+					get_byteData(_data, reinterpret_cast<uintmax_t*>(data));
+					*data = *reinterpret_cast<double*>(data);
+					break;
+				}
+				break;
+			}
+			return true;
+		}
+		bool get_data(const std::string &id, std::string *data) const
+		{
+			if (_dataType != STRING)
+				return false;
+			*data = std::string(_data.begin(), _data.end());
+			return true;
+		}
 
 		RequestType getRequest() const
 		{
-			return _m_requestType;
+			return _requestType;
 		}
 		uint16_t getPriority() const
 		{
-			return _m_priority;
+			return _priority;
 		}
 		const std::string &getDependency() const
 		{
-			return _m_dependency;
+			return _dependency;
 		}
 		const std::string &getID() const
 		{
-			return _m_id;
+			return _id;
 		}
 
-		DataType getDataType() const
+		uint8_t getDataType() const
 		{
-			return _m_dataType;
+			return _dataType;
 		}
 		const std::string &getTargetName() const
 		{
-			return _m_targetName;
+			return _targetName;
 		}
-		byte *getData() // can't gaurentee data will remain unchanged
+		std::vector<byte> &getData() // can't gaurentee data will remain unchanged
 		{
-			return _m_data;
+			return _data;
 		}
 
 		// angelscript
 		void AddRef()
 		{
-			_m_refCount++;
+			_refCount++;
 		}
 		void ReleaseRef()
 		{
-			if (--_m_refCount == 0)
+			if (--_refCount == 0)
 				delete this;
 		}
 	};
 
 	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt);
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1);
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, int *d2);
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, float *d2);
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, double *d2);
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, bool *d2);
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt, const std::string &d1, std::string &d2);
-
 	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt);
-	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1);
-	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, int *d2);
-	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, float *d2);
-	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, double *d2);
-	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, bool *d2);
-	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt, const std::string &d1, std::string &d2);
 }

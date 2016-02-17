@@ -126,6 +126,9 @@
     <ClInclude Include="ee_LoadEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ee_DataConversion.hpp">
+      <Filter>Header Files\Data Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">

@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 
+#include "ee_DataConversion.hpp"
+
 // Container that can store data
 // No casting saftey (ex: can cast data originally an int as a float)
 // Each value has a specific key in the form of a standard c++ array
@@ -12,11 +14,10 @@
 
 namespace eeGames
 {
-	#define INT 0
-	#define FLOAT 1
-	#define STRING 2
-
-	typedef uint8_t byte;
+    #define NONE 0
+	#define INT 1
+	#define FLOAT 2
+	#define STRING 3
 
 	class DataContainer
 	{
@@ -30,28 +31,6 @@ namespace eeGames
 		};
 		std::unordered_map<std::string, ByteData> _data;
 
-		// converts data to array of vectors
-		template <typename T> // utilizes move-semantics
-		std::vector<byte> get_byteVec(T data) const
-		{
-			std::vector<byte> bytes_vec(sizeof(T));
-			for (int i = 1; i <= sizeof(T); i++)
-			{
-				bytes_vec[sizeof(T) - i] = data % 256;
-				data /= 256;
-			}
-			return std::move(bytes_vec);
-		}
-		// converts vector of bytes to data
-		template<typename T>
-		void get_byteData(const std::vector<byte> &bytes_vec, T *data) const
-		{
-			*data = 0;
-			for (int i = 0; i < bytes_vec.size(); i++)
-			{
-				*data = *data * 256 + bytes_vec[i];
-			}
-		}
 	public:
 		DataContainer() {}
 
