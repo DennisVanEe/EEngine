@@ -134,40 +134,33 @@ namespace eeGames
 			return true;
 		}
 
-		void change_requestType(RequestType type)
-		{
-			if (_data.size() != 0)
-				_data.clear();
-			_requestType == type;
-		}
-
-		RequestType getRequest() const
+		RequestType get_request() const
 		{
 			return _requestType;
 		}
-		uint16_t getPriority() const
+		uint16_t get_priority() const
 		{
 			return _priority;
 		}
-		const std::string &getDependency() const
+		const std::string &get_dependency() const
 		{
 			return _dependency;
 		}
-		const std::string &getID() const
+		const std::string &get_ID() const
 		{
 			return _id;
 		}
 
-		uint8_t getDataType() const
+		uint8_t get_dataType() const
 		{
 			return _dataType;
 		}
-		const std::string &getTargetName() const
+		const std::string &get_targetName() const
 		{
 			return _targetName;
 		}
 		// used by the DataContainer
-		std::vector<byte> &getData() // can't gaurentee data will remain unchanged
+		std::vector<byte> &get_Data() // can't gaurentee data will remain unchanged
 		{
 			return _data;
 		}
