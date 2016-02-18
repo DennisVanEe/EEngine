@@ -38,36 +38,15 @@ void eeGames::ScriptEngine::registerEngine()
 
 	// register request
 	error = _m_engine->RegisterObjectType("Request", 0, asOBJ_REF); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, int &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, int*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, float &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, float*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, double &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, double*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, bool &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, bool*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, uint16, RequestType, const string &in, string &in)", asFUNCTIONPR(create_request, (const std::string&, uint16_t, RequestType, const std::string&, std::string&), Request*), asCALL_CDECL); assert(error >= 0);
+	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, int32, RequestType)", asFUNCTIONPR(create_request, (const std::string&, int32_t, RequestType), Request*), asCALL_CDECL); assert(error >= 0);
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in, int &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&, int*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in, float &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&, float*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in, double &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&, double*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in, bool &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&, bool*), Request*), asCALL_CDECL); assert(error >= 0);
-	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_FACTORY, "Request@ f(const string &in, const string &in, RequestType, const string &in, string &in)", asFUNCTIONPR(create_request, (const std::string&, const std::string&, RequestType, const std::string&, std::string&), Request*), asCALL_CDECL); assert(error >= 0);
+
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_ADDREF, "void f()", asMETHOD(Request, AddRef), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_RELEASE, "void f()", asMETHOD(Request, ReleaseRef), asCALL_THISCALL); assert(error >= 0);
 
-	error = _m_engine->RegisterObjectMethod("Request", "int getInt(bool &out)", asMETHODPR(Request, getInt, (bool*), int), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "int getInt()", asMETHODPR(Request, getInt, (), int), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "float getFloat(bool &out)", asMETHODPR(Request, getFloat, (bool*), float), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "float getFloat()", asMETHODPR(Request, getFloat, (), float), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "double getDouble(bool &out)", asMETHODPR(Request, getDouble, (bool*), double), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "double getDouble()", asMETHODPR(Request, getDouble, (), double), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool getBool(bool &out)", asMETHODPR(Request, getBool, (bool*), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool getBool()", asMETHODPR(Request, getBool, (bool*), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "string getString(bool &out)", asMETHODPR(Request, getString, (bool*), std::string), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "string getString()", asMETHODPR(Request, getString, (), std::string), asCALL_THISCALL); assert(error >= 0);
-
 	// register request queue
-	error = _m_engine->RegisterGlobalFunction("int", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL, _m_requestQueue); assert(error >= 0);
+	error = _m_engine->RegisterObjectType("RequestQueue", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RequestQueue", "bool add_request(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL); assert(error >= 0);
 
 	// register ScriptEngine Methods
 	error = _m_engine->RegisterObjectMethod("ScriptEngine", "void waitForRequestQueueComp()", asMETHOD(ScriptEngine, waitForRequestQueueComp), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);

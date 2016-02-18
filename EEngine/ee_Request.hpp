@@ -14,14 +14,15 @@ namespace eeGames
 		uint32_t _refCount;
 
 		// request info
-		int32_t _priority; // lower value has highest priority
+		int32_t _priority; // lower value has highest priority (can be negative)
 		std::string _dependency, _id;
 		RequestType _requestType;
 
 		// data storage
-		uint8_t _dataType;
+		uint8_t _dataType; // STRING, FLOAT, or INT
 		std::string _targetName;
 		std::vector<uint8_t> _data;
+
 	public:
 		Request(const std::string &id, uint16_t priority, RequestType requestType) : _id(id), _requestType(requestType), 
 			_priority(priority), _dependency(""), _dataType(NONE), _refCount(1) 
@@ -79,6 +80,7 @@ namespace eeGames
 			_data = std::move(std::vector<byte>(data.begin(), data.end()));
 			return true;
 		}
+
 		// used by the data container to write data
 		void add_rawData(const std::vector<byte> &data)
 		{
@@ -91,7 +93,7 @@ namespace eeGames
 		}
 
 		template <typename T>
-		bool get_data(const std::string &id, T *data) const
+		bool get_num(const std::string &id, T *data) const
 		{
 			if (_dataType == STRING || _dataType == NONE)
 				return false;
@@ -121,7 +123,7 @@ namespace eeGames
 			}
 			return true;
 		}
-		bool get_data(const std::string &id, std::string *data) const
+		bool get_string(const std::string &id, std::string *data) const
 		{
 			if (_dataType != STRING)
 				return false;
@@ -177,6 +179,6 @@ namespace eeGames
 		}
 	};
 
-	extern inline Request *create_request(const std::string &i, uint16_t p, RequestType rt);
+	extern inline Request *create_request(const std::string &i, int32_t p, RequestType rt);
 	extern inline Request *create_request(const std::string &i, const std::string &dep, RequestType rt);
 }

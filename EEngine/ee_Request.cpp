@@ -2,7 +2,7 @@
 
 // the create_request form:
 
-eeGames::Request *eeGames::create_request(const std::string &i, uint16_t p, RequestType rt)
+eeGames::Request *eeGames::create_request(const std::string &i, int32_t p, RequestType rt)
 {
 	return new Request(i, p, rt);
 }
