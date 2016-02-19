@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <memory>
 #include <SFML/System.hpp>
+#include <stdint.h> 
 
 #include "ee_Module.hpp"
 #include "ee_RequestQueue.hpp"

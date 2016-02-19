@@ -44,9 +44,17 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_ADDREF, "void f()", asMETHOD(Request, AddRef), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_RELEASE, "void f()", asMETHOD(Request, ReleaseRef), asCALL_THISCALL); assert(error >= 0);
 
+	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int8)", asMETHODPR(Request, add_int, (const std::string&, int8_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int16)", asMETHODPR(Request, add_int, (const std::string&, int16_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int32)", asMETHODPR(Request, add_int, (const std::string&, int32_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int64)", asMETHODPR(Request, add_int, (const std::string&, int64_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, uint8)", asMETHODPR(Request, add_int, (const std::string&, uint8_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, uint16)", asMETHODPR(Request, add_int, (const std::string&, uint16_t), bool), asCALL_THISCALL); assert(error >= 0);
+
+
 	// register request queue
 	error = _m_engine->RegisterObjectType("RequestQueue", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("RequestQueue", "bool add_request(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("RequestQueue", "bool addRequest(const string &in, Request@)", asMETHOD(RequestQueue, addRequest), asCALL_THISCALL_ASGLOBAL); assert(error >= 0);
 
 	// register ScriptEngine Methods
 	error = _m_engine->RegisterObjectMethod("ScriptEngine", "void waitForRequestQueueComp()", asMETHOD(ScriptEngine, waitForRequestQueueComp), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
