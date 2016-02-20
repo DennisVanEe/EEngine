@@ -44,13 +44,29 @@ void eeGames::ScriptEngine::registerEngine()
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_ADDREF, "void f()", asMETHOD(Request, AddRef), asCALL_THISCALL); assert(error >= 0);
 	error = _m_engine->RegisterObjectBehaviour("Request", asBEHAVE_RELEASE, "void f()", asMETHOD(Request, ReleaseRef), asCALL_THISCALL); assert(error >= 0);
 
-	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int8)", asMETHODPR(Request, add_int, (const std::string&, int8_t), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int16)", asMETHODPR(Request, add_int, (const std::string&, int16_t), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int32)", asMETHODPR(Request, add_int, (const std::string&, int32_t), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, int64)", asMETHODPR(Request, add_int, (const std::string&, int64_t), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, uint8)", asMETHODPR(Request, add_int, (const std::string&, uint8_t), bool), asCALL_THISCALL); assert(error >= 0);
-	error = _m_engine->RegisterObjectMethod("Request", "bool adddata(const string &in, uint16)", asMETHODPR(Request, add_int, (const std::string&, uint16_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, int8)", asMETHODPR(Request, add_int, (const std::string&, int8_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, int16)", asMETHODPR(Request, add_int, (const std::string&, int16_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, int32)", asMETHODPR(Request, add_int, (const std::string&, int32_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, int64)", asMETHODPR(Request, add_int, (const std::string&, int64_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, uint8)", asMETHODPR(Request, add_int, (const std::string&, uint8_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, uint16)", asMETHODPR(Request, add_int, (const std::string&, uint16_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, uint32)", asMETHODPR(Request, add_int, (const std::string&, uint32_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, uint64)", asMETHODPR(Request, add_int, (const std::string&, uint64_t), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, float)", asMETHODPR(Request, add_float, (const std::string&, float), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, double)", asMETHODPR(Request, add_float, (const std::string&, double), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool addData(const string &in, string &in)", asMETHOD(Request, add_string), asCALL_THISCALL); assert(error >= 0);
 
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, int8 &out)", asMETHODPR(Request, get_num, (const std::string&, int8_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, int16 &out)", asMETHODPR(Request, get_num, (const std::string&, int16_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, int32 &out)", asMETHODPR(Request, get_num, (const std::string&, int32_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, int64 &out)", asMETHODPR(Request, get_num, (const std::string&, int64_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, uint8 &out)", asMETHODPR(Request, get_num, (const std::string&, uint8_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, uint16 &out)", asMETHODPR(Request, get_num, (const std::string&, uint16_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, uint32 &out)", asMETHODPR(Request, get_num, (const std::string&, uint32_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, uint64 &out)", asMETHODPR(Request, get_num, (const std::string&, uint64_t*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, float &out)", asMETHODPR(Request, get_num, (const std::string&, float*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, double &out)", asMETHODPR(Request, get_num, (const std::string&, double*), bool), asCALL_THISCALL); assert(error >= 0);
+	error = _m_engine->RegisterObjectMethod("Request", "bool getData(const string &in, string &out)", asMETHOD(Request, get_string), asCALL_THISCALL); assert(error >= 0);
 
 	// register request queue
 	error = _m_engine->RegisterObjectType("RequestQueue", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);

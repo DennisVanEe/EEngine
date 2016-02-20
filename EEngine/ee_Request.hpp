@@ -33,7 +33,7 @@ namespace eeGames
 		Request(const std::string &id, const std::string &dependency, RequestType requestType) : _id(id), _requestType(requestType), 
 			_priority(-1), _dependency(dependency), _dataType(NONE), _refCount(1) {}
 
-		// TODO: no point in using double move semantics?
+		// adding data
 		template <typename T> // utilizes move-semantics
 		bool add_int(const std::string &id, T data)
 		{
@@ -81,19 +81,21 @@ namespace eeGames
 			return true;
 		}
 
-		// used by the data container to write data
-		void add_rawData(const std::vector<byte> &data)
-		{
-			_data = data;
-		}
-		
+		// used as the "name" of the target, not its location (like a module name)
 		void set_TargetName(const std::string &name)
 		{
 			_targetName = name;
 		}
 
+		// used by the data container to write data
+		void add_rawData(const std::vector<byte> &data)
+		{
+			_data = data;
+		}
+
+		// not const because scripting interface issues present themselves
 		template <typename T>
-		bool get_num(const std::string &id, T *data) const
+		bool get_num(const std::string &id, T data)
 		{
 			if (_dataType == STRING || _dataType == NONE)
 				return false;
@@ -123,7 +125,7 @@ namespace eeGames
 			}
 			return true;
 		}
-		bool get_string(const std::string &id, std::string *data) const
+		bool get_string(const std::string &id, std::string *data)
 		{
 			if (_dataType != STRING)
 				return false;

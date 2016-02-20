@@ -166,6 +166,7 @@
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
     <ClInclude Include="ee_GameEngine.hpp" />
+    <ClInclude Include="ee_KeyedData.hpp" />
     <ClInclude Include="ee_LoadEngine.hpp" />
     <ClInclude Include="ee_ScriptInterface.hpp" />
     <ClInclude Include="ee_SoundContainer.hpp" />
