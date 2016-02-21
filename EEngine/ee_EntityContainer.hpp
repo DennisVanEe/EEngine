@@ -1,11 +1,11 @@
 #pragma once
 
-#include <unordered_map>
 #include <memory>
 #include <string>
 
 #include "ee_AnimatedEntity.hpp"
 #include "ee_StaticEntity.hpp"
+#include "ee_KeyedData.hpp"
 
 namespace eeGames
 {
@@ -20,8 +20,8 @@ namespace eeGames
 			_e_EntityType _m_type;
 			_str_Entity(std::unique_ptr<Entity> _p_entity, _e_EntityType _p_type) : _m_entity(std::move(_p_entity)), _m_type(_p_type) {}
 		};
-	private:
-		std::unordered_map<std::string, _str_Entity> _m_allCurrentEntities;
+
+		KeyedData<std::string, _str_Entity> _m_allCurrentEntities;
 	public:
 		EntityContainer() {}
 		EntityContainer(const EntityContainer& ent) = delete;

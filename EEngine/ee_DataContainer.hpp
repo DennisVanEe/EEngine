@@ -1,11 +1,11 @@
 #pragma once
 
-#include <unordered_map>
 #include <vector>
 #include <fstream>
 #include <string>
 
 #include "ee_DataConversion.hpp"
+#include "ee_KeyedData.hpp"
 
 // Container that can store data
 // No casting saftey (ex: can cast data originally an int as a float)
@@ -29,7 +29,7 @@ namespace eeGames
 			ByteData(std::vector<byte> b_vec, uint8_t d_type) : byte_vec(std::move(b_vec)), data_type(d_type) {}
 			ByteData() {}
 		};
-		std::unordered_map<std::string, ByteData> _data;
+		KeyedData<std::string, ByteData> _data;
 
 	public:
 		DataContainer() {}

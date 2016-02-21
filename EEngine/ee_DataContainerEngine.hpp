@@ -1,16 +1,16 @@
 #pragma once
 
-#include <unordered_map>
 #include <memory>
 
 #include "ee_DataContainer.hpp"
+#include "ee_KeyedData.hpp"
 
 namespace eeGames
 {
 	class DataContainerEngine
 	{
 	private:
-		std::unordered_map<std::string, std::unique_ptr<DataContainer>> _containerList;
+		KeyedData<std::string, std::unique_ptr<DataContainer>> _containerList;
 	public:
 		bool add_container(const std::string &);
 		bool load_container(const std::string &, const std::string &);

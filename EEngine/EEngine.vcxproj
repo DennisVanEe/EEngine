@@ -168,6 +168,7 @@
     <ClInclude Include="ee_GameEngine.hpp" />
     <ClInclude Include="ee_KeyedData.hpp" />
     <ClInclude Include="ee_LoadEngine.hpp" />
+    <ClInclude Include="ee_OrderedKeyedData.hpp" />
     <ClInclude Include="ee_ScriptInterface.hpp" />
     <ClInclude Include="ee_SoundContainer.hpp" />
     <ClInclude Include="ee_Module.hpp" />

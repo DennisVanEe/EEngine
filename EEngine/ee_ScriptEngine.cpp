@@ -325,7 +325,7 @@ bool eeGames::ScriptEngine::executeRequests()
 
 	for (auto req : *reqQueue)
 	{
-		switch (req.second.first->getRequest())
+		switch (req.second.first->get_request())
 		{
 		case RequestType::WRITE_DATA:
 			_m_dataContainerEngine->addData(req.second.second, req.second.first->getDataType(), req.second.first->getTargetName(), req.second.first->getData());

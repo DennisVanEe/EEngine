@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{04efb39f-02e0-4255-90eb-d1664811f112}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Keyed Data">
+      <UniqueIdentifier>{af5d4572-812b-438b-9a64-b4deaab8f576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Keyed Data">
+      <UniqueIdentifier>{65e05410-8054-4ddf-9a6c-be36f7a811f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -130,7 +136,10 @@
       <Filter>Header Files\Data Containers</Filter>
     </ClInclude>
     <ClInclude Include="ee_KeyedData.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Keyed Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_OrderedKeyedData.hpp">
+      <Filter>Header Files\Keyed Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

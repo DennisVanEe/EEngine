@@ -1,17 +1,19 @@
 #pragma once
 
+#pragma once
+
 // This is used so that I can quickly change the data container algorithm to see 
 // performance differences
 
-#include <unordered_map>
+#include <map>
 
 namespace eeGames
 {
-	template<typename Key, typename Data> 
-	class KeyedData
+	template<typename Key, typename Data>
+	class OrderedKeyedData
 	{
 	private:
-		typedef std::unordered_map<Key, Data> CType; // the container design that is being used
+		typedef std::multimap<Key, Data> CType; // the container design that is being used
 	public:
 		// all of these methods are based on what you can do with a map
 		Data at(const Key &key);
@@ -33,9 +35,10 @@ namespace eeGames
 		CType::iterator find(const Key &key);
 		CType::const_iterator find(const Key &key) const;
 
-		std::pair<CType::iterator, bool> &insert(std::pair<Key, Data> &element);
+		CType::iterator &insert(std::pair<Key, Data> &element);
 
 		size_t size() const;
 		size_t max_size() const;
 	};
 }
+

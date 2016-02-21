@@ -1,21 +1,22 @@
 #pragma once
 
 #include <map>
-#include <unordered_map>
 #include <memory>
 #include <string>
 #include <SFML/Graphics.hpp>
 
 #include "ee_Entity.hpp"
 #include "ee_StaticEntity.hpp"
+#include "ee_KeyedData.hpp"
+#include "ee_OrderedKeyedData.hpp"
 
 namespace eeGames
 {
 	class RenderEngine
 	{
 	private:
-		std::multimap<uint16_t, Entity*> _m_entities; //current entities being rendered
-		std::unordered_map<std::string, std::multimap<uint16_t, Entity*>::iterator> _m_entityNames;
+		OrderedKeyedData<uint16_t, Entity*> _m_entities; //current entities being rendered
+		KeyedData<std::string, std::multimap<uint16_t, Entity*>::iterator> _m_entityNames;
 		sf::RenderWindow _m_window;
 
 	public:
@@ -45,7 +46,6 @@ namespace eeGames
 			_m_entityNames.erase(nameIterator);
 			return true;
 		}
-
 		void render()
 		{
 			_m_window.clear();

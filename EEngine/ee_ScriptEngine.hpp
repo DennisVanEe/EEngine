@@ -1,6 +1,5 @@
 #pragma once
 
-#include <unordered_map>
 #include <string>
 #include <angelscript.h>
 #include <scriptstdstring\scriptstdstring.h>
@@ -18,6 +17,7 @@
 #include "ee_SoundContainer.hpp"
 #include "ee_RenderEngine.hpp"
 #include "ee_ResourceEngine.hpp"
+#include "ee_KeyedData.hpp"
 
 namespace eeGames
 {
@@ -25,7 +25,7 @@ namespace eeGames
 	{
 	private:
 		Module *_m_currentActiveModule; // current module that is being executed
-		std::unordered_map<std::string, std::unique_ptr<Module>> _m_currentModuleList; // active list of modules
+		KeyedData<std::string, std::unique_ptr<Module>> _m_currentModuleList; // active list of modules
 
 		DataContainerEngine *_m_dataContainerEngine;
 		EntityContainer *_m_entityContainer;
