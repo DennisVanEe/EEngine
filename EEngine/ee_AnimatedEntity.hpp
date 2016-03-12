@@ -10,6 +10,11 @@ namespace eeGames
 	private:
 		Animation _m_sprite;
 	public:
+		AnimatedEntity()
+		{
+			m_type = EntityType::ANIMATED;
+		}
+
 		bool assignTexture(const sf::Texture *_p_texture, uint32_t _p_width, uint32_t _p_height, uint8_t _p_columns, uint8_t _p_rows)
 		{
 			if (!_p_texture)

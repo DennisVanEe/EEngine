@@ -2,11 +2,13 @@
 
 #include <map>
 #include <memory>
+#include <vector>
+#include <new>
 #include <string>
 #include <SFML/Graphics.hpp>
 
-#include "ee_Entity.hpp"
-#include "ee_StaticEntity.hpp"
+#include "ee_EntityContainerEngine.hpp"
+#include "ee_EntityContainerEngine.hpp"
 #include "ee_KeyedData.hpp"
 #include "ee_OrderedKeyedData.hpp"
 
@@ -15,55 +17,57 @@ namespace eeGames
 	class RenderEngine
 	{
 	private:
-		OrderedKeyedData<uint16_t, Entity*> _m_entities; //current entities being rendered
-		KeyedData<std::string, std::multimap<uint16_t, Entity*>::iterator> _m_entityNames;
-		sf::RenderWindow _m_window;
+		EntityContainerEngine *m_entityContainer; // used to construct entities
+		sf::RenderWindow m_window;
 
+		std::vector<Entity*> renderBuffer;
 	public:
-		RenderEngine()
+		RenderEngine(EntityContainer *_p_entityContainer)
 		{
 		}
 		RenderEngine(const std::string &_p_name, uint16_t _p_width, uint16_t _p_height, bool _p_fullscreen) 
-			: _m_window(sf::VideoMode(_p_width, _p_height), _p_name, _p_fullscreen ? sf::Style::Fullscreen : sf::Style::Close)
+			: m_window(sf::VideoMode(_p_width, _p_height), _p_name, _p_fullscreen ? sf::Style::Fullscreen : sf::Style::Close)
 		{
 		}
 		
 		void setWindowSettings(const std::string &_p_name, uint16_t _p_width, uint16_t _p_height, bool _p_fullscreen)
 		{
-			_m_window.create(sf::VideoMode(_p_width, _p_height), _p_name, _p_fullscreen ? sf::Style::Fullscreen : sf::Style::Close);
+			m_window.create(sf::VideoMode(_p_width, _p_height), _p_name, _p_fullscreen ? sf::Style::Fullscreen : sf::Style::Close);
+		}
+		void render();
+
+		void animatedEntityConst(const std::wstring &contID, const std::wstring &entID, void *memory)
+		{
+			new(memory) AnimatedEntity();
+			if (m_entityContainer->getEntityFormCont(contID, entID, memory) == false) // this here should never happen
+			{
+				throw std::domain_error("entity " + std::string(entID.begin(), entID.end()) + " could not be found in " 
+					+ std::string(contID.begin(), entID.end()));
+			}
+			renderBuffer.push_back(static_cast<AnimatedEntity*>(memory));
+			static_cast<AnimatedEntity*>(memory)->assignRenderPos(renderBuffer.end() - 1); // assign the location
+		}
+		void animatedEntityDest(void *memory)
+		{
+			renderBuffer.erase(static_cast<AnimatedEntity*>(memory)->getRenderPos());
+			static_cast<AnimatedEntity*>(memory)->~AnimatedEntity();
 		}
 
-		void addEntity(uint16_t _p_priority, Entity *_p_entity, const std::string &_p_id)
+		void staticEntityConst(const std::wstring &contID, const std::wstring &entID, void *memory)
 		{
-			_m_entityNames.insert(std::make_pair(_p_id, _m_entities.insert(std::make_pair(_p_priority, _p_entity))));
-		}
-		bool removeEntity(const std::string &_p_id)
-		{
-			auto nameIterator = _m_entityNames.find(_p_id);
-			if (nameIterator == _m_entityNames.end())
-				return false;
-			_m_entities.erase(nameIterator->second);
-			_m_entityNames.erase(nameIterator);
-			return true;
-		}
-		void render()
-		{
-			_m_window.clear();
-			for (auto entityIterator : _m_entities)
+			new(memory) StaticEntity();
+			if (m_entityContainer->getEntityFormCont(contID, entID, memory) == false) // this here should never happen
 			{
-				// this is for properly scaling the sprites
-				entityIterator.second->setPosition(entityIterator.second->getPosition().x,
-					entityIterator.second->getPosition().y * -1);
-				_m_window.draw(*entityIterator.second);
-				entityIterator.second->setPosition(entityIterator.second->getPosition().x,
-					entityIterator.second->getPosition().y * -1);
+				throw std::domain_error("entity " + std::string(entID.begin(), entID.end()) + " could not be found in "
+					+ std::string(contID.begin(), entID.end()));
 			}
-			_m_window.display();
+			renderBuffer.push_back(static_cast<StaticEntity*>(memory));
+			static_cast<StaticEntity*>(memory)->assignRenderPos(renderBuffer.end() - 1); // assign the location
 		}
-		void clearAllEntities()
+		void staticEntityDest(void *memory)
 		{
-			_m_entities.clear();
-			_m_entityNames.clear();
+			renderBuffer.erase(static_cast<StaticEntity*>(memory)->getRenderPos());
+			static_cast<StaticEntity*>(memory)->~StaticEntity();
 		}
 	};
 }

@@ -14,21 +14,24 @@
 
 namespace eeGames
 {
+	// used instead of an enum for easier file writting
     #define NONE 0
 	#define INT 1
 	#define FLOAT 2
 	#define STRING 3
 
+	// stores the bytes and type of data
+	struct ByteData
+	{
+		std::vector<byte> byte_vec;
+		uint8_t data_type;
+		ByteData(std::vector<byte> b_vec, uint8_t d_type) : byte_vec(std::move(b_vec)), data_type(d_type) {}
+		ByteData() {}
+	};
+
 	class DataContainer
 	{
 	private:
-		struct ByteData
-		{
-			std::vector<byte> byte_vec;
-			uint8_t data_type;
-			ByteData(std::vector<byte> b_vec, uint8_t d_type) : byte_vec(std::move(b_vec)), data_type(d_type) {}
-			ByteData() {}
-		};
 		KeyedData<std::string, ByteData> _data;
 
 	public:

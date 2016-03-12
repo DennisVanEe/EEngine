@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "ee_DataContainerEngine.hpp"
+#include "ee_KeyedData.hpp"
 #include "ee_RequestType.hpp"
 
 namespace eeGames
@@ -11,27 +12,24 @@ namespace eeGames
 	class Request
 	{
 	private:
-		uint32_t _refCount;
+		uint32_t _refCount; // used by the scripting engine
 
 		// request info
 		int32_t _priority; // lower value has highest priority (can be negative)
 		std::string _dependency, _id;
 		RequestType _requestType;
 
-		// data storage
-		uint8_t _dataType; // STRING, FLOAT, or INT
-		std::string _targetName;
-		std::vector<uint8_t> _data;
+		KeyedData<std::string, ByteData> _data;
 
 	public:
 		Request(const std::string &id, uint16_t priority, RequestType requestType) : _id(id), _requestType(requestType), 
-			_priority(priority), _dependency(""), _dataType(NONE), _refCount(1) 
+			_priority(priority), _dependency(""), _refCount(1) 
 		{
 			if (_priority < 0)
 				_priority = 0;
 		}
 		Request(const std::string &id, const std::string &dependency, RequestType requestType) : _id(id), _requestType(requestType), 
-			_priority(-1), _dependency(dependency), _dataType(NONE), _refCount(1) {}
+			_priority(-1), _dependency(dependency), _refCount(1) {}
 
 		// adding data
 		template <typename T> // utilizes move-semantics
@@ -39,9 +37,8 @@ namespace eeGames
 		{
 			if (_requestType != RequestType::WRITE_DATA)
 				return false;
-			_targetName = id;
-			_dataType = INT;
-			_data = std::move(get_byteVec(data));
+
+			_data.insert(std::make_pair(id, ByteData(std::move(get_byteVec(data)), INT)));
 			return true;
 		}
 		template <typename T> // utilizes move-semantics
@@ -49,24 +46,23 @@ namespace eeGames
 		{
 			if (_requestType != RequestType::WRITE_DATA)
 				return false;
-			_targetName = id;
-			_dataType = FLOAT;
+
 			switch (sizeof(T))
 			{
-			case sizeof(uint8_t) :
-				_data = std::move(get_byteVec(*(reinterpret_cast<uint8_t*>(&data))));
+			case sizeof(uint8_t):
+				_data.insert(std::make_pair(id, ByteData(std::move(get_byteVec(*(reinterpret_cast<uint8_t*>(&data)))), FLOAT)));
 				break;
-			case sizeof(uint16_t) :
-				_data = std::move(get_byteVec(*(reinterpret_cast<uint16_t*>(&data))));
+			case sizeof(uint16_t):
+				_data.insert(std::make_pair(id, ByteData(std::move(get_byteVec(*(reinterpret_cast<uint16_t*>(&data)))), FLOAT)));
 				break;
-			case sizeof(uint32_t) :
-				_data = std::move(get_byteVec(*(reinterpret_cast<uint32_t*>(&data))));
+			case sizeof(uint32_t):
+				_data.insert(std::make_pair(id, ByteData(std::move(get_byteVec(*(reinterpret_cast<uint32_t*>(&data)))), FLOAT)));
 				break;
-			case sizeof(uint64_t) :
-				_data = std::move(get_byteVec(*(reinterpret_cast<uint64_t*>(&data))));
+			case sizeof(uint64_t):
+				_data.insert(std::make_pair(id, ByteData(std::move(get_byteVec(*(reinterpret_cast<uint64_t*>(&data)))), FLOAT)));
 				break;
 			default:
-				_data = std::move(get_byteVec(*(reinterpret_cast<uintmax_t*>(&data))));
+				_data.insert(std::make_pair(id, ByteData(std::move(get_byteVec(*(reinterpret_cast<uintmax_t>(&data)))), FLOAT)));
 				break;
 			}
 			return true;
@@ -75,49 +71,52 @@ namespace eeGames
 		{
 			if (_requestType != RequestType::WRITE_DATA)
 				return false;
-			_targetName = id;
-			_dataType = STRING;
-			_data = std::move(std::vector<byte>(data.begin(), data.end()));
+
+			_data.insert(std::make_pair(id, ByteData(std::move(std::vector<byte>(data.begin(), data.end())), STRING)));
 			return true;
 		}
 
-		// used as the "name" of the target, not its location (like a module name)
-		void set_TargetName(const std::string &name)
+		// TODO: figure this one out
+		void add_TargetName(const std::string &name)
 		{
 			_targetName = name;
 		}
 
 		// used by the data container to write data
-		void add_rawData(const std::vector<byte> &data)
+		void add_rawData(const std::string &id, const ByteData &data)
 		{
-			_data = data;
+			_data.insert(std::make_pair(id, data));
 		}
 
 		// not const because scripting interface issues present themselves
 		template <typename T>
-		bool get_num(const std::string &id, T data)
+		bool get_num(const std::string &id, T *data)
 		{
-			if (_dataType == STRING || _dataType == NONE)
+			auto it = _data.find(id);
+			if (it == _data.end())
+				return false;
+
+			if (it->second.data_type == STRING || it->second.data_type == NONE)
 				return false;
 			if (_requestType != RequestType::READ_DATA)
 				return false;
-			if (_data.size() == 0)
+			if (it->second.byte_vec.size() == 0)
 				return false;
 
-			switch (dataType)
+			switch (it->second.data_type)
 			{
 			case INT:
-				get_byteData(_data, data);
+				get_byteData(it->second.byte_vec, data);
 				break;
 			case FLOAT:
 				switch (_data.size())
 				{
 				case sizeof(float) :
-					get_byteData(_data, reinterpret_cast<uintmax_t*>(data));
+					get_byteData(it->second.byte_vec, reinterpret_cast<uintmax_t*>(data));
 					*data = *reinterpret_cast<float*>(data);
 					break;
 				case sizeof(double) :
-					get_byteData(_data, reinterpret_cast<uintmax_t*>(data));
+					get_byteData(it->second.byte_vec, reinterpret_cast<uintmax_t*>(data));
 					*data = *reinterpret_cast<double*>(data);
 					break;
 				}
@@ -127,14 +126,18 @@ namespace eeGames
 		}
 		bool get_string(const std::string &id, std::string *data)
 		{
-			if (_dataType != STRING)
+			auto it = _data.find(id);
+			if (it == _data.end())
+				return false;
+
+			if (it->second.data_type != STRING)
 				return false;
 			if (_requestType != RequestType::READ_DATA)
 				return false;
-			if (_data.size() == 0)
+			if (it->second.byte_vec.size() == 0)
 				return false;
 
-			*data = std::string(_data.begin(), _data.end());
+			*data = std::string(it->second.byte_vec.begin(), it->second.byte_vec.end());
 			return true;
 		}
 
@@ -155,18 +158,22 @@ namespace eeGames
 			return _id;
 		}
 
-		uint8_t get_dataType() const
+		// for looping through the data in the request
+		auto begin()
 		{
-			return _dataType;
+			return _data.begin();
 		}
-		const std::string &get_targetName() const
+		auto begin() const
 		{
-			return _targetName;
+			return _data.begin();
 		}
-		// used by the DataContainer
-		std::vector<byte> &get_Data() // can't gaurentee data will remain unchanged
+		auto end()
 		{
-			return _data;
+			return _data.end();
+		}
+		auto end() const
+		{
+			return _data.end();
 		}
 
 		// angelscript

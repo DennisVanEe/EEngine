@@ -13,32 +13,72 @@ namespace eeGames
 	class OrderedKeyedData
 	{
 	private:
-		typedef std::multimap<Key, Data> CType; // the container design that is being used
+	typedef std::multimap<Key, Data> CType; // the container design that is being used
+
+		CType _container;
 	public:
-		// all of these methods are based on what you can do with a map
-		Data at(const Key &key);
-		Data operator[](const Key &key);
+		CType::iterator begin()
+		{
+			return _container.begin();
+		}
+		CType::const_iterator begin() const
+		{
+			return _container.begin();
+		}
 
-		CType::iterator begin();
-		CType::const_iterator begin() const;
+		CType::iterator end()
+		{
+			return _container.end();
+		}
+		CType::const_iterator end() const
+		{
+			return _container.end();
+		}
 
-		CType::iterator end();
-		CType::const_iterator end() const;
+		void clear()
+		{
+			_container.clear();
+		}
+		size_t count(const Key &key) const
+		{
+			return _container.count(key);
+		}
+		bool empty() const
+		{
+			return _container.empty();
+		}
 
-		void clear();
-		size_t count(const Key &key) const;
-		bool empty() const;
+		size_t erase(const Key &key)
+		{
+			return _container.erase(key);
+		}
+		CType::iterator erase(CType::iterator &it)
+		{
+			_container.erase(it);
+		}
 
-		size_t erase(const Key &key);
-		bool erase(CType::iterator &it);
+		CType::iterator find(const Key &key)
+		{
+			return _container.find(key);
+		}
+		CType::const_iterator find(const Key &key) const
+		{
+			return _container.find(key);
+		}
 
-		CType::iterator find(const Key &key);
-		CType::const_iterator find(const Key &key) const;
+		CType::iterator insert(std::pair<Key, Data> &element)
+		{
+			return _container.insert(element);
+		}
 
-		CType::iterator &insert(std::pair<Key, Data> &element);
-
-		size_t size() const;
-		size_t max_size() const;
+		size_t size() const
+		{
+			return _container.size();
+		}
+		size_t max_size() const
+		{
+			return _container.max_size();
+		}
 	};
 }
 

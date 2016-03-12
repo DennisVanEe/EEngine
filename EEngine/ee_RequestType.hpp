@@ -4,8 +4,8 @@ namespace eeGames
 {
 	enum class RequestType
 	{
-		// data dependent
-		WRITE_DATA,
+		// data dependent 
+		WRITE_DATA, 
 		READ_DATA,
 
 		// non data dependent

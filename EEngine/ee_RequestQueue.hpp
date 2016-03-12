@@ -1,12 +1,14 @@
 #pragma once
 
-#include <iostream> // for testing
+#include <iostream> 
 #include <string>
+#include <vector>
 
 #include "ee_Request.hpp"
 #include "ee_RequestType.hpp"
 #include "ee_DataContainerEngine.hpp"
 #include "ee_OrderedKeyedData.hpp"
+
 namespace eeGames
 {
 	class RequestQueue

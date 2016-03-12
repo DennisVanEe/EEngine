@@ -165,6 +165,7 @@
     <ClInclude Include="ee_DataConversion.hpp" />
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
+    <ClInclude Include="ee_EntityContainerEngine.hpp" />
     <ClInclude Include="ee_GameEngine.hpp" />
     <ClInclude Include="ee_KeyedData.hpp" />
     <ClInclude Include="ee_LoadEngine.hpp" />
@@ -173,9 +174,6 @@
     <ClInclude Include="ee_SoundContainer.hpp" />
     <ClInclude Include="ee_Module.hpp" />
     <ClInclude Include="ee_RenderEngine.hpp" />
-    <ClInclude Include="ee_Request.hpp" />
-    <ClInclude Include="ee_RequestQueue.hpp" />
-    <ClInclude Include="ee_RequestType.hpp" />
     <ClInclude Include="ee_ResourceEngine.hpp" />
     <ClInclude Include="ee_ScriptEngine.hpp" />
     <ClInclude Include="ee_Sound.hpp" />
@@ -186,11 +184,16 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="C:\local\angelscript\include\scriptarray\scriptarray.cpp" />
+    <ClCompile Include="C:\local\angelscript\include\scriptbuilder\scriptbuilder.cpp" />
+    <ClCompile Include="C:\local\angelscript\include\scriptdictionary\scriptdictionary.cpp" />
+    <ClCompile Include="C:\local\angelscript\include\scriptmath\scriptmath.cpp" />
     <ClCompile Include="C:\local\angelscript\include\scriptstdstring\scriptstdstring.cpp" />
     <ClCompile Include="ee_AnimatedEntity.cpp" />
     <ClCompile Include="ee_Animator.cpp" />
     <ClCompile Include="ee_DataContainer.cpp" />
     <ClCompile Include="ee_DataContainerEngine.cpp" />
+    <ClCompile Include="ee_EntityContainerEngine.cpp" />
     <ClCompile Include="ee_Module.cpp" />
     <ClCompile Include="ee_RenderEngine.cpp" />
     <ClCompile Include="ee_Request.cpp" />
