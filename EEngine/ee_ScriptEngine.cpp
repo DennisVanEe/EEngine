@@ -308,7 +308,7 @@ void eeGames::ScriptEngine::executeCommands()
 {
 	for (auto &it : m_commands)
 	{
-		switch (it.m_type) // TODO: fix this
+		switch (it.m_type)
 		{
 		case CommandType::D_DESTROY:
 			m_dataContainerEngine->removeContainer(it.m_id);
@@ -335,11 +335,14 @@ void eeGames::ScriptEngine::executeCommands()
 			m_currentModuleList.find(it.m_id)->second->setSleep(false);
 			break;
 		case CommandType::M_TERM:
+			{
 			auto tmp = m_currentModuleList.find(it.m_id);
 			tmp->second.release();
 			m_currentModuleList.erase(tmp);
+			}
 			break;
 		case CommandType::M_START:
+			{
 			m_scriptBuilder.StartNewModule(m_engine, it.m_id.c_str());
 			int error = m_scriptBuilder.AddSectionFromFile(it.m_dir.c_str());
 			if (error < 0) throw std::logic_error("could not find or open file at " + it.m_dir);
@@ -348,6 +351,7 @@ void eeGames::ScriptEngine::executeCommands()
 			std::unique_ptr<Module> temp(new Module(m_scriptBuilder.GetModule()));
 			temp->initializeModule(); // initialize before running
 			m_currentModuleList.insert(std::make_pair(it.m_id, std::move(temp)));
+			}
 			break;
 		default:
 			throw std::logic_error("unknown command attempting to be executed");

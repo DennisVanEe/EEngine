@@ -11,7 +11,7 @@ namespace eeGames
 	private:
 		const sf::Texture *m_spriteSheet;
 		std::vector<std::unique_ptr<sf::Sprite>> m_frames;
-		sf::Vector2f m_frameSize, m_columnsRows;
+		sf::Vector2u m_frameSize, m_columnsRows;
 		uint32_t m_frameNum;
 
 		// time units
@@ -46,22 +46,15 @@ namespace eeGames
 			return *this;
 		}
 
-		void setFrameSize(uint32_t width, uint32_t height) // sets the size of each sprite on the sprite sheet
-		{
-			m_frameSize = sf::Vector2f(width, height);
-		}
-		void setColumnsRows(uint32_t columns, uint32_t rows, uint32_t frameNum) // set the number of columns and rows in the sprite sheet
-		{
-			m_frameNum = frameNum;
-			m_columnsRows = sf::Vector2f(columns, rows);
-		}
 		bool createFrames(); // create the frames using the values
 
-		bool setSpriteSheet(const sf::Texture *texture)
+		bool setSpriteSheet(const sf::Texture *texture, uint32_t columns, uint32_t rows, uint32_t frameNum)
 		{
 			if (texture == nullptr)
 				return false;
 			m_spriteSheet = texture;
+			m_columnsRows = sf::Vector2u(columns, rows);
+			m_frameSize = sf::Vector2u(m_spriteSheet->getSize().x / columns, m_spriteSheet->getSize().y / rows);
 			return true;
 		}
 

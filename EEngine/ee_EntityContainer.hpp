@@ -3,10 +3,12 @@
 #include <memory>
 #include <string>
 #include <tinyxml2.h>
+#include <Thor\Resources.hpp>
 
 #include "ee_AnimatedEntity.hpp"
 #include "ee_StaticEntity.hpp"
 #include "ee_KeyedData.hpp"
+#include "ee_Algorithms.hpp"
 
 namespace eeGames
 {
@@ -27,11 +29,12 @@ namespace eeGames
 			XMLError error = m_xmlFile.LoadFile(dir.c_str());
 			if (error != XML_SUCCESS)
 			{
-				std::cout << L"[ERROR]: problem loading or parsing xml file at: " << dir << L"\n";
+				std::cout << "[ERROR]: problem loading or parsing xml file at: " << dir << L"\n";
 				return false;
 			}
 			return true;
 		}
+		bool processContainer(thor::ResourceHolder<sf::Texture, std::string> *holder);
 
 		// used by the constructor to get a copy
 		bool getEntity(const std::string &id, void *ent) const

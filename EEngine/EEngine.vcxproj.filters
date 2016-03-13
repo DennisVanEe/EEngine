@@ -200,6 +200,9 @@
     <ClCompile Include="ee_Algorithms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ee_EntityContainer.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\..\..\..\..\..\local\angelscript\lib\angelscriptd.lib">

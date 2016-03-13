@@ -4,7 +4,7 @@ bool eeGames::Animation::createFrames()
 {
 	uint32_t x, y, x1, y1;
 	x = y = 0;
-	if (m_frameSize == sf::Vector2f(0, 0) || m_columnsRows == sf::Vector2f(0, 0))
+	if (m_frameSize == sf::Vector2u(0, 0) || m_columnsRows == sf::Vector2u(0, 0))
 		return false;
 
 	uint32_t totalFrames = 0;
