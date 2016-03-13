@@ -10,12 +10,18 @@ namespace eeGames
 	class DataContainerEngine
 	{
 	private:
-		KeyedData<std::string, std::unique_ptr<DataContainer>> _containerList;
+		KeyedData<std::string, std::unique_ptr<DataContainer>> m_containerList;
 	public:
-		bool add_container(const std::string &);
-		bool load_container(const std::string &, const std::string &);
-		bool remove_container(const std::string &);
-		bool save_container(const std::string &, const std::string &) const;
+		bool addContainer(const std::string &id);
+		bool loadContainer(const std::string &id, const std::string &dir);
+		bool removeContainer(const std::string &id);
+		bool saveContainer(const std::string &id, const std::string &dir) const;
+
+		bool exists(const std::string &id)
+		{
+			auto it = m_containerList.find(id);
+			return it != m_containerList.end();
+		}
 
 		// TODO: return false if it already exists
 		template<typename T>

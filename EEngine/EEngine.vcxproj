@@ -157,6 +157,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ee_Algorithms.hpp" />
     <ClInclude Include="ee_AnimatedEntity.hpp" />
     <ClInclude Include="ee_Animator.hpp" />
     <ClInclude Include="ee_Camera.hpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="C:\local\angelscript\include\scriptdictionary\scriptdictionary.cpp" />
     <ClCompile Include="C:\local\angelscript\include\scriptmath\scriptmath.cpp" />
     <ClCompile Include="C:\local\angelscript\include\scriptstdstring\scriptstdstring.cpp" />
+    <ClCompile Include="ee_Algorithms.cpp" />
     <ClCompile Include="ee_AnimatedEntity.cpp" />
     <ClCompile Include="ee_Animator.cpp" />
     <ClCompile Include="ee_DataContainer.cpp" />

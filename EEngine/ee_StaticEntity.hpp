@@ -9,28 +9,33 @@ namespace eeGames
 	class StaticEntity : public Entity			
 	{
 	private:
-		sf::Sprite _m_sprite;
+		sf::Sprite m_sprite;
 	public:
-		bool assignTexture(const sf::Texture *_p_texture)
+		StaticEntity()
 		{
-			if (!_p_texture)
+			m_type = EntityType::STATIC;
+		}
+
+		bool assignTexture(const sf::Texture *texture)
+		{
+			if (!texture)
 				return false;
-			_m_sprite.setTexture(*_p_texture);
+			m_sprite.setTexture(*texture);
 			return false;
 		}
-		bool assignTexture(const sf::Texture *_p_texture, uint16_t _p_x, uint16_t _p_y, uint16_t _p_width, uint16_t _p_height)
+		bool assignTexture(const sf::Texture *texture, uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 		{
-			if (!_p_texture)
+			if (!texture)
 				return false;
-			_m_sprite.setTexture(*_p_texture);
-			_m_sprite.setTextureRect(sf::IntRect(_p_x, _p_y, _p_width, _p_height));
-			return false;
+			m_sprite.setTexture(*texture);
+			m_sprite.setTextureRect(sf::IntRect(x, y, width, height));
+			return true;
 		}
 
 		virtual void draw(sf::RenderTarget &_p_target, sf::RenderStates _p_states) const
 		{
 			_p_states.transform *= sf::Transformable::getTransform();
-			_p_target.draw(_m_sprite, _p_states);
+			_p_target.draw(m_sprite, _p_states);
 		}
 	};
 }

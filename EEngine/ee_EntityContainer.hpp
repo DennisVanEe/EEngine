@@ -13,7 +13,7 @@ namespace eeGames
 	class EntityContainer
 	{
 	private:
-		KeyedData<std::wstring, std::unique_ptr<Entity>> m_allCurrentEntities;
+		KeyedData<std::string, std::unique_ptr<Entity>> m_allCurrentEntities;
 		tinyxml2::XMLDocument m_xmlFile; // the xml file for defining the entities
 	public:
 		EntityContainer() {}
@@ -34,7 +34,7 @@ namespace eeGames
 		}
 
 		// used by the constructor to get a copy
-		bool getEntity(const std::wstring &id, void *ent) const
+		bool getEntity(const std::string &id, void *ent) const
 		{
 			auto it = m_allCurrentEntities.find(id);
 			if (it == m_allCurrentEntities.end())
@@ -48,6 +48,7 @@ namespace eeGames
 				*static_cast<StaticEntity*>(ent) = *static_cast<StaticEntity*>(it->second.get());
 				return true;
 			default:
+				throw std::runtime_error("unknown entity type was accessed");
 				return false;
 			}
 		}

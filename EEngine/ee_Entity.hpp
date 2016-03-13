@@ -18,14 +18,8 @@ namespace eeGames
 	public:
 		Entity() : renderLev(0), render(true) {}
 
-		void assignRenderPos(std::vector<Entity*>::iterator pos)
-		{
-			renderPos = pos;
-		}
-		std::vector<Entity*>::iterator getRenderPos()
-		{
-			return m_renderPos;
-		}
+		void assignRenderPos(std::vector<Entity*>::iterator pos) { m_renderPos = pos; }
+		std::vector<Entity*>::iterator getRenderPos() { return m_renderPos; }
 
 		void setRenderLevel(int lev) { lev < 0 ? renderLev = 0 : renderLev = lev; }
 		int getRenderLevel() { return renderLev; }
@@ -33,34 +27,20 @@ namespace eeGames
 		void setVisible(bool vis) { render = vis; }
 		bool isVisible() { return render; }
 
-		EntityType getType() const
-		{
-			return m_type;
-		}
+		EntityType getType() const { return m_type; }
 
-		float getPositionX() const
-		{
-			return getPosition().x;
-		}
-		float getPositionY() const
-		{
-			return getPosition().y;
-		}
-		float getScaleX() const
-		{
-			return getScale().x;
-		}
-		float getScaleY() const
-		{
-			return getScale().y;
-		}
-		float getOriginX() const
-		{
-			return getOrigin().x;
-		}
-		float getOriginY() const
-		{
-			return getOrigin().y;
-		}
+		float getPositionX() const { return getPosition().x; }
+		float getPositionY() const { return getPosition().y; }
+		float getScaleX() const { return getScale().x; }
+		float getScaleY() const { return getScale().y; }
+		float getOriginX() const { return getOrigin().x; }
+		float getOriginY() const { return getOrigin().y; }
+
+		bool operator>(const Entity& other) { return m_renderPos > other.m_renderPos; }
+		bool operator<(const Entity& other) { return m_renderPos < other.m_renderPos; }
+		bool operator>=(const Entity& other) { return m_renderPos >= other.m_renderPos; }
+		bool operator<=(const Entity& other) { return m_renderPos <= other.m_renderPos; }
+		bool operator==(const Entity& other) { return m_renderPos == other.m_renderPos; }
+
 	};
 }

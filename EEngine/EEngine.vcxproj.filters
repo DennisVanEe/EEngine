@@ -132,6 +132,9 @@
     <ClInclude Include="ee_EntityContainerEngine.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="ee_Algorithms.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
@@ -193,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="C:\local\angelscript\include\scriptarray\scriptarray.cpp">
       <Filter>Source Files\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Algorithms.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

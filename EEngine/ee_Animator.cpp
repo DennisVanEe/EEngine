@@ -2,34 +2,37 @@
 
 bool eeGames::Animation::createFrames()
 {
-	uint8_t x, y, x1, y1;
+	uint32_t x, y, x1, y1;
 	x = y = 0;
-	if (_m_frameSize == sf::Vector2f(0, 0) || _m_columnsRows == sf::Vector2f(0, 0))
+	if (m_frameSize == sf::Vector2f(0, 0) || m_columnsRows == sf::Vector2f(0, 0))
 		return false;
-	for (uint8_t row = 0; row < _m_columnsRows.y; row++)
+
+	uint32_t totalFrames = 0;
+	for (uint32_t row = 0; row < m_columnsRows.y && totalFrames < m_frameNum; row++)
 	{
-		for (uint8_t column = 0; column < _m_columnsRows.x; column++)
+		for (uint32_t column = 0; column < m_columnsRows.x && totalFrames < m_frameNum; column++)
 		{
 			std::unique_ptr<sf::Sprite> sprite(new sf::Sprite());
-			sprite->setTexture(*_m_spriteSheet);
-			sprite->setTextureRect(sf::IntRect(x, y, _m_frameSize.x, _m_frameSize.y));
-			_m_frames.push_back(std::move(sprite));
-			x += _m_frameSize.x;
+			sprite->setTexture(*m_spriteSheet);
+			sprite->setTextureRect(sf::IntRect(x, y, m_frameSize.x, m_frameSize.y));
+			m_frames.push_back(std::move(sprite));
+			totalFrames++;
+			x += m_frameSize.x;
 		}
-		y += _m_frameSize.y;
+		y += m_frameSize.y;
 		x = 0;
 	}
 }
 
-void eeGames::Animation::play(uint16_t _p_frame)
+void eeGames::Animation::play(uint16_t frameTime)
 {
-	if (_p_frame + _m_currentTime > _p_frame)
+	if (frameTime + m_currentTime > frameTime)
 	{
-		_m_currentTime = _p_frame + _m_currentTime - _m_frameTime;
-		if (_m_currentFrame + 1 >= _m_frames.size())
-			_m_currentFrame = 0;
-		_m_currentFrame++;
+		m_currentTime = frameTime + m_currentTime - m_frameTime;
+		if (m_currentFrame + 1 >= m_frames.size())
+			m_currentFrame = 0;
+		m_currentFrame++;
 	}
 	else
-		_m_currentTime = _m_currentTime + _p_frame;
+		m_currentTime = m_currentTime + frameTime;
 }

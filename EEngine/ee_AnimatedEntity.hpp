@@ -8,34 +8,37 @@ namespace eeGames
 	class AnimatedEntity : public Entity
 	{
 	private:
-		Animation _m_sprite;
+		Animation m_sprite;
 	public:
 		AnimatedEntity()
 		{
 			m_type = EntityType::ANIMATED;
 		}
 
-		bool assignTexture(const sf::Texture *_p_texture, uint32_t _p_width, uint32_t _p_height, uint8_t _p_columns, uint8_t _p_rows)
+		bool assignTexture(const sf::Texture *texture, uint32_t width, uint32_t height, uint32_t columns, uint32_t rows, uint32_t frameNum)
 		{
-			if (!_p_texture)
+			if (m_sprite.setSpriteSheet(texture) == false)
 				return false;
-			_m_sprite.setSpriteSheet(_p_texture);
-			_m_sprite.setFrameSize(_p_width, _p_height);
-			_m_sprite.setColumnsRows(_p_columns, _p_rows);
-			_m_sprite.createFrames();
+			m_sprite.setFrameSize(width, height);
+			m_sprite.setColumnsRows(columns, rows, frameNum);
+			if (m_sprite.createFrames() == false)
+				return false;
 			return true;
 		}
 
-		void playFrame(uint16_t _p_frameTime);
-		void setFrame(uint16_t _p_frame)
+		void playFrame(uint32_t frameTime)
 		{
-			_m_sprite.setCurrentFrame(_p_frame);
+			m_sprite.play(frameTime);
+		}
+		void setFrame(uint32_t frame)
+		{
+			m_sprite.setCurrentFrame(frame);
 		}
 	
 		virtual void draw(sf::RenderTarget &_p_target, sf::RenderStates _p_state) const
 		{
 			_p_state.transform *= sf::Transformable::getTransform();
-			_p_target.draw(_m_sprite.getCurrentFrame(), _p_state);
+			_p_target.draw(m_sprite.getCurrentFrame(), _p_state);
 		}
 	};
 }
