@@ -99,18 +99,6 @@
     <ClInclude Include="ee_ScriptEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ee_Sound.hpp">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_SoundEffect.hpp">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_SoundMusic.hpp">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_SoundContainer.hpp">
-      <Filter>Header Files\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="ee_ScriptInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -134,6 +122,18 @@
     </ClInclude>
     <ClInclude Include="ee_Algorithms.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundContainer.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_XMLContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_MusicContainer.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_AudioContainerEngine.hpp">
+      <Filter>Header Files\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="ee_EntityContainer.cpp">
       <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_SoundContainer.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_MusicContainer.cpp">
+      <Filter>Source Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,33 +1,16 @@
 #include "ee_EntityContainerEngine.hpp"
 
-bool eeGames::EntityContainerEngine::load_container(const std::string & dir)
+bool eeGames::EntityContainerEngine::loadContainer(const std::string & id, const std::string & dir)
 {
-	std::string loadScript;
-
-	std::ifstream ifs(dir);
-	if (ifs.is_open())
+	auto pair = m_containers.insert(std::make_pair(id, EntityContainer()));
+	if (pair.second == false)
 	{
-		std::cout << "Loading load script module from file...\n";
-		loadScript.assign((std::istreambuf_iterator<char>(ifs)),
-			(std::istreambuf_iterator<char>()));
-		ifs.close();
-
-		_module->AddScriptSection("load_module", loadScript.c_str());
-		std::cout << "Building load script module...\n";
-		_module->Build();
-
-		_context->Prepare(_module->GetFunctionByDecl("void load_main()"));
-		int error = _context->Execute();
-		if (error != asEXECUTION_FINISHED)
-		{
-			std::cout << "[ERROR]: Load Module Issue\n";
-			return false;
-		}
-		return true;
-	}
-	else
-	{
-		std::cout << "[ERROR]: Could not find or open load file\n";
+		std::cout << "[ERROR]: could not insert EntityContainer " << id << " into list\n";
 		return false;
 	}
+	if (pair.first->second.loadContainer(dir) == false)
+		return false;
+	if (pair.first->second.processContainer(&m_textResource) == false)
+		return false;
+	return true;
 }

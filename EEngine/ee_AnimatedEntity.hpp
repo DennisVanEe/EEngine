@@ -15,12 +15,10 @@ namespace eeGames
 			m_type = EntityType::ANIMATED;
 		}
 
-		bool assignTexture(const sf::Texture *texture, uint32_t width, uint32_t height, uint32_t columns, uint32_t rows, uint32_t frameNum)
+		bool assignTexture(const sf::Texture *texture, uint32_t columns, uint32_t rows, uint32_t frameNum)
 		{
-			if (m_sprite.setSpriteSheet(texture) == false)
+			if (m_sprite.setSpriteSheet(texture, columns, rows, frameNum))
 				return false;
-			m_sprite.setFrameSize(width, height);
-			m_sprite.setColumnsRows(columns, rows, frameNum);
 			if (m_sprite.createFrames() == false)
 				return false;
 			return true;

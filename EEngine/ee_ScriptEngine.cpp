@@ -247,8 +247,8 @@ void eeGames::ScriptEngine::registerEngine()
 
 	// register SoundEffect functions
 	error = m_engine->RegisterObjectType("SoundEffect", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("SoundEffect", "void play()", asMETHODPR(SoundEffect, play, (), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("SoundEffect", "void play(uint32)", asMETHODPR(SoundEffect, play, (uint32_t), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("SoundEffect", "void play()", asMETHODPR(sf::Sound, play, (), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("SoundEffect", "void play(uint)", asMETHODPR(SoundEffect, play, (uint32_t), void), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "void setLoop(bool)", asMETHOD(SoundEffect, setLoop), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "void pause()", asMETHOD(SoundEffect, pause), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "void stop()", asMETHOD(SoundEffect, stop), asCALL_THISCALL); assert(error >= 0);

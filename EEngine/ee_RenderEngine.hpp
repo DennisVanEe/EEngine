@@ -36,7 +36,7 @@ namespace eeGames
 		}
 		void render();
 
-		void animatedEntityConst(const std::wstring &contID, const std::wstring &entID, void *memory)
+		void animatedEntityConst(const std::string &contID, const std::string &entID, void *memory)
 		{
 			new(memory) AnimatedEntity();
 			if (m_entityContainer->getEntityFormCont(contID, entID, memory) == false) // this here should never happen
@@ -53,7 +53,7 @@ namespace eeGames
 			static_cast<AnimatedEntity*>(memory)->~AnimatedEntity();
 		}
 
-		void staticEntityConst(const std::wstring &contID, const std::wstring &entID, void *memory)
+		void staticEntityConst(const std::string &contID, const std::string &entID, void *memory)
 		{
 			new(memory) StaticEntity();
 			if (m_entityContainer->getEntityFormCont(contID, entID, memory) == false) // this here should never happen

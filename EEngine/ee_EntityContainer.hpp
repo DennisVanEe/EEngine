@@ -4,36 +4,26 @@
 #include <string>
 #include <tinyxml2.h>
 #include <Thor\Resources.hpp>
+#include <iostream>
 
 #include "ee_AnimatedEntity.hpp"
 #include "ee_StaticEntity.hpp"
 #include "ee_KeyedData.hpp"
 #include "ee_Algorithms.hpp"
+#include "ee_XMLContainer.hpp"
 
 namespace eeGames
 {
-	class EntityContainer
+	class EntityContainer : public XMLDocument
 	{
 	private:
 		KeyedData<std::string, std::unique_ptr<Entity>> m_allCurrentEntities;
-		tinyxml2::XMLDocument m_xmlFile; // the xml file for defining the entities
+
 	public:
 		EntityContainer() {}
 		EntityContainer(const EntityContainer& ent) = delete;
 		EntityContainer& operator=(const EntityContainer& ent) = delete;
 
-		bool loadContainer(const std::string &dir)
-		{
-			using namespace tinyxml2;
-
-			XMLError error = m_xmlFile.LoadFile(dir.c_str());
-			if (error != XML_SUCCESS)
-			{
-				std::cout << "[ERROR]: problem loading or parsing xml file at: " << dir << L"\n";
-				return false;
-			}
-			return true;
-		}
 		bool processContainer(thor::ResourceHolder<sf::Texture, std::string> *holder);
 
 		// used by the constructor to get a copy
@@ -42,6 +32,7 @@ namespace eeGames
 			auto it = m_allCurrentEntities.find(id);
 			if (it == m_allCurrentEntities.end())
 				return false;
+
 			switch (it->second->getType())
 			{
 			case EntityType::ANIMATED:
