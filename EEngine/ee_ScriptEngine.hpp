@@ -20,15 +20,15 @@
 #include "ee_RequestType.hpp"
 #include "ee_EntityContainer.hpp"
 #include "ee_ScriptInterface.hpp"
-#include "ee_SoundContainer.hpp"
 #include "ee_RenderEngine.hpp"
 #include "ee_ResourceEngine.hpp"
 #include "ee_KeyedData.hpp"
 #include "ee_Algorithms.hpp"
+#include "ee_SoundContainerEngine.hpp"
 
 namespace eeGames
 {
-	enum class CommandType { M_SLEEP, M_WAKE, M_TERM, M_START, D_SAVE, D_LOAD, D_CREATE, D_DESTROY, E_LOAD, E_DESTROY };
+	enum class CommandType { M_SLEEP, M_WAKE, M_TERM, M_START, D_SAVE, D_LOAD, D_CREATE, D_DESTROY, E_LOAD, E_DESTROY, SE_LOAD, SE_DESTROY, SM_LOAD, SM_DESTROY };
 
 	class ScriptEngine
 	{
@@ -46,10 +46,8 @@ namespace eeGames
 	
 		DataContainerEngine *m_dataContainerEngine;
 		EntityContainerEngine *m_entityContainerEngine;
-		SoundContainer *m_soundContainer;
-		RequestQueue *m_requestQueue;
+		SoundContainerEngine *m_soundContainerEngine;
 		RenderEngine *m_renderEngine;
-		ResourceEngine *m_resourceEngine;
 
 		asIScriptEngine *m_engine;
 		CScriptBuilder m_scriptBuilder;
@@ -58,10 +56,9 @@ namespace eeGames
 		void registerEngine();
 
 	public:
-		ScriptEngine(DataContainerEngine *_p_dataContainerEngine, RequestQueue *_p_requestQueue, EntityContainerEngine *_p_entityContainerEngine,
-			SoundContainer *_p_soundContainer, RenderEngine *_p_renderEngine, ResourceEngine *_p_resourceEngine) : m_dataContainerEngine(_p_dataContainerEngine),
-			m_requestQueue(_p_requestQueue), m_entityContainerEngine(_p_entityContainerEngine), m_soundContainer(_p_soundContainer), 
-			m_renderEngine(_p_renderEngine), m_resourceEngine(_p_resourceEngine)
+		ScriptEngine(DataContainerEngine *dataContainerEngine, EntityContainerEngine *entityContainerEngine,
+			SoundContainerEngine *soundContainerEngine, RenderEngine *renderEngine) : m_dataContainerEngine(dataContainerEngine),
+			m_entityContainerEngine(entityContainerEngine), m_soundContainerEngine(soundContainerEngine), m_renderEngine(renderEngine) 
 		{
 			m_engine = asCreateScriptEngine();
 			registerEngine();
@@ -79,17 +76,64 @@ namespace eeGames
 		void executeCommands();
 
 		// used by the scripts for engine communication:
-		bool startModule(const std::string &id, const std::string &dir);
-		bool terminateModule(const std::string &id); // will terminate module from memory (and all data)
-		bool sleepModule(const std::string &id); // will keep module in memory (and all data), but it won't be executed
-		bool wakeModule(const std::string &id);
+		void startModule(const std::string &id, const std::string &dir)
+		{
+			m_commands.push_back(Command(CommandType::M_START, id, dir));
+		}
+		void terminateModule(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::M_TERM, id));
+		}
+		void sleepModule(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::M_SLEEP, id));
+		}
+		void wakeModule(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::M_WAKE, id));
+		}
 
-		bool createDataContainer(const std::string &id);
-		bool deleteDataContainer(const std::string &id);
-		bool saveDataContainer(const std::string &id, const std::string &dir);
-		bool loadDataContainer(const std::string &id, const std::string &dir);
+		void createDataContainer(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::D_CREATE, id));
+		}
+		void deleteDataContainer(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::D_DESTROY, id));
+		}
+		void saveDataContainer(const std::string &id, const std::string &dir)
+		{
+			m_commands.push_back(Command(CommandType::D_SAVE, id, dir));
+		}
+		void loadDataContainer(const std::string &id, const std::string &dir)
+		{
+			m_commands.push_back(Command(CommandType::D_LOAD, id, dir));
+		}
 
-		bool loadEntityContainer(const std::string &id, const std::string &dir);
-		bool deleteEntityContainer(const std::string &id);
+		void loadEntityContainer(const std::string &id, const std::string &dir)
+		{
+			m_commands.push_back(Command(CommandType::E_LOAD, id, dir));
+		}
+		void deleteEntityContainer(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::E_DESTROY, id));
+		}
+
+		void loadSoundContainer(const std::string &id, const std::string &dir)
+		{
+			m_commands.push_back(Command(CommandType::SE_LOAD, id, dir));
+		}
+		void loadMusicContainer(const std::string &id, const std::string &dir)
+		{
+			m_commands.push_back(Command(CommandType::SM_LOAD, id, dir));
+		}
+		void removeSoundContainer(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::SE_DESTROY, id));
+		}
+		void removeMusicContainer(const std::string &id)
+		{
+			m_commands.push_back(Command(CommandType::SM_DESTROY, id));
+		}
 	};
 }

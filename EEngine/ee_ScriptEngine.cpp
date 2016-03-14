@@ -54,18 +54,23 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, double &out)", asMETHODPR(Request, get_num, (const std::string&, double*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, string &out)", asMETHOD(Request, get_string), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
-	error = m_engine->RegisterGlobalFunction("bool terminateModule(const string &in)", asMETHOD(ScriptEngine, terminateModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool startModule(const string &in, const string &in)", asMETHOD(ScriptEngine, startModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool sleepModule(const string &in)", asMETHOD(ScriptEngine, sleepModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool wakeModule(const string &in)", asMETHOD(ScriptEngine, wakeModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void terminateModule(const string &in)", asMETHOD(ScriptEngine, terminateModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void startModule(const string &in, const string &in)", asMETHOD(ScriptEngine, startModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void sleepModule(const string &in)", asMETHOD(ScriptEngine, sleepModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void wakeModule(const string &in)", asMETHOD(ScriptEngine, wakeModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
-	error = m_engine->RegisterGlobalFunction("bool createDataConainter(const string &in)", asMETHOD(ScriptEngine, createDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool deleteDataContainer(const string &in)", asMETHOD(ScriptEngine, deleteDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool saveDataContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, saveDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool loadDataContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, loadDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void createDataConainter(const string &in)", asMETHOD(ScriptEngine, createDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void deleteDataContainer(const string &in)", asMETHOD(ScriptEngine, deleteDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void saveDataContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, saveDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void loadDataContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, loadDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
-	error = m_engine->RegisterGlobalFunction("bool loadEntityContainer(const string &in)", asMETHOD(ScriptEngine, loadEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool deleteEntityContainer(const string &in)", asMETHOD(ScriptEngine, deleteEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void loadEntityContainer(const string &in)", asMETHOD(ScriptEngine, loadEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void deleteEntityContainer(const string &in)", asMETHOD(ScriptEngine, deleteEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+
+	error = m_engine->RegisterGlobalFunction("void removeSoundContainer(const string &in)", asMETHOD(ScriptEngine, removeSoundContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void removeMusicContainer(const string &in)", asMETHOD(ScriptEngine, removeMusicContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void loadSoundContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, loadSoundContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void loadMusicContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, loadMusicContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
 	// register enums for keyboard and mouse presses:
 	error = m_engine->RegisterEnum("Mouse"); assert(error >= 0);
@@ -221,6 +226,8 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterObjectBehaviour("StaticEntity", asBEHAVE_CONSTRUCT, "void f(const string &in, const string &in)", asMETHOD(RenderEngine, staticEntityConst), asCALL_THISCALL_OBJLAST, m_renderEngine); assert(error >= 0);
 	error = m_engine->RegisterObjectBehaviour("StaticEntity", asBEHAVE_DESTRUCT, "void f()", asMETHOD(RenderEngine, staticEntityDest), asCALL_THISCALL_OBJLAST, m_renderEngine); assert(error >= 0);
 	
+	// TODO: make wrappers for the transformable types
+
 	// scale and position
 	error = m_engine->RegisterObjectMethod("StaticEntity", "float getPositionX()", asMETHOD(StaticEntity, getPositionX), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("StaticEntity", "float getPositionY()", asMETHOD(StaticEntity, getPositionY), asCALL_THISCALL); assert(error >= 0);
@@ -247,7 +254,7 @@ void eeGames::ScriptEngine::registerEngine()
 
 	// register SoundEffect functions
 	error = m_engine->RegisterObjectType("SoundEffect", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("SoundEffect", "void play()", asMETHODPR(sf::Sound, play, (), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("SoundEffect", "void play()", asMETHODPR(SoundEffect, play, (), void), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "void play(uint)", asMETHODPR(SoundEffect, play, (uint32_t), void), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "void setLoop(bool)", asMETHOD(SoundEffect, setLoop), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "void pause()", asMETHOD(SoundEffect, pause), asCALL_THISCALL); assert(error >= 0);
@@ -259,7 +266,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterObjectMethod("SoundEffect", "float getPositionZ()", asMETHOD(SoundEffect, getPositionZ), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("SoundEffect", "bool getLoopStatus()", asMETHOD(SoundEffect, getLoopStatus), asCALL_THISCALL); assert(error >= 0);
 
-	error = m_engine->RegisterObjectMethod("SoundEffect", "void setVolume(uint8)", asMETHOD(SoundEffect, setVolume), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("SoundEffect", "void setVolume(uint)", asMETHOD(SoundEffect, setVolume), asCALL_THISCALL); assert(error >= 0);
 
 	// register Music functions
 	error = m_engine->RegisterObjectType("Music", 0, asOBJ_REF | asOBJ_NOCOUNT); assert(error >= 0);
@@ -275,12 +282,16 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterObjectMethod("Music", "float getPositionZ()", asMETHOD(SoundMusic, getPositionZ), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("Music", "bool getLoopStatus()", asMETHOD(SoundMusic, getLoopStatus), asCALL_THISCALL); assert(error >= 0);
 
-	error = m_engine->RegisterObjectMethod("Music", "void setVolume(uint8)", asMETHOD(SoundMusic, setVolume), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("Music", "void setVolume(uint)", asMETHOD(SoundMusic, setVolume), asCALL_THISCALL); assert(error >= 0);
 
 	// set up music management software
-	error = m_engine->RegisterObjectMethod("SoundContainer", "SoundEffect @getSoundEffect(string &in)", asMETHOD(SoundContainer, getSoundEffect), asCALL_THISCALL_ASGLOBAL, m_soundContainer); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("SoundContainer", "SoundEffect @createSoundEffectCopy(string &in, string &in)", asMETHOD(SoundContainer, createSoundEffectCopy), asCALL_THISCALL_ASGLOBAL, m_soundContainer); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("SoundContainer", "Music @getMusic(string &in)", asMETHOD(SoundContainer, getSoundMusic), asCALL_THISCALL_ASGLOBAL, m_soundContainer); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool loadSoundContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, loadSoundContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool removeSoundContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, removeSoundContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool removeMusicContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, removeMusicContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool loadMusicContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, loadMusicContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
+
+	error = m_engine->RegisterGlobalFunction("SoundEffect @getSoundEffect(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundEffect), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("SoundMusic @getSoundEffect(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundMusic), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
 
 	// register Microphone functions (only one mucrophone, so only one function for controlling it)
 	error = m_engine->RegisterGlobalFunction("void setMicrophonePosition(float, float, float)", asFUNCTIONPR(sf::Listener::setPosition, (float, float, float), void), asCALL_CDECL); assert(error >= 0);
@@ -353,92 +364,25 @@ void eeGames::ScriptEngine::executeCommands()
 			m_currentModuleList.insert(std::make_pair(it.m_id, std::move(temp)));
 			}
 			break;
+		case CommandType::SE_DESTROY:
+			m_soundContainerEngine->removeSoundContainer(it.m_id);
+			break;
+		case CommandType::SE_LOAD:
+			m_soundContainerEngine->loadSoundContainer(it.m_id, it.m_dir);
+			break;
+		case CommandType::SM_DESTROY:
+			m_soundContainerEngine->removeMusicContainer(it.m_id);
+			break;
+		case CommandType::SM_LOAD:
+			m_soundContainerEngine->loadMusicContainer(it.m_id, it.m_dir);
+			break;
 		default:
-			throw std::logic_error("unknown command attempting to be executed");
+			throw std::runtime_error("unknown command attempting to be executed");
 		}
 	}
 }
 
-bool eeGames::ScriptEngine::startModule(const std::string &id, const std::string &dir)
-{
-	if (m_currentModuleList.count(id) != 0)
-		return false;
 
-	m_commands.push_back(Command(CommandType::M_START, id, dir));
-	return true;
-}
 
-bool eeGames::ScriptEngine::terminateModule(const std::string &id)
-{
-	if (m_currentModuleList.count(id) == 0)
-		return false;
 
-	m_commands.push_back(Command(CommandType::M_TERM, id));
-	return true;
-}
 
-bool eeGames::ScriptEngine::sleepModule(const std::string &id)
-{
-	if (m_currentModuleList.count(id) == 0)
-		return false;
-
-	m_commands.push_back(Command(CommandType::M_SLEEP, id));
-	return true;
-}
-
-bool eeGames::ScriptEngine::wakeModule(const std::string &id)
-{
-	if (m_currentModuleList.count(id) == 0)
-		return false;
-
-	m_commands.push_back(Command(CommandType::M_WAKE, id));
-	return true;
-}
-
-bool eeGames::ScriptEngine::createDataContainer(const std::string &id)
-{
-	if (m_dataContainerEngine->exists(id))
-		return false;
-	m_commands.push_back(Command(CommandType::D_CREATE, id));
-	return true;
-}
-
-bool eeGames::ScriptEngine::deleteDataContainer(const std::string &id)
-{
-	if (m_dataContainerEngine->exists(id) == false)
-		return false;
-	m_commands.push_back(Command(CommandType::D_DESTROY, id));
-	return true;
-}
-
-bool eeGames::ScriptEngine::saveDataContainer(const std::string &id, const std::string &dir)
-{
-	if (m_dataContainerEngine->exists(id) == false)
-		return false;
-	m_commands.push_back(Command(CommandType::D_SAVE, id, dir));
-	return true;
-}
-
-bool eeGames::ScriptEngine::loadDataContainer(const std::string &id, const std::string &dir)
-{
-	if (m_dataContainerEngine->exists(id) == false)
-		return false;
-	m_commands.push_back(Command(CommandType::D_LOAD, id, dir));
-	return true;
-}
-
-bool eeGames::ScriptEngine::loadEntityContainer(const std::string &id, const std::string &dir)
-{
-	if (m_entityContainerEngine->exists(id))
-		return false;
-	m_commands.push_back(Command(CommandType::E_LOAD, id, dir));
-	return true;
-}
-
-bool eeGames::ScriptEngine::deleteEntityContainer(const std::string &id)
-{
-	if (m_entityContainerEngine->exists(id))
-		return false;
-	m_commands.push_back(Command(CommandType::E_DESTROY, id));
-	return true;
-}

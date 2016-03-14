@@ -10,7 +10,9 @@ bool eeGames::SoundContainer::processContainer(thor::ResourceHolder<sf::SoundBuf
 	while (entity != nullptr)
 	{
 		sf::SoundBuffer &sound = holder->acquire(entity->Attribute("id"), thor::Resources::fromFile<sf::SoundBuffer>(entity->Attribute("dir")), thor::Resources::Reuse);
-		m_soundBuffers.insert(std::make_pair(std::string(entity->Attribute("id")), sound));
+		auto pair = m_soundBuffers.insert(std::make_pair(std::string(entity->Attribute("id")), SoundEffect()));
+		if (pair.first->second.assignSoundBuffer(&sound) == false)
+			throw std::runtime_error("sound buffer was null");
 		entity = entity->NextSiblingElement();
 	}
 	return true;

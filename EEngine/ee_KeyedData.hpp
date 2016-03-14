@@ -24,20 +24,20 @@ namespace eeGames
 			return _container.at(key);
 		}
 
-		CType::iterator begin()
+		typename CType::iterator begin()
 		{
 			return _container.begin();
 		}
-		CType::const_iterator begin() const
+		typename CType::const_iterator begin() const
 		{
 			return _container.begin();
 		}
 
-		CType::iterator end()
+		typename CType::iterator end()
 		{
 			return _container.end();
 		}
-		CType::const_iterator end() const
+		typename CType::const_iterator end() const
 		{
 			return _container.end();
 		}
@@ -59,21 +59,21 @@ namespace eeGames
 		{
 			return _container.erase(key);
 		}
-		CType::iterator erase(CType::iterator &it)
+		typename CType::iterator erase(typename CType::iterator &it)
 		{
 			return _container.erase(it);
 		}
 
-		CType::iterator find(const Key &key)
+		typename CType::iterator find(const Key &key)
 		{
 			return _container.find(key);
 		}
-		CType::const_iterator find(const Key &key) const
+		typename CType::const_iterator find(const Key &key) const
 		{
 			return _container.find(key);
 		}
 
-		std::pair<CType::iterator, bool> &insert(std::pair<Key, Data> &element)
+		typename std::pair<typename CType::iterator, bool> &insert(std::pair<Key, Data> &element)
 		{
 			return _container.insert(element);
 		}

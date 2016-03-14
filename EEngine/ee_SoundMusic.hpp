@@ -4,70 +4,72 @@
 
 namespace eeGames
 {
+	// TODO: resource loader for sf::Music needs to be fixed
 	class SoundMusic : public Sound
 	{
 	private:
-		sf::Music _m_sound;
+		sf::Music *m_sound;
 	public:
-		bool assignSoundDirectory(const std::string &_p_directory)
+		bool assignSoundMusic(sf::Music *sound)
 		{
-			if (!_m_sound.openFromFile(_p_directory))
+			if (sound == nullptr)
 				return false;
+			m_sound = sound;
 			return true;
 		}
 
 		virtual void play()
 		{
-			_m_sound.play();
+			m_sound->play();
 		}
 		virtual void play(uint32_t _p_startTime)
 		{
-			_m_sound.play();
-			_m_sound.setPlayingOffset(sf::milliseconds(_p_startTime));
+			m_sound->play();
+			m_sound->setPlayingOffset(sf::milliseconds(_p_startTime));
 		}
 		virtual void setLoop(bool _p_loopStatus)
 		{
-			_m_sound.setLoop(_p_loopStatus);
+			m_sound->setLoop(_p_loopStatus);
 		}
 		virtual void pause()
 		{
-			_m_sound.pause();
+			m_sound->pause();
 		}
 		virtual void stop()
 		{
-			_m_sound.stop();
+			m_sound->stop();
 		}
 
 		virtual void setPosition(float x, float y, float z)
 		{
-			_m_sound.setPosition(x, y, z);
+			m_sound->setPosition(x, y, z);
 		}
 		virtual float getPositionX() const
 		{
-			return _m_sound.getPosition().x;
+			return m_sound->getPosition().x;
 		}
 		virtual float getPositionY() const
 		{
-			_m_sound.getPosition.y;
+			m_sound->getPosition().y;
 		}
 		virtual float getPositionZ() const
 		{
-			return _m_sound.getPosition().z;
+			return m_sound->getPosition().z;
 		}
 		virtual uint32_t getPlayPosition() const
 		{
-			return _m_sound.getPlayingOffset().asMilliseconds();
+			return m_sound->getPlayingOffset().asMilliseconds();
 		}
 		virtual bool getLoopStatus() const
 		{
-			return _m_sound.getLoop();
+			return m_sound->getLoop();
 		}
 
-		virtual void setVolume(uint8_t _p_volume)
+		virtual void setVolume(uint32_t volume)
 		{
-			if (_p_volume > 100)
-				_p_volume = 100;
-			_m_sound.setVolume(_p_volume);
+			if (volume > 100)
+				volume = 100;
+			m_sound->setVolume(volume);
 		}
 	};
 }

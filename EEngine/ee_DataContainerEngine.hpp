@@ -42,8 +42,8 @@ namespace eeGames
 		}
 		bool add_string(const std::string &c_name, const std::string &d_name, const std::string &data)
 		{
-			auto it = _containerList.find(c_name);
-			if (it == _containerList.end())
+			auto it = m_containerList.find(c_name);
+			if (it == m_containerList.end())
 				return false;
 			it->second->add_string(d_name, data);
 		}
@@ -59,8 +59,8 @@ namespace eeGames
 		}
 		bool get_string(const std::string &c_name, const std::string &d_name, std::string *data) const
 		{
-			auto it = _containerList.find(c_name);
-			if (it == _containerList.end())
+			auto it = m_containerList.find(c_name);
+			if (it == m_containerList.end())
 				return false;
 
 			return it->second->get_string(d_name, data);

@@ -19,7 +19,7 @@
 
 namespace eeGames
 {
-	class AudioContainerEngine
+	class SoundContainerEngine
 	{
 	private:
 		KeyedData<std::string, SoundContainer> m_soundContainers;
@@ -30,15 +30,13 @@ namespace eeGames
 
 	public:
 		bool loadSoundContainer(const std::string &id, const std::string &dir)
-		{
-			auto it = m_soundContainers.find(id);
-			if (it == m_soundContainers.end())
-				return false;
-			
+		{			
 		   	auto pair = m_soundContainers.insert(std::make_pair(id, SoundContainer()));
-			if (pair.second == false) return false;
-			if (pair.first->second.loadContainer(dir) == false) return  false;
-			pair.first->second.processContainer(&m_soundBuffersRes);
+			if (pair.second == false)
+				return false;
+			if (pair.first->second.loadContainer(dir) == false) 
+				return  false;
+			return pair.first->second.processContainer(&m_soundBuffersRes);
 		}
 		bool removeSoundContainer(const std::string &id)
 		{
@@ -52,13 +50,11 @@ namespace eeGames
 
 		bool loadMusicContainer(const std::string &id, const std::string &dir)
 		{
-			auto it = m_musicContainers.find(id);
-			if (it == m_musicContainers.end())
-				return false;
-
 			auto pair = m_musicContainers.insert(std::make_pair(id, MusicContainer()));
-			if (pair.second == false) return false;
-			if (pair.first->second.loadContainer(dir) == false) return false;
+			if (pair.second == false) 
+				return false;
+			if (pair.first->second.loadContainer(dir) == false) 
+				return false;
 			return pair.first->second.processContainer(&m_musicRes);
 		}
 		bool removeMusicContainer(const std::string &id)
@@ -71,7 +67,7 @@ namespace eeGames
 			return true;
 		}
 
-		sf::SoundBuffer *getSound(const std::string &contID, const std::string &soundID)
+		SoundEffect *getSoundEffect(const std::string &contID, const std::string &soundID)
 		{
 			auto it = m_soundContainers.find(contID);
 			if (it == m_soundContainers.end())
@@ -79,7 +75,7 @@ namespace eeGames
 
 			return it->second.getSound(soundID);
 		}
-		sf::Music *getMusic(const std::string &contID, const std::string &musicID)
+		SoundMusic *getSoundMusic(const std::string &contID, const std::string &musicID)
 		{
 			auto it = m_musicContainers.find(contID);
 			if (it == m_musicContainers.end())

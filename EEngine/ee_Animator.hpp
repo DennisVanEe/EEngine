@@ -42,7 +42,19 @@ namespace eeGames
 		}
 		const Animation &operator=(const Animation &copy)
 		{
-			Animation(copy);
+			m_spriteSheet = copy.m_spriteSheet; // copy the pointer
+			m_frameSize = copy.m_frameSize;
+			m_columnsRows = copy.m_columnsRows;
+			m_frameTime = copy.m_frameTime;
+			m_currentTime = copy.m_currentTime;
+			m_currentFrame = copy.m_currentFrame;
+			m_frameNum = copy.m_frameNum;
+
+			m_frames.clear();
+			for (auto &it : copy.m_frames)
+			{
+				m_frames.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*it.get())));
+			}
 			return *this;
 		}
 

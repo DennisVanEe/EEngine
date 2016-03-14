@@ -19,9 +19,6 @@
     <Filter Include="Source Files\addons">
       <UniqueIdentifier>{18a9c642-5e3c-4a5c-ba55-aa984f0c48e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Module Communication">
-      <UniqueIdentifier>{8f974d8f-a440-4031-b0ae-3afb58ce1cab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Data Containers">
       <UniqueIdentifier>{0da63e37-739b-4564-a188-2ec7bf74aefe}</UniqueIdentifier>
     </Filter>
@@ -45,9 +42,6 @@
     </Filter>
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{04efb39f-02e0-4255-90eb-d1664811f112}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Keyed Data">
-      <UniqueIdentifier>{af5d4572-812b-438b-9a64-b4deaab8f576}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Keyed Data">
       <UniqueIdentifier>{65e05410-8054-4ddf-9a6c-be36f7a811f9}</UniqueIdentifier>
@@ -90,9 +84,6 @@
     <ClInclude Include="ee_StaticEntity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ee_ResourceEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ee_Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,22 +123,25 @@
     <ClInclude Include="ee_MusicContainer.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="ee_AudioContainerEngine.hpp">
+    <ClInclude Include="ee_Sound.hpp">
       <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundEffect.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundMusic.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_SoundContainerEngine.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ee_Game.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
       <Filter>Source Files\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="EEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ee_RequestQueue.cpp">
-      <Filter>Source Files\Module Communication</Filter>
-    </ClCompile>
-    <ClCompile Include="ee_Request.cpp">
-      <Filter>Source Files\Module Communication</Filter>
     </ClCompile>
     <ClCompile Include="ee_ScriptEngine.cpp">
       <Filter>Source Files</Filter>
@@ -173,13 +167,7 @@
     <ClCompile Include="ee_RenderEngine.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ee_ResourceEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ee_ScriptInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ee_GameEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ee_EntityContainerEngine.cpp">
@@ -208,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="ee_MusicContainer.cpp">
       <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_EngineMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

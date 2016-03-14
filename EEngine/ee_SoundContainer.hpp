@@ -5,6 +5,7 @@
 #include <Thor\Resources.hpp>
 
 #include "ee_KeyedData.hpp"
+#include "ee_SoundEffect.hpp"
 #include "ee_XMLContainer.hpp"
 
 namespace eeGames
@@ -12,7 +13,7 @@ namespace eeGames
 	class SoundContainer : public XMLDocument
 	{
 	private:
-		KeyedData<std::string, sf::SoundBuffer> m_soundBuffers;
+		KeyedData<std::string, SoundEffect> m_soundBuffers;
 
 	public:
 		SoundContainer() {}
@@ -21,18 +22,18 @@ namespace eeGames
 
 		bool processContainer(thor::ResourceHolder<sf::SoundBuffer, std::string> *holder);
 
-		sf::SoundBuffer *getSound(const std::string &id)
+		SoundEffect *getSound(const std::string &id)
 		{
 			auto it = m_soundBuffers.find(id);
 			if (it == m_soundBuffers.end())
-				return nullptr;
+				throw std::logic_error("The sound " + id + " could not be found");
 			return &it->second;
 		}
-		const sf::SoundBuffer *getSound(const std::string &id) const
+		const SoundEffect *getSound(const std::string &id) const
 		{
 			auto it = m_soundBuffers.find(id);
 			if (it == m_soundBuffers.end())
-				return nullptr;
+				throw std::logic_error("The sound " + id + " could not be found");
 			return &it->second;
 		}
 	};

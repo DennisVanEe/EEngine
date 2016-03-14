@@ -93,7 +93,7 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\local\thor\include;C:\local\tinyxml2\include;C:\local\angelscript\include;C:\local\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\local\thor\include;C:\local\tinyxml2\include;C:\local\angelscript\include;C:\local\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,18 +167,21 @@
     <ClInclude Include="ee_Entity.hpp" />
     <ClInclude Include="ee_EntityContainer.hpp" />
     <ClInclude Include="ee_EntityContainerEngine.hpp" />
+    <ClInclude Include="ee_Game.hpp" />
     <ClInclude Include="ee_GameEngine.hpp" />
     <ClInclude Include="ee_KeyedData.hpp" />
     <ClInclude Include="ee_LoadEngine.hpp" />
     <ClInclude Include="ee_MusicContainer.hpp" />
     <ClInclude Include="ee_OrderedKeyedData.hpp" />
     <ClInclude Include="ee_ScriptInterface.hpp" />
+    <ClInclude Include="ee_Sound.hpp" />
     <ClInclude Include="ee_SoundContainer.hpp" />
-    <ClInclude Include="ee_AudioContainerEngine.hpp" />
+    <ClInclude Include="ee_SoundContainerEngine.hpp" />
     <ClInclude Include="ee_Module.hpp" />
     <ClInclude Include="ee_RenderEngine.hpp" />
-    <ClInclude Include="ee_ResourceEngine.hpp" />
     <ClInclude Include="ee_ScriptEngine.hpp" />
+    <ClInclude Include="ee_SoundEffect.hpp" />
+    <ClInclude Include="ee_SoundMusic.hpp" />
     <ClInclude Include="ee_StaticEntity.hpp" />
     <ClInclude Include="ee_XMLContainer.hpp" />
     <ClInclude Include="stdafx.h" />
@@ -195,18 +198,14 @@
     <ClCompile Include="ee_Animator.cpp" />
     <ClCompile Include="ee_DataContainer.cpp" />
     <ClCompile Include="ee_DataContainerEngine.cpp" />
+    <ClCompile Include="ee_EngineMain.cpp" />
     <ClCompile Include="ee_EntityContainer.cpp" />
     <ClCompile Include="ee_EntityContainerEngine.cpp" />
     <ClCompile Include="ee_Module.cpp" />
     <ClCompile Include="ee_MusicContainer.cpp" />
     <ClCompile Include="ee_RenderEngine.cpp" />
-    <ClCompile Include="ee_Request.cpp" />
-    <ClCompile Include="ee_RequestQueue.cpp" />
-    <ClCompile Include="EEngine.cpp" />
-    <ClCompile Include="ee_ResourceEngine.cpp" />
     <ClCompile Include="ee_ScriptEngine.cpp" />
     <ClCompile Include="ee_ScriptInterface.cpp" />
-    <ClCompile Include="ee_GameEngine.cpp" />
     <ClCompile Include="ee_SoundContainer.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
   </ItemGroup>

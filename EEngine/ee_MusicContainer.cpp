@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ee_MusicCounter.hpp"
+#include "ee_MusicContainer.hpp"
 
 bool eeGames::MusicContainer::processContainer(thor::ResourceHolder<sf::Music, std::string>* holder)
 {
@@ -11,7 +11,9 @@ bool eeGames::MusicContainer::processContainer(thor::ResourceHolder<sf::Music, s
 	while (entity != nullptr)
 	{
 		sf::Music &sound = holder->acquire(entity->Attribute("id"), thor::Resources::fromFile<sf::Music>(entity->Attribute("dir")), thor::Resources::Reuse);
-		m_musicList.insert(std::make_pair(std::string(entity->Attribute("id")), sound));
+		auto pair = m_musicList.insert(std::make_pair(std::string(entity->Attribute("id")), SoundMusic()));
+		if (pair.first->second.assignSoundMusic(&sound) == false) 
+			throw std::runtime_error("music buffer was null");
 		entity = entity->NextSiblingElement();
 	}
 	return true;
