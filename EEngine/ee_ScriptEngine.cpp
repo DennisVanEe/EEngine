@@ -311,67 +311,66 @@ void eeGames::ScriptEngine::stepScripts(uint32_t frameTime)
 
 void eeGames::ScriptEngine::executeCommands()
 {
-	for (auto &it : m_commands)
+	for (uint32_t i = 0; i < m_commands.size(); i++)
 	{
-		switch (it.m_type)
+		switch (m_commands[i].m_type)
 		{
 		case CommandType::D_DESTROY:
-			m_dataContainerEngine->removeContainer(it.m_id);
+			m_dataContainerEngine->removeContainer(m_commands[i].m_id);
 			break;
 		case CommandType::D_CREATE:
-			m_dataContainerEngine->addContainer(it.m_id);
+			m_dataContainerEngine->addContainer(m_commands[i].m_id);
 			break;
 		case CommandType::D_LOAD:
-			m_dataContainerEngine->loadContainer(it.m_id, it.m_dir);
+			m_dataContainerEngine->loadContainer(m_commands[i].m_id, m_commands[i].m_dir);
 			break;
 		case CommandType::D_SAVE:
-			m_dataContainerEngine->saveContainer(it.m_id, it.m_dir);
+			m_dataContainerEngine->saveContainer(m_commands[i].m_id, m_commands[i].m_dir);
 			break;
 		case CommandType::E_DESTROY:
-			m_entityContainerEngine->removeContainer(it.m_id);
+			m_entityContainerEngine->removeContainer(m_commands[i].m_id);
 			break;
 		case CommandType::E_LOAD:
-			m_entityContainerEngine->loadContainer(it.m_id, it.m_dir);
+			m_entityContainerEngine->loadContainer(m_commands[i].m_id, m_commands[i].m_dir);
 			break;
 		case CommandType::M_SLEEP:
-			m_currentModuleList.find(it.m_id)->second->setSleep(true);
+			m_currentModuleList.find(m_commands[i].m_id)->second->setSleep(true);
 			break;
 		case CommandType::M_WAKE:
-			m_currentModuleList.find(it.m_id)->second->setSleep(false);
+			m_currentModuleList.find(m_commands[i].m_id)->second->setSleep(false);
 			break;
 		case CommandType::M_TERM:
 			{
-			auto tmp = m_currentModuleList.find(it.m_id);
+			auto tmp = m_currentModuleList.find(m_commands[i].m_id);
 			tmp->second.release();
 			m_currentModuleList.erase(tmp);
 			}
 			break;
 		case CommandType::M_START:
 			{
-				m_scriptBuilder.StartNewModule(m_engine, it.m_id.c_str());
-				int error = m_scriptBuilder.AddSectionFromFile(it.m_dir.c_str());
+				m_scriptBuilder.StartNewModule(m_engine, m_commands[i].m_id.c_str());
+				int error = m_scriptBuilder.AddSectionFromFile(m_commands[i].m_dir.c_str());
 				if (error < 0) 
-					throw std::logic_error("could not find or open file at " + it.m_dir);
+					throw std::logic_error("could not find or open file at " + m_commands[i].m_dir);
 				error = m_scriptBuilder.BuildModule();
 				if (error < 0) 
-					throw std::logic_error("could not build module at " + it.m_dir);
+					throw std::logic_error("could not build module at " + m_commands[i].m_dir);
 				std::unique_ptr<Module> temp(new Module(m_scriptBuilder.GetModule()));
-				std::string id = it.m_id; // not sure why this is necessary...
 				temp->initializeModule(); // initialize before running
-				m_currentModuleList.insert(std::make_pair(id, std::move(temp)));
+				m_currentModuleList.insert(std::make_pair(m_commands[i].m_id, std::move(temp)));
 			}
 			break;
 		case CommandType::SE_DESTROY:
-			m_soundContainerEngine->removeSoundContainer(it.m_id);
+			m_soundContainerEngine->removeSoundContainer(m_commands[i].m_id);
 			break;
 		case CommandType::SE_LOAD:
-			m_soundContainerEngine->loadSoundContainer(it.m_id, it.m_dir);
+			m_soundContainerEngine->loadSoundContainer(m_commands[i].m_id, m_commands[i].m_dir);
 			break;
 		case CommandType::SM_DESTROY:
-			m_soundContainerEngine->removeMusicContainer(it.m_id);
+			m_soundContainerEngine->removeMusicContainer(m_commands[i].m_id);
 			break;
 		case CommandType::SM_LOAD:
-			m_soundContainerEngine->loadMusicContainer(it.m_id, it.m_dir);
+			m_soundContainerEngine->loadMusicContainer(m_commands[i].m_id, m_commands[i].m_dir);
 			break;
 		default:
 			throw std::runtime_error("unknown command attempting to be executed");
