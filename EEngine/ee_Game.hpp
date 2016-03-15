@@ -30,10 +30,14 @@ namespace eeGames
 
 		void gameLoop()
 		{
+			m_scriptEngine->startModule("init", "F:/Programming/EE Software Solutions/Example Project/MainLoader.as");
+			m_scriptEngine->executeCommands();
+
 			sf::Clock timer;
 			while (true)
 			{
 				m_scriptEngine->stepScripts(timer.restart().asMilliseconds());
+				m_scriptEngine->executeCommands();
 				m_renderEngine->render();
 			}
 		}

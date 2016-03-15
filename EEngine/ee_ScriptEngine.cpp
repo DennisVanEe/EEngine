@@ -64,7 +64,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterGlobalFunction("void saveDataContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, saveDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("void loadDataContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, loadDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
-	error = m_engine->RegisterGlobalFunction("void loadEntityContainer(const string &in)", asMETHOD(ScriptEngine, loadEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("void loadEntityContainer(const string &in, const string &in)", asMETHOD(ScriptEngine, loadEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("void deleteEntityContainer(const string &in)", asMETHOD(ScriptEngine, deleteEntityContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
 	error = m_engine->RegisterGlobalFunction("void removeSoundContainer(const string &in)", asMETHOD(ScriptEngine, removeSoundContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
@@ -348,14 +348,17 @@ void eeGames::ScriptEngine::executeCommands()
 			break;
 		case CommandType::M_START:
 			{
-			m_scriptBuilder.StartNewModule(m_engine, it.m_id.c_str());
-			int error = m_scriptBuilder.AddSectionFromFile(it.m_dir.c_str());
-			if (error < 0) throw std::logic_error("could not find or open file at " + it.m_dir);
-			error = m_scriptBuilder.BuildModule();
-			if (error < 0) throw std::logic_error("could not build module at " + it.m_dir);
-			std::unique_ptr<Module> temp(new Module(m_scriptBuilder.GetModule()));
-			temp->initializeModule(); // initialize before running
-			m_currentModuleList.insert(std::make_pair(it.m_id, std::move(temp)));
+				m_scriptBuilder.StartNewModule(m_engine, it.m_id.c_str());
+				int error = m_scriptBuilder.AddSectionFromFile(it.m_dir.c_str());
+				if (error < 0) 
+					throw std::logic_error("could not find or open file at " + it.m_dir);
+				error = m_scriptBuilder.BuildModule();
+				if (error < 0) 
+					throw std::logic_error("could not build module at " + it.m_dir);
+				std::unique_ptr<Module> temp(new Module(m_scriptBuilder.GetModule()));
+				std::string id = it.m_id; // not sure why this is necessary...
+				temp->initializeModule(); // initialize before running
+				m_currentModuleList.insert(std::make_pair(id, std::move(temp)));
 			}
 			break;
 		case CommandType::SE_DESTROY:

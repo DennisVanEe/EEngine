@@ -28,7 +28,7 @@ namespace eeGames
 		std::string _m_stepDecl = "void step(uint16)";
 		std::string _m_initDecl = "void initialize()";
 
-		bool m_moduleLoaded, m_sleep;
+		bool m_sleep;
 	public:
 		Module(asIScriptModule *mod); // module initialized by module builder addon
 		~Module();

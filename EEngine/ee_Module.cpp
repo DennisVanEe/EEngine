@@ -14,9 +14,6 @@ eeGames::Module::~Module()
 
 bool eeGames::Module::initializeModule()
 {
-	if (!m_moduleLoaded)
-		throw std::runtime_error("module was not loaded before initialized");
-
 	m_context->Prepare(m_module->GetFunctionByDecl(_m_initDecl.c_str()));
 	m_context->Execute();
 
