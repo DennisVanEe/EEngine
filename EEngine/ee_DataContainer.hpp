@@ -3,9 +3,9 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <unordered_map>
 
 #include "ee_DataConversion.hpp"
-#include "ee_KeyedData.hpp"
 
 // Container that can store data
 // No casting saftey (ex: can cast data originally an int as a float)
@@ -25,21 +25,45 @@ namespace eeGames
 	{
 		std::vector<byte> byte_vec;
 		uint8_t data_type;
-		ByteData(std::vector<byte> b_vec, uint8_t d_type) : byte_vec(std::move(b_vec)), data_type(d_type) {}
+		ByteData(std::vector<byte> b_vec, uint8_t d_type) : 
+			byte_vec(std::move(b_vec)), 
+			data_type(d_type) 
+		{}
+		ByteData(const ByteData& copy) :
+			byte_vec(copy.byte_vec),
+			data_type(copy.data_type)
+		{}
+		ByteData &operator=(const ByteData &copy)
+		{
+			byte_vec = copy.byte_vec;
+			data_type = copy.data_type;
+			return *this;
+		}
+		ByteData(ByteData&& copy) :
+			byte_vec(std::move(copy.byte_vec)),
+			data_type(std::move(copy.data_type))
+		{}
 		ByteData() {}
 	};
 
 	class DataContainer
 	{
 	private:
-		KeyedData<std::string, ByteData> _data;
+		std::unordered_map<std::string, ByteData> _data;
 
 	public:
 		DataContainer() {}
 
-		// non-copyable (for now)
-		DataContainer(const DataContainer&) = delete;
-		DataContainer& operator=(const DataContainer&) = delete;
+		// should only exist wrapped around a unique_ptr:
+		DataContainer(const DataContainer &copy) : _data(copy._data)
+		{}
+		DataContainer(DataContainer &&copy) : _data(std::move(copy._data))
+		{}
+		DataContainer& operator=(const DataContainer &copy)
+		{
+			_data = copy._data;
+			return *this;
+		}
 
 		template <typename T> // utilizes move-semantics
 		void add_int(const std::string &id, T data)

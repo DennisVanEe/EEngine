@@ -9,8 +9,6 @@
 
 #include "ee_EntityContainerEngine.hpp"
 #include "ee_EntityContainerEngine.hpp"
-#include "ee_KeyedData.hpp"
-#include "ee_OrderedKeyedData.hpp"
 
 namespace eeGames
 {
@@ -21,8 +19,10 @@ namespace eeGames
 		sf::RenderWindow m_window;
 
 		std::vector<Entity*> renderBuffer;
+
 	public:
-		RenderEngine(EntityContainerEngine *entityContainerEngine) : m_entityContainerEngine(entityContainerEngine)
+		RenderEngine(EntityContainerEngine *entityContainerEngine) : 
+			m_entityContainerEngine(entityContainerEngine)
 		{
 		}
 		
@@ -35,11 +35,8 @@ namespace eeGames
 		void animatedEntityConst(const std::string &contID, const std::string &entID, void *memory)
 		{
 			new(memory) AnimatedEntity();
-			if (m_entityContainerEngine->getEntityFormCont(contID, entID, memory) == false) // this here should never happen
-			{
-				throw std::domain_error("entity " + std::string(entID.begin(), entID.end()) + " could not be found in " 
-					+ std::string(contID.begin(), entID.end()));
-			}
+			m_entityContainerEngine->getEntityFormCont(contID, entID, memory);
+
 			renderBuffer.push_back(static_cast<AnimatedEntity*>(memory));
 			static_cast<AnimatedEntity*>(memory)->assignRenderPos(renderBuffer.end() - 1); // assign the location
 		}
@@ -52,11 +49,8 @@ namespace eeGames
 		void staticEntityConst(const std::string &contID, const std::string &entID, void *memory)
 		{
 			new(memory) StaticEntity();
-			if (m_entityContainerEngine->getEntityFormCont(contID, entID, memory) == false) // this here should never happen
-			{
-				throw std::domain_error("entity " + std::string(entID.begin(), entID.end()) + " could not be found in "
-					+ std::string(contID.begin(), entID.end()));
-			}
+			m_entityContainerEngine->getEntityFormCont(contID, entID, memory);
+
 			renderBuffer.push_back(static_cast<StaticEntity*>(memory));
 			static_cast<StaticEntity*>(memory)->assignRenderPos(renderBuffer.end() - 1); // assign the location
 		}

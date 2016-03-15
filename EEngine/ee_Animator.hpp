@@ -86,7 +86,7 @@ namespace eeGames
 			return m_frameTime;
 		}
 
-		void play(uint16_t frameTime);
+		void play(uint32_t frameTime);
 
 		const sf::Sprite &getCurrentFrame() const
 		{

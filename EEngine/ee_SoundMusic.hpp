@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "ee_Sound.hpp"
 
 namespace eeGames
@@ -8,14 +10,21 @@ namespace eeGames
 	class SoundMusic : public Sound
 	{
 	private:
-		sf::Music *m_sound;
+		std::unique_ptr<sf::Music> m_sound;
 	public:
-		bool assignSoundMusic(sf::Music *sound)
+		SoundMusic() :
+			m_sound(new sf::Music())
 		{
-			if (sound == nullptr)
-				return false;
-			m_sound = sound;
-			return true;
+		}
+		SoundMusic(SoundMusic &&copy) :
+			m_sound(std::move(copy.m_sound))
+		{
+		}
+		SoundMusic(SoundMusic &) = delete;
+
+		bool assignSoundMusic(const std::string &dir)
+		{
+			return m_sound->openFromFile(dir);
 		}
 
 		virtual void play()
@@ -50,7 +59,7 @@ namespace eeGames
 		}
 		virtual float getPositionY() const
 		{
-			m_sound->getPosition().y;
+			return m_sound->getPosition().y;
 		}
 		virtual float getPositionZ() const
 		{

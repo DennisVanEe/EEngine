@@ -4,6 +4,7 @@
 #include <angelscript.h>
 #include <assert.h>
 #include <memory>
+#include <unordered_map>
 #include <SFML/System.hpp>
 #include <stdint.h> 
 
@@ -15,14 +16,10 @@
 #include <scriptdictionary\scriptdictionary.h>
 
 #include "ee_Module.hpp"
-#include "ee_RequestQueue.hpp"
 #include "ee_DataContainerEngine.hpp"
-#include "ee_RequestType.hpp"
 #include "ee_EntityContainer.hpp"
 #include "ee_ScriptInterface.hpp"
 #include "ee_RenderEngine.hpp"
-#include "ee_ResourceEngine.hpp"
-#include "ee_KeyedData.hpp"
 #include "ee_Algorithms.hpp"
 #include "ee_SoundContainerEngine.hpp"
 
@@ -33,7 +30,7 @@ namespace eeGames
 	class ScriptEngine
 	{
 	private:
-		KeyedData<std::string, std::unique_ptr<Module>> m_currentModuleList; // active list of modules
+		std::unordered_map<std::string, std::unique_ptr<Module>> m_currentModuleList; // active list of modules
 
 		// commands for scripts:
 		struct Command
@@ -57,8 +54,11 @@ namespace eeGames
 
 	public:
 		ScriptEngine(DataContainerEngine *dataContainerEngine, EntityContainerEngine *entityContainerEngine,
-			SoundContainerEngine *soundContainerEngine, RenderEngine *renderEngine) : m_dataContainerEngine(dataContainerEngine),
-			m_entityContainerEngine(entityContainerEngine), m_soundContainerEngine(soundContainerEngine), m_renderEngine(renderEngine) 
+			SoundContainerEngine *soundContainerEngine, RenderEngine *renderEngine) : 
+			m_dataContainerEngine(dataContainerEngine),
+			m_entityContainerEngine(entityContainerEngine), 
+			m_soundContainerEngine(soundContainerEngine), 
+			m_renderEngine(renderEngine) 
 		{
 			m_engine = asCreateScriptEngine();
 			registerEngine();
@@ -68,7 +68,9 @@ namespace eeGames
 			m_engine->ShutDownAndRelease();
 		}
 
+		// there should always only be one script engine:
 		ScriptEngine(const ScriptEngine &) = delete;
+		ScriptEngine(const ScriptEngine &&) = delete;
 		ScriptEngine &operator=(const ScriptEngine &) = delete;
 
 		void initScripts();

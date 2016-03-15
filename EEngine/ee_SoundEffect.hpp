@@ -8,13 +8,13 @@ namespace eeGames
 	{
 	private:
 		sf::Sound m_sound;
+
 	public:
-		bool assignSoundBuffer(const sf::SoundBuffer *_p_soundBuffer)
+		bool assignSoundBuffer(const sf::SoundBuffer *soundBuffer)
 		{
-			if (!_p_soundBuffer)
-				return false;
-			m_sound.setBuffer(*_p_soundBuffer);
-			return true;
+			if (soundBuffer == nullptr)
+				throw std::runtime_error("SoundBuffer is null");
+			m_sound.setBuffer(*soundBuffer);
 		}
 
 		virtual void play()

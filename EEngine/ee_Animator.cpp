@@ -24,7 +24,7 @@ bool eeGames::Animation::createFrames()
 	}
 }
 
-void eeGames::Animation::play(uint16_t frameTime)
+void eeGames::Animation::play(uint32_t frameTime)
 {
 	if (frameTime + m_currentTime > frameTime)
 	{

@@ -43,9 +43,6 @@
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{04efb39f-02e0-4255-90eb-d1664811f112}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Keyed Data">
-      <UniqueIdentifier>{65e05410-8054-4ddf-9a6c-be36f7a811f9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -93,20 +90,8 @@
     <ClInclude Include="ee_ScriptInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ee_GameEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_LoadEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ee_DataConversion.hpp">
       <Filter>Header Files\Data Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_KeyedData.hpp">
-      <Filter>Header Files\Keyed Data</Filter>
-    </ClInclude>
-    <ClInclude Include="ee_OrderedKeyedData.hpp">
-      <Filter>Header Files\Keyed Data</Filter>
     </ClInclude>
     <ClInclude Include="ee_EntityContainerEngine.hpp">
       <Filter>Header Files\Entities</Filter>
@@ -138,11 +123,11 @@
     <ClInclude Include="ee_Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ee_SFML.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tinyxml2\tinyxml2.cpp">
-      <Filter>Source Files\addons</Filter>
-    </ClCompile>
     <ClCompile Include="ee_ScriptEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -197,13 +182,38 @@
     <ClCompile Include="ee_MusicContainer.cpp">
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="ee_EngineMain.cpp">
+    <ClCompile Include="ee_StaticEntity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Entity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Sound.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_SoundContainerEngine.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_SoundEffect.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_SoundMusic.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\..\..\..\local\angelscript\lib\angelscriptd.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
+    <ClCompile Include="ee_XMLContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ee_GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\local\tinyxml2\include\tinyxml2.cpp">
+      <Filter>Source Files\addons</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

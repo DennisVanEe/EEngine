@@ -12,6 +12,8 @@ namespace eeGames
 	public:
 		AnimatedEntity()
 		{
+			renderLev = 0;
+			render = true;
 			m_type = EntityType::ANIMATED;
 		}
 

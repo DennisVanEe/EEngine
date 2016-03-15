@@ -6,7 +6,7 @@ bool eeGames::DataContainerEngine::addContainer(const std::string &id)
 	if (it == m_containerList.end()) // make sure it doesn't already exist
 		return false;
 
-	m_containerList.insert(std::make_pair(id, std::unique_ptr<DataContainer>(new DataContainer())));
+	m_containerList.insert(std::make_pair(id, std::move(std::unique_ptr<DataContainer>(new DataContainer()))));
 	return true;
 }
 
@@ -15,7 +15,7 @@ bool eeGames::DataContainerEngine::loadContainer(const std::string &id, const st
 	if (m_containerList.count(id) != 0) // make sure it doesn't already exist
 		return false;
 
-	auto it = m_containerList.insert(std::make_pair(id, std::unique_ptr<DataContainer>(new DataContainer)));
+	auto it = m_containerList.insert(std::make_pair(id, std::move(std::unique_ptr<DataContainer>(new DataContainer()))));
 	if (it.first->second->load_from_file(dir) == false)
 	{
 		m_containerList.erase(it.first);

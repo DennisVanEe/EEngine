@@ -22,56 +22,51 @@ namespace eeGames
 	class SoundContainerEngine
 	{
 	private:
-		KeyedData<std::string, SoundContainer> m_soundContainers;
-		KeyedData<std::string, MusicContainer> m_musicContainers;
+		std::unordered_map<std::string, SoundContainer> m_soundContainers;
+		std::unordered_map<std::string, MusicContainer> m_musicContainers;
 
 		thor::ResourceHolder<sf::SoundBuffer, std::string> m_soundBuffersRes;
-		thor::ResourceHolder<sf::Music, std::string> m_musicRes;
 
 	public:
-		bool loadSoundContainer(const std::string &id, const std::string &dir)
+		void loadSoundContainer(const std::string &id, const std::string &dir)
 		{			
 		   	auto pair = m_soundContainers.insert(std::make_pair(id, SoundContainer()));
 			if (pair.second == false)
-				return false;
-			if (pair.first->second.loadContainer(dir) == false) 
-				return  false;
-			return pair.first->second.processContainer(&m_soundBuffersRes);
+				throw std::runtime_error("could not insert sound container " + id);
+			pair.first->second.loadContainer(dir);
+			pair.first->second.processContainer(&m_soundBuffersRes);
 		}
-		bool removeSoundContainer(const std::string &id)
+		void removeSoundContainer(const std::string &id)
 		{
 			auto it = m_soundContainers.find(id);
 			if (it == m_soundContainers.end())
-				return false;
+				throw std::logic_error("could not find sound container " + id);
 
 			m_soundContainers.erase(it);
-			return true;
 		}
 
-		bool loadMusicContainer(const std::string &id, const std::string &dir)
+		void loadMusicContainer(const std::string &id, const std::string &dir)
 		{
 			auto pair = m_musicContainers.insert(std::make_pair(id, MusicContainer()));
 			if (pair.second == false) 
-				return false;
-			if (pair.first->second.loadContainer(dir) == false) 
-				return false;
-			return pair.first->second.processContainer(&m_musicRes);
+				throw std::runtime_error("could not insert music container " + id);
+			pair.first->second.loadContainer(dir);
+			pair.first->second.processContainer();
 		}
-		bool removeMusicContainer(const std::string &id)
+		void removeMusicContainer(const std::string &id)
 		{
 			auto it = m_musicContainers.find(id);
 			if (it == m_musicContainers.end())
-				return false;
+				throw std::logic_error("could not find music container " + id);
 
 			m_musicContainers.erase(it);
-			return true;
 		}
 
 		SoundEffect *getSoundEffect(const std::string &contID, const std::string &soundID)
 		{
 			auto it = m_soundContainers.find(contID);
 			if (it == m_soundContainers.end())
-				return false;
+				throw std::logic_error("could not find sound container " + contID);
 
 			return it->second.getSound(soundID);
 		}
@@ -79,23 +74,14 @@ namespace eeGames
 		{
 			auto it = m_musicContainers.find(contID);
 			if (it == m_musicContainers.end())
-				return false;
+				throw std::logic_error("could not find music container " + contID);
 
 			return it->second.getSound(musicID);
 		}
 	};
 
 	// used to control the "microphone" or listner:
-	float getMicrophonePositionX()
-	{
-		return sf::Listener::getPosition().x;
-	}
-	float getMicrophonePositionY()
-	{
-		return sf::Listener::getPosition().y;
-	}
-	float getMicrophonePositionZ()
-	{
-		return sf::Listener::getPosition().z;
-	}
+	extern float getMicrophonePositionX();
+	float getMicrophonePositionY();
+	float getMicrophonePositionZ();
 }

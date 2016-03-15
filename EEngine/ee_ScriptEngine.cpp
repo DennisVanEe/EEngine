@@ -30,29 +30,29 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterGlobalFunction("void consolePrint(const string &in)", asFUNCTION(consolePrint), asCALL_CDECL); assert(error >= 0);
 
 	// writing data to a data container;
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int8)", asMETHODPR(Request, add_int, (const std::string&, int8_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int16)", asMETHODPR(Request, add_int, (const std::string&, int16_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int32)", asMETHODPR(Request, add_int, (const std::string&, int32_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int64)", asMETHODPR(Request, add_int, (const std::string&, int64_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint8)", asMETHODPR(Request, add_int, (const std::string&, uint8_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint16)", asMETHODPR(Request, add_int, (const std::string&, uint16_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint32)", asMETHODPR(Request, add_int, (const std::string&, uint32_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint64)", asMETHODPR(Request, add_int, (const std::string&, uint64_t), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, float)", asMETHODPR(Request, add_float, (const std::string&, float), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, double)", asMETHODPR(Request, add_float, (const std::string&, double), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, const string &in)", asMETHOD(Request, add_string), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int8)", asMETHOD(DataContainerEngine, add_int<int8_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int16)", asMETHOD(DataContainerEngine, add_int<int16_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int32)", asMETHOD(DataContainerEngine, add_int<int32_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, int64)", asMETHOD(DataContainerEngine, add_int<int64_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint8)", asMETHOD(DataContainerEngine, add_int<uint8_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint16)", asMETHOD(DataContainerEngine, add_int<uint16_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint32)", asMETHOD(DataContainerEngine, add_int<uint32_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, uint64)", asMETHOD(DataContainerEngine, add_int<uint64_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, float)", asMETHOD(DataContainerEngine, add_float<float>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, double)", asMETHOD(DataContainerEngine, add_float<double>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool writeToDataCont(const string &in, const string &in, const string &in)", asMETHOD(DataContainerEngine, add_string), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
 
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int8 &out)", asMETHODPR(Request, get_num, (const std::string&, int8_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int16 &out)", asMETHODPR(Request, get_num, (const std::string&, int16_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int32 &out)", asMETHODPR(Request, get_num, (const std::string&, int32_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int64 &out)", asMETHODPR(Request, get_num, (const std::string&, int64_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint8 &out)", asMETHODPR(Request, get_num, (const std::string&, uint8_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint16 &out)", asMETHODPR(Request, get_num, (const std::string&, uint16_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint32 &out)", asMETHODPR(Request, get_num, (const std::string&, uint32_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint64 &out)", asMETHODPR(Request, get_num, (const std::string&, uint64_t*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, float &out)", asMETHODPR(Request, get_num, (const std::string&, float*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, double &out)", asMETHODPR(Request, get_num, (const std::string&, double*), bool), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, string &out)", asMETHOD(Request, get_string), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int8 &out)", asMETHOD(DataContainerEngine, get_num<int8_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int16 &out)", asMETHOD(DataContainerEngine, get_num<int16_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int32 &out)", asMETHOD(DataContainerEngine, get_num<int32_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, int64 &out)", asMETHOD(DataContainerEngine, get_num<int64_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint8 &out)", asMETHOD(DataContainerEngine, get_num<uint8_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint16 &out)", asMETHOD(DataContainerEngine, get_num<uint16_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint32 &out)", asMETHOD(DataContainerEngine, get_num<uint32_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, uint64 &out)", asMETHOD(DataContainerEngine, get_num<uint64_t>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, float &out)", asMETHOD(DataContainerEngine, get_num<float>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, double &out)", asMETHOD(DataContainerEngine, get_num<double>), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool readFromDataCont(const string &in, const string &in, string &out)", asMETHOD(DataContainerEngine, get_string), asCALL_THISCALL_ASGLOBAL, m_dataContainerEngine); assert(error >= 0);
 
 	error = m_engine->RegisterGlobalFunction("void terminateModule(const string &in)", asMETHOD(ScriptEngine, terminateModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("void startModule(const string &in, const string &in)", asMETHOD(ScriptEngine, startModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
@@ -204,16 +204,16 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterObjectMethod("AnimatedEntity", "float getScaleY()", asMETHOD(AnimatedEntity, getScaleY), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("AnimatedEntity", "float getOriginX()", asMETHOD(AnimatedEntity, getOriginX), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("AnimatedEntity", "float getOriginY()", asMETHOD(AnimatedEntity, getOriginY), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "float getRotation()", asMETHOD(AnimatedEntity, getRotation), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "float getRotation()", asMETHOD(sf::Transformable, getRotation), asCALL_THISCALL); assert(error >= 0);
 
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(AnimatedEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setScale(float, float)", asMETHODPR(AnimatedEntity, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setOrigin(float, float)", asMETHODPR(AnimatedEntity, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setRotation(float)", asMETHOD(AnimatedEntity, setRotation), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setPosition(float, float)", asMETHODPR(sf::Transformable, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setScale(float, float)", asMETHODPR(sf::Transformable, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setOrigin(float, float)", asMETHODPR(sf::Transformable, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setRotation(float)", asMETHOD(sf::Transformable, setRotation), asCALL_THISCALL); assert(error >= 0);
 
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void move(float, float)", asMETHODPR(AnimatedEntity, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void scale(float, float)", asMETHODPR(AnimatedEntity, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void rotate(float)", asMETHOD(AnimatedEntity, rotate), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void move(float, float)", asMETHODPR(sf::Transformable, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void scale(float, float)", asMETHODPR(sf::Transformable, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void rotate(float)", asMETHOD(sf::Transformable, rotate), asCALL_THISCALL); assert(error >= 0);
 
 	// rendering
 	error = m_engine->RegisterObjectMethod("AnimatedEntity", "void setRenderLevel(int)", asMETHOD(AnimatedEntity, setRenderLevel), asCALL_THISCALL); assert(error >= 0);
@@ -235,16 +235,16 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterObjectMethod("StaticEntity", "float getScaleY()", asMETHOD(StaticEntity, getScaleY), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("StaticEntity", "float getOriginX()", asMETHOD(StaticEntity, getOriginX), asCALL_THISCALL); assert(error >= 0);
 	error = m_engine->RegisterObjectMethod("StaticEntity", "float getOriginY()", asMETHOD(StaticEntity, getOriginY), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("StaticEntity", "float getRotation()", asMETHOD(StaticEntity, getRotation), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "float getRotation()", asMETHOD(sf::Transformable, getRotation), asCALL_THISCALL); assert(error >= 0);
 
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void setPosition(float, float)", asMETHODPR(StaticEntity, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void setScale(float, float)", asMETHODPR(StaticEntity, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void setOrigin(float, float)", asMETHODPR(StaticEntity, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void setRotation(float)", asMETHOD(StaticEntity, setRotation), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void setPosition(float, float)", asMETHODPR(sf::Transformable, setPosition, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void setScale(float, float)", asMETHODPR(sf::Transformable, setScale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void setOrigin(float, float)", asMETHODPR(sf::Transformable, setOrigin, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void setRotation(float)", asMETHOD(sf::Transformable, setRotation), asCALL_THISCALL); assert(error >= 0);
 
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void move(float, float)", asMETHODPR(StaticEntity, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void scale(float, float)", asMETHODPR(StaticEntity, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
-	error = m_engine->RegisterObjectMethod("StaticEntity", "void rotate(float)", asMETHOD(StaticEntity, rotate), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void move(float, float)", asMETHODPR(sf::Transformable, move, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void scale(float, float)", asMETHODPR(sf::Transformable, scale, (float, float), void), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("StaticEntity", "void rotate(float)", asMETHOD(sf::Transformable, rotate), asCALL_THISCALL); assert(error >= 0);
 
 	// rendering
 	error = m_engine->RegisterObjectMethod("StaticEntity", "void setRenderLevel(int)", asMETHOD(StaticEntity, setRenderLevel), asCALL_THISCALL); assert(error >= 0);
@@ -284,14 +284,8 @@ void eeGames::ScriptEngine::registerEngine()
 
 	error = m_engine->RegisterObjectMethod("Music", "void setVolume(uint)", asMETHOD(SoundMusic, setVolume), asCALL_THISCALL); assert(error >= 0);
 
-	// set up music management software
-	error = m_engine->RegisterGlobalFunction("bool loadSoundContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, loadSoundContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool removeSoundContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, removeSoundContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool removeMusicContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, removeMusicContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("bool loadMusicContainer(const string &in, const string &in)", asMETHOD(SoundContainerEngine, loadMusicContainer), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
-
 	error = m_engine->RegisterGlobalFunction("SoundEffect @getSoundEffect(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundEffect), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
-	error = m_engine->RegisterGlobalFunction("SoundMusic @getSoundEffect(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundMusic), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("Music @getMusic(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundMusic), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
 
 	// register Microphone functions (only one mucrophone, so only one function for controlling it)
 	error = m_engine->RegisterGlobalFunction("void setMicrophonePosition(float, float, float)", asFUNCTIONPR(sf::Listener::setPosition, (float, float, float), void), asCALL_CDECL); assert(error >= 0);

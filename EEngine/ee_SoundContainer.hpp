@@ -3,8 +3,8 @@
 #include <SFML/Audio.hpp>
 #include <tinyxml2.h>
 #include <Thor\Resources.hpp>
+#include <unordered_map>
 
-#include "ee_KeyedData.hpp"
 #include "ee_SoundEffect.hpp"
 #include "ee_XMLContainer.hpp"
 
@@ -13,12 +13,14 @@ namespace eeGames
 	class SoundContainer : public XMLDocument
 	{
 	private:
-		KeyedData<std::string, SoundEffect> m_soundBuffers;
+		std::unordered_map<std::string, SoundEffect> m_soundBuffers;
 
 	public:
 		SoundContainer() {}
-		SoundContainer(const SoundContainer& ent) = delete;
-		SoundContainer& operator=(const SoundContainer& ent) = delete;
+		SoundContainer(const SoundContainer &copy) :
+			m_soundBuffers(copy.m_soundBuffers)
+		{
+		}
 
 		bool processContainer(thor::ResourceHolder<sf::SoundBuffer, std::string> *holder);
 

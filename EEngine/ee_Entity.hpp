@@ -11,13 +11,11 @@ namespace eeGames
 	{
 	protected:
 		EntityType m_type;
-	private:
+
 		std::vector<Entity*>::iterator m_renderPos;
 		int renderLev;
 		bool render;
 	public:
-		Entity() : renderLev(0), render(true) {}
-
 		void assignRenderPos(std::vector<Entity*>::iterator pos) { m_renderPos = pos; }
 		std::vector<Entity*>::iterator getRenderPos() { return m_renderPos; }
 
@@ -36,11 +34,10 @@ namespace eeGames
 		float getOriginX() const { return getOrigin().x; }
 		float getOriginY() const { return getOrigin().y; }
 
-		bool operator>(const Entity& other) { return m_renderPos > other.m_renderPos; }
-		bool operator<(const Entity& other) { return m_renderPos < other.m_renderPos; }
-		bool operator>=(const Entity& other) { return m_renderPos >= other.m_renderPos; }
-		bool operator<=(const Entity& other) { return m_renderPos <= other.m_renderPos; }
-		bool operator==(const Entity& other) { return m_renderPos == other.m_renderPos; }
-
+		bool operator>(const Entity& other) { return renderLev > other.renderLev; }
+		bool operator<(const Entity& other) { return renderLev < other.renderLev; }
+		bool operator>=(const Entity& other) { return renderLev >= other.renderLev; }
+		bool operator<=(const Entity& other) { return renderLev <= other.renderLev; }
+		bool operator==(const Entity& other) { return renderLev == other.renderLev; }
 	};
 }

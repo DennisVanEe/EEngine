@@ -93,13 +93,13 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\local\thor\include;C:\local\tinyxml2\include;C:\local\angelscript\include;C:\local\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\local\thor\lib;C:\local\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>thor-s-d.lib;sfml-graphics-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;sfml-window-s-d.lib;winmm.lib;gdi32.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\local\angelscript\lib;C:\local\tinyxml2\lib;C:\local\thor\lib;C:\local\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;sfml-audio-s-d.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;sfml-network-s-d.lib;sfml-main-d.lib;thor-s-d.lib;angelscriptd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,15 +125,15 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\local\thor\include;C:\local\tinyxml2\include;C:\local\angelscript\include;C:\local\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\local\thor\lib;C:\local\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>thor-s-d.lib;sfml-graphics-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;sfml-window-s-d.lib;winmm.lib;gdi32.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\local\angelscript\lib;C:\local\tinyxml2\lib;C:\local\thor\lib;C:\local\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;sfml-audio-s-d.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;sfml-network-s-d.lib;sfml-main-d.lib;thor-s-d.lib;angelscriptd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -168,12 +168,9 @@
     <ClInclude Include="ee_EntityContainer.hpp" />
     <ClInclude Include="ee_EntityContainerEngine.hpp" />
     <ClInclude Include="ee_Game.hpp" />
-    <ClInclude Include="ee_GameEngine.hpp" />
-    <ClInclude Include="ee_KeyedData.hpp" />
-    <ClInclude Include="ee_LoadEngine.hpp" />
     <ClInclude Include="ee_MusicContainer.hpp" />
-    <ClInclude Include="ee_OrderedKeyedData.hpp" />
     <ClInclude Include="ee_ScriptInterface.hpp" />
+    <ClInclude Include="ee_SFML.hpp" />
     <ClInclude Include="ee_Sound.hpp" />
     <ClInclude Include="ee_SoundContainer.hpp" />
     <ClInclude Include="ee_SoundContainerEngine.hpp" />
@@ -193,24 +190,30 @@
     <ClCompile Include="C:\local\angelscript\include\scriptdictionary\scriptdictionary.cpp" />
     <ClCompile Include="C:\local\angelscript\include\scriptmath\scriptmath.cpp" />
     <ClCompile Include="C:\local\angelscript\include\scriptstdstring\scriptstdstring.cpp" />
+    <ClCompile Include="C:\local\tinyxml2\include\tinyxml2.cpp" />
     <ClCompile Include="ee_Algorithms.cpp" />
     <ClCompile Include="ee_AnimatedEntity.cpp" />
     <ClCompile Include="ee_Animator.cpp" />
+    <ClCompile Include="ee_Camera.cpp" />
     <ClCompile Include="ee_DataContainer.cpp" />
     <ClCompile Include="ee_DataContainerEngine.cpp" />
-    <ClCompile Include="ee_EngineMain.cpp" />
+    <ClCompile Include="ee_Entity.cpp" />
     <ClCompile Include="ee_EntityContainer.cpp" />
     <ClCompile Include="ee_EntityContainerEngine.cpp" />
+    <ClCompile Include="ee_Game.cpp" />
+    <ClCompile Include="ee_GameEngine.cpp" />
     <ClCompile Include="ee_Module.cpp" />
     <ClCompile Include="ee_MusicContainer.cpp" />
     <ClCompile Include="ee_RenderEngine.cpp" />
     <ClCompile Include="ee_ScriptEngine.cpp" />
     <ClCompile Include="ee_ScriptInterface.cpp" />
+    <ClCompile Include="ee_Sound.cpp" />
     <ClCompile Include="ee_SoundContainer.cpp" />
-    <ClCompile Include="tinyxml2\tinyxml2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\..\..\..\local\angelscript\lib\angelscriptd.lib" />
+    <ClCompile Include="ee_SoundContainerEngine.cpp" />
+    <ClCompile Include="ee_SoundEffect.cpp" />
+    <ClCompile Include="ee_SoundMusic.cpp" />
+    <ClCompile Include="ee_StaticEntity.cpp" />
+    <ClCompile Include="ee_XMLContainer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

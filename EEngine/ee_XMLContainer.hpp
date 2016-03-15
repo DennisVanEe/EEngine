@@ -12,17 +12,15 @@ namespace eeGames
 		tinyxml2::XMLDocument m_xmlFile; // the xml file for defining the entities
 
 	public:
-		bool loadContainer(const std::string &dir)
+		void loadContainer(const std::string &dir)
 		{
 			using namespace tinyxml2;
 
 			XMLError error = m_xmlFile.LoadFile(dir.c_str());
 			if (error != XML_SUCCESS)
 			{
-				std::cout << "[ERROR]: problem loading or parsing xml file at: " << dir << "\n";
-				return false;
+				throw std::logic_error("could not find or open the xml file at " + dir);
 			}
-			return true;
 		}
 	};
 }

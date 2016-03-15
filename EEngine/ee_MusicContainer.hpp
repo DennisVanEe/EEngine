@@ -4,24 +4,27 @@
 #include <string>
 #include <SFML/Audio.hpp>
 #include <tinyxml2.h>
+#include <unordered_map>
 
 #include "ee_XMLContainer.hpp"
 #include "ee_SoundMusic.hpp"
-#include "ee_KeyedData.hpp"
 
 namespace eeGames
 {
 	class MusicContainer : public XMLDocument
 	{
 	private:
-		KeyedData<std::string, SoundMusic> m_musicList;
+		std::unordered_map<std::string, SoundMusic> m_musicList;
 
 	public:
 		MusicContainer() {}
-		MusicContainer(const MusicContainer& ent) = delete;
-		MusicContainer& operator=(const MusicContainer& ent) = delete;
+		MusicContainer(MusicContainer &&copy) :
+			m_musicList(std::move(copy.m_musicList))
+		{
+		}
+		MusicContainer(MusicContainer &) = delete;
 
-		bool processContainer(thor::ResourceHolder<sf::Music, std::string> *holder);
+		bool processContainer();
 
 		SoundMusic *getSound(const std::string &id)
 		{

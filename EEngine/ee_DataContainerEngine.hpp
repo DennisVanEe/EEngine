@@ -1,16 +1,16 @@
 #pragma once
 
 #include <memory>
+#include <unordered_map>
 
 #include "ee_DataContainer.hpp"
-#include "ee_KeyedData.hpp"
 
 namespace eeGames
 {
 	class DataContainerEngine
 	{
 	private:
-		KeyedData<std::string, std::unique_ptr<DataContainer>> m_containerList;
+		std::unordered_map<std::string, std::unique_ptr<DataContainer>> m_containerList;
 	public:
 		bool addContainer(const std::string &id);
 		bool loadContainer(const std::string &id, const std::string &dir);
@@ -27,16 +27,16 @@ namespace eeGames
 		template<typename T>
 		bool add_int(const std::string &c_name, const std::string &d_name, T data)
 		{
-			auto it = _containerList.find(c_name);
-			if (it == _containerList.end())
+			auto it = m_containerList.find(c_name);
+			if (it == m_containerList.end())
 				return false;
 			it->second->add_int(d_name, data);
 		}
 		template<typename T>
 		bool add_float(const std::string &c_name, const std::string &d_name, T data)
 		{
-			auto it = _containerList.find(c_name);
-			if (it == _containerList.end())
+			auto it = m_containerList.find(c_name);
+			if (it == m_containerList.end())
 				return false;
 			it->second->add_float(d_name, data);
 		}
@@ -51,8 +51,8 @@ namespace eeGames
 		template<typename T>
 		bool get_num(const std::string &c_name, const std::string &d_name, T *data) const
 		{
-			auto it = _containerList.find(c_name);
-			if (it == _containerList.end())
+			auto it = m_containerList.find(c_name);
+			if (it == m_containerList.end())
 				return false;
 
 			return it->second->get_num(d_name, data);

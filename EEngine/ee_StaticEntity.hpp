@@ -13,6 +13,8 @@ namespace eeGames
 	public:
 		StaticEntity()
 		{
+			renderLev = 0;
+			render = true;
 			m_type = EntityType::STATIC;
 		}
 
