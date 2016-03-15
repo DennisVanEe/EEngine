@@ -376,6 +376,7 @@ void eeGames::ScriptEngine::executeCommands()
 			throw std::runtime_error("unknown command attempting to be executed");
 		}
 	}
+	m_commands.clear();
 }
 
 

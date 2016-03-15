@@ -25,7 +25,9 @@ void eeGames::Module::stepModule(uint32_t frameTime)
 	if (m_sleep)
 		return;
 
-	m_context->Prepare(m_module->GetFunctionByDecl(_m_stepDecl.c_str()));
+	int error = m_context->Prepare(m_module->GetFunctionByDecl(_m_stepDecl.c_str()));
+	if (error != asSUCCESS)
+		throw std::logic_error("there was an issue stepping the function");
 	m_context->SetArgDWord(0, frameTime);
-	int error = m_context->Execute();
+	error = m_context->Execute();
 }

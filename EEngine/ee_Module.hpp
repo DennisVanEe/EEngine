@@ -25,7 +25,7 @@ namespace eeGames
 		asIScriptEngine *m_engine;
 
 		// TODO: load these from engine properties xml
-		std::string _m_stepDecl = "void step(uint16)";
+		std::string _m_stepDecl = "void step(uint)";
 		std::string _m_initDecl = "void initialize()";
 
 		bool m_sleep;

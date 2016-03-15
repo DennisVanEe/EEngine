@@ -39,7 +39,10 @@ namespace eeGames
 		{
 			auto it = m_containers.find(contID);
 			if (it == m_containers.end())
+			{
+				std::cout << "could not find the entity container\n";
 				throw std::logic_error("could not find the entity container " + contID);
+			}
 			it->second.getEntity(entID, memory);
 		}
 	};

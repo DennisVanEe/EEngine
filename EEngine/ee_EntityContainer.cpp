@@ -17,14 +17,20 @@ void eeGames::EntityContainer::processContainer(thor::ResourceHolder<sf::Texture
 			AnimatedEntity *temp = new AnimatedEntity();
 
 			entProperty = entity->FirstChildElement(); 
-			if (entProperty == nullptr) 
+			if (entProperty == nullptr)
+			{
+				std::cout << "Entity container xml file is not formatted properly\n";
 				throw std::logic_error("Entity container xml file is not formatted properly");
+			}
+	
 			sf::Texture &texture = holder->acquire(entProperty->Attribute("id"), thor::Resources::fromFile<sf::Texture>(entProperty->Attribute("dir")), thor::Resources::Reuse);
 
 			entProperty = entProperty->NextSiblingElement(); 
-			if (entProperty == nullptr) 
+			if (entProperty == nullptr)
+			{
+				std::cout << "Entity container xml file is not formatted properly\n";
 				throw std::logic_error("Entity container xml file is not formatted properly");
-
+			}
 			temp->assignTexture(&texture, entProperty->IntAttribute("columns"), entProperty->IntAttribute("rows"), entProperty->IntAttribute("frames"));
 
 			m_allCurrentEntities.insert(std::make_pair(std::move(std::string(entity->Attribute("id"))), std::move(std::unique_ptr<Entity>(temp))));

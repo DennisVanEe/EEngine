@@ -37,7 +37,10 @@ namespace eeGames
 		{
 			auto it = m_allCurrentEntities.find(id);
 			if (it == m_allCurrentEntities.end())
+			{
+				std::cout << "could not find the entity " << id << "\n";
 				throw std::logic_error("could not find the entity " + id);
+			}
 
 			switch (it->second->getType())
 			{
