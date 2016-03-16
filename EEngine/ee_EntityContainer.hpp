@@ -42,12 +42,15 @@ namespace eeGames
 				throw std::logic_error("could not find the entity " + id);
 			}
 
+			EntityType type = it->second->getType();
 			switch (it->second->getType())
 			{
 			case EntityType::ANIMATED:
 				*static_cast<AnimatedEntity*>(ent) = *static_cast<AnimatedEntity*>(it->second.get());
+				break;
 			case EntityType::STATIC:
 				*static_cast<StaticEntity*>(ent) = *static_cast<StaticEntity*>(it->second.get());
+				break;
 			default:
 				throw std::runtime_error("unknown entity type was accessed");
 			}

@@ -12,12 +12,9 @@ namespace eeGames
 	protected:
 		EntityType m_type;
 
-		std::vector<Entity*>::iterator m_renderPos;
 		int renderLev;
 		bool render;
 	public:
-		void assignRenderPos(std::vector<Entity*>::iterator pos) { m_renderPos = pos; }
-		std::vector<Entity*>::iterator getRenderPos() { return m_renderPos; }
 
 		void setRenderLevel(int lev) { lev < 0 ? renderLev = 0 : renderLev = lev; }
 		int getRenderLevel() { return renderLev; }

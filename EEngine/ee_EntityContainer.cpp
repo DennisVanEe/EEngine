@@ -32,6 +32,7 @@ void eeGames::EntityContainer::processContainer(thor::ResourceHolder<sf::Texture
 				throw std::logic_error("Entity container xml file is not formatted properly");
 			}
 			temp->assignTexture(&texture, entProperty->IntAttribute("columns"), entProperty->IntAttribute("rows"), entProperty->IntAttribute("frames"));
+			temp->setFrameTime(entProperty->IntAttribute("time"));
 
 			m_allCurrentEntities.insert(std::make_pair(std::move(std::string(entity->Attribute("id"))), std::move(std::unique_ptr<Entity>(temp))));
 		}

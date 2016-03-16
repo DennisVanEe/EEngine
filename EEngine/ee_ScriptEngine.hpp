@@ -22,10 +22,11 @@
 #include "ee_RenderEngine.hpp"
 #include "ee_Algorithms.hpp"
 #include "ee_SoundContainerEngine.hpp"
+#include "ee_Camera.hpp"
 
 namespace eeGames
 {
-	enum class CommandType { M_SLEEP, M_WAKE, M_TERM, M_START, D_SAVE, D_LOAD, D_CREATE, D_DESTROY, E_LOAD, E_DESTROY, SE_LOAD, SE_DESTROY, SM_LOAD, SM_DESTROY };
+	enum class CommandType { M_SLEEP, M_WAKE, M_TERM, M_START, D_SAVE, D_LOAD, D_CREATE, D_DESTROY, E_LOAD, E_DESTROY, SE_LOAD, SE_DESTROY, SM_LOAD, SM_DESTROY, BIND_ALL };
 
 	class ScriptEngine
 	{
@@ -78,6 +79,16 @@ namespace eeGames
 		void executeCommands();
 
 		// used by the scripts for engine communication:
+		bool bindAllFunctions()
+		{
+			for (auto &m : m_currentModuleList)
+			{
+				if (m.second->bindFunctions() == false)
+					return false;
+			}
+			return true;
+		}
+
 		void startModule(const std::string &id, const std::string &dir)
 		{
 			m_commands.push_back(Command(CommandType::M_START, id, dir));

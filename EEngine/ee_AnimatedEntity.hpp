@@ -19,7 +19,7 @@ namespace eeGames
 
 		bool assignTexture(const sf::Texture *texture, uint32_t columns, uint32_t rows, uint32_t frameNum)
 		{
-			if (m_sprite.setSpriteSheet(texture, columns, rows, frameNum))
+			if (m_sprite.setSpriteSheet(texture, columns, rows, frameNum) == false)
 				return false;
 			if (m_sprite.createFrames() == false)
 				return false;
@@ -33,6 +33,10 @@ namespace eeGames
 		void setFrame(uint32_t frame)
 		{
 			m_sprite.setCurrentFrame(frame);
+		}
+		void setFrameTime(uint32_t time)
+		{
+			m_sprite.setFrameTime(time);
 		}
 	
 		virtual void draw(sf::RenderTarget &_p_target, sf::RenderStates _p_state) const

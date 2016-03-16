@@ -8,6 +8,7 @@
 #include "ee_EntityContainerEngine.hpp"
 #include "ee_RenderEngine.hpp"
 #include "ee_SoundContainerEngine.hpp"
+#include "ee_ScriptInterface.hpp"
 
 namespace eeGames
 {
@@ -26,15 +27,16 @@ namespace eeGames
 			m_renderEngine.get()))
 		{
 			m_renderEngine->setWindowSettings("Test Window", 1280, 720, false);
+			setMouseWindow(m_renderEngine->getWindow());
 		}
 
 		void gameLoop()
 		{
-			m_scriptEngine->startModule("init", "D:/example project/MainLoader.as");
+			m_scriptEngine->startModule("init", "F:/Programming/EE Software Solutions/Example Project/MainLoader.as");
 			m_scriptEngine->executeCommands();
 
 			sf::Clock timer;
-			while (true)
+			while (m_renderEngine->isOpen())
 			{
 				m_scriptEngine->stepScripts(timer.restart().asMilliseconds());
 				m_scriptEngine->executeCommands();

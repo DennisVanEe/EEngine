@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
+#include <iostream>
 
 namespace eeGames
 {
@@ -17,6 +18,7 @@ namespace eeGames
 		// time units
 		uint16_t m_frameTime, m_currentTime;
 		uint16_t m_currentFrame;
+
 	public:
 		Animation() : m_spriteSheet(nullptr), m_currentFrame(0), m_frameTime(0), m_frameSize(0, 0),
 			m_columnsRows(0, 0), m_frameNum(0)
@@ -36,7 +38,7 @@ namespace eeGames
 			m_frames.clear(); 
 			for (auto &it : copy.m_frames)
 			{
-				m_frames.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*it.get())));
+				m_frames.push_back(std::move(std::unique_ptr<sf::Sprite>(new sf::Sprite(*it.get()->getTexture()))));
 			}
 
 		}
@@ -53,7 +55,7 @@ namespace eeGames
 			m_frames.clear();
 			for (auto &it : copy.m_frames)
 			{
-				m_frames.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*it.get())));
+				m_frames.push_back(std::move(std::unique_ptr<sf::Sprite>(new sf::Sprite(*it.get()))));
 			}
 			return *this;
 		}
@@ -67,6 +69,7 @@ namespace eeGames
 			m_spriteSheet = texture;
 			m_columnsRows = sf::Vector2u(columns, rows);
 			m_frameSize = sf::Vector2u(m_spriteSheet->getSize().x / columns, m_spriteSheet->getSize().y / rows);
+			m_frameNum = frameNum;
 			return true;
 		}
 

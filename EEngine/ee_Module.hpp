@@ -25,10 +25,11 @@ namespace eeGames
 		asIScriptEngine *m_engine;
 
 		// TODO: load these from engine properties xml
-		std::string _m_stepDecl = "void step(uint)";
+		std::string _m_stepDecl = "void step(int)";
 		std::string _m_initDecl = "void initialize()";
 
 		bool m_sleep;
+
 	public:
 		Module(asIScriptModule *mod); // module initialized by module builder addon
 		~Module();
@@ -40,6 +41,18 @@ namespace eeGames
 		void setSleep(bool _p_sleep)
 		{
 			m_sleep = _p_sleep;
+		}
+
+		bool bindFunctions()
+		{
+			switch (m_module->BindAllImportedFunctions())
+			{
+			case asERROR:
+			case asCANT_BIND_ALL_FUNCTIONS:
+				return false;
+			default:
+				return true;
+			}
 		}
 
 		// module modification and loading

@@ -22,17 +22,19 @@ bool eeGames::Animation::createFrames()
 		y += m_frameSize.y;
 		x = 0;
 	}
+	return true;
 }
 
 void eeGames::Animation::play(uint32_t frameTime)
 {
-	if (frameTime + m_currentTime > frameTime)
+	if (frameTime + m_currentTime > m_frameTime)
 	{
 		m_currentTime = frameTime + m_currentTime - m_frameTime;
 		if (m_currentFrame + 1 >= m_frames.size())
 			m_currentFrame = 0;
-		m_currentFrame++;
+		else
+			m_currentFrame++;
 	}
 	else
-		m_currentTime = m_currentTime + frameTime;
+		m_currentTime += frameTime;
 }

@@ -23,7 +23,7 @@ void eeGames::ScriptEngine::registerEngine()
 	RegisterScriptDictionary(m_engine);
 	RegisterScriptMath(m_engine);
 
-	error = m_engine->SetDefaultNamespace("ee"); // the namespace all the following will fall under
+	//error = m_engine->SetDefaultNamespace("ee"); // the namespace all the following will fall under
 
 	// register the standard functins
 	error = m_engine->RegisterGlobalFunction("void consolePrintln(const string &in)", asFUNCTION(consolePrintLine), asCALL_CDECL); assert(error >= 0);
@@ -58,6 +58,8 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterGlobalFunction("void startModule(const string &in, const string &in)", asMETHOD(ScriptEngine, startModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("void sleepModule(const string &in)", asMETHOD(ScriptEngine, sleepModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("void wakeModule(const string &in)", asMETHOD(ScriptEngine, wakeModule), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
+
+	error = m_engine->RegisterGlobalFunction("bool bindAllFunctions()", asMETHOD(ScriptEngine, bindAllFunctions), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 
 	error = m_engine->RegisterGlobalFunction("void createDataConainter(const string &in)", asMETHOD(ScriptEngine, createDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("void deleteDataContainer(const string &in)", asMETHOD(ScriptEngine, deleteDataContainer), asCALL_THISCALL_ASGLOBAL, this); assert(error >= 0);
@@ -108,86 +110,99 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterEnumValue("Key", "Y", 24); assert(error >= 0);
 	error = m_engine->RegisterEnumValue("Key", "Z", 25); assert(error >= 0);
 	error = m_engine->RegisterEnumValue("Key", "Num0", 26); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num2", 27); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num3", 28); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num4", 29); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num5", 30); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num6", 31); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num7", 32); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num8", 33); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Num9", 34); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Escape", 35); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "LControl", 36); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "LShift", 37); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "LAlt", 38); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "LSystem", 39); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "RControl", 40); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "RShift", 41); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "RAlt", 42); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "RSystem", 43); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Menu", 44); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "LBracket", 45); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "RBracket", 46); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "SemiColon", 47); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Comma", 48); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Period", 49); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Quote", 50); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Slash", 51); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "BackSlash", 52); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Tilde", 53); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Equal", 54); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Dash", 55); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Space", 56); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Return", 57); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "BackSpace", 58); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Tab", 59); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "PageUp", 60); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "PageDown", 61); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "End", 62); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Home", 63); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Insert", 64); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Delete", 65); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Add", 66); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Subtract", 67); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Multiply", 68); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Divide", 69); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Left", 70); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Right", 71); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Up", 72); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Down", 73); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad0", 74); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad1", 75); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad2", 76); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad3", 77); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad4", 78); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad5", 79); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad6", 80); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad7", 81); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad8", 82); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Numpad9", 83); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F1", 84); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F2", 85); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F3", 86); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F4", 87); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F5", 88); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F6", 89); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F7", 90); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F8", 91); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F9", 92); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F10", 93); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F11", 94); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F12", 95); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F13", 96); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F14", 97); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "F15", 98); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "Pause", 99); assert(error >= 0);
-	error = m_engine->RegisterEnumValue("Key", "KeyCount", 100); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num1", 27); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num2", 28); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num3", 29); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num4", 30); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num5", 31); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num6", 32); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num7", 33); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num8", 34); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Num9", 35); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Escape", 36); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "LControl", 37); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "LShift", 38); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "LAlt", 39); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "LSystem", 40); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "RControl", 41); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "RShift", 42); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "RAlt", 43); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "RSystem", 44); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Menu", 45); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "LBracket", 46); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "RBracket", 47); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "SemiColon", 48); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Comma", 49); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Period", 50); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Quote", 51); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Slash", 52); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "BackSlash", 53); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Tilde", 54); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Equal", 55); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Dash", 56); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Space", 57); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Return", 58); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "BackSpace", 59); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Tab", 60); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "PageUp", 61); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "PageDown", 62); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "End", 63); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Home", 64); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Insert", 65); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Delete", 66); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Add", 67); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Subtract", 68); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Multiply", 69); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Divide", 70); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Left", 71); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Right", 72); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Up", 73); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Down", 74); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad0", 75); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad1", 76); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad2", 77); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad3", 78); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad4", 79); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad5", 80); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad6", 81); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad7", 82); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad8", 83); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Numpad9", 84); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F1", 85); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F2", 86); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F3", 87); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F4", 88); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F5", 89); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F6", 90); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F7", 91); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F8", 92); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F9", 93); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F10", 94); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F11", 95); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F12", 96); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F13", 97); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F14", 98); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "F15", 99); assert(error >= 0);
+	error = m_engine->RegisterEnumValue("Key", "Pause", 100); assert(error >= 0);
 
 	// register keyboard functions
-	error = m_engine->RegisterGlobalFunction("bool iskeyPressed(Key)", asFUNCTION(isKeyPressed), asCALL_CDECL); assert(error >= 0);
+	error = m_engine->RegisterGlobalFunction("bool isKeyPressed(Key)", asFUNCTION(isKeyPressed), asCALL_CDECL); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("bool isButtonPressed(Mouse)", asFUNCTION(isButtonPressed), asCALL_CDECL); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("int getXPosMouse()", asFUNCTION(getXPosMouse), asCALL_CDECL); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("int getYPosMouse()", asFUNCTION(getYPosMouse), asCALL_CDECL); assert(error >= 0);
+
+	// camera
+	error = m_engine->RegisterObjectType("Camera", sizeof(Camera), asOBJ_VALUE | asOBJ_POD); assert(error >= 0);
+	error = m_engine->RegisterObjectBehaviour("Camera", asBEHAVE_CONSTRUCT, "void f(float, float, float, float)", asFUNCTION(CameraConst), asCALL_CDECL_OBJLAST, m_renderEngine); assert(error >= 0);
+	error = m_engine->RegisterObjectBehaviour("Camera", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(CameraDest), asCALL_CDECL_OBJLAST, m_renderEngine); assert(error >= 0);
+
+	error = m_engine->RegisterObjectMethod("Camera", "void playFrame(uint16)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("Camera", "void setRotate(float)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("Camera", "void move(float, float)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("Camera", "void setCenter(float, float)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("Camera", "void setSize(float, float)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+	error = m_engine->RegisterObjectMethod("Camera", "void zoom(float)", asMETHOD(AnimatedEntity, playFrame), asCALL_THISCALL); assert(error >= 0);
+
 
 	// register AnimatedEntity creation and functions
 	error = m_engine->RegisterObjectType("AnimatedEntity", sizeof(AnimatedEntity), asOBJ_VALUE | asOBJ_POD); assert(error >= 0);
@@ -287,7 +302,7 @@ void eeGames::ScriptEngine::registerEngine()
 	error = m_engine->RegisterGlobalFunction("SoundEffect @getSoundEffect(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundEffect), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("Music @getMusic(const string &in, const string &in)", asMETHOD(SoundContainerEngine, getSoundMusic), asCALL_THISCALL_ASGLOBAL, m_soundContainerEngine); assert(error >= 0);
 
-	// register Microphone functions (only one mucrophone, so only one function for controlling it)
+	// register Microphone functions (only one microphone, so only one function for controlling it)
 	error = m_engine->RegisterGlobalFunction("void setMicrophonePosition(float, float, float)", asFUNCTIONPR(sf::Listener::setPosition, (float, float, float), void), asCALL_CDECL); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("float getMicrophonePositionX()", asFUNCTION(getMicrophonePositionX), asCALL_CDECL); assert(error >= 0);
 	error = m_engine->RegisterGlobalFunction("float getMicrophonePositionY()", asFUNCTION(getMicrophonePositionY), asCALL_CDECL); assert(error >= 0);
@@ -350,11 +365,17 @@ void eeGames::ScriptEngine::executeCommands()
 			{
 				m_scriptBuilder.StartNewModule(m_engine, m_commands[i].m_id.c_str());
 				int error = m_scriptBuilder.AddSectionFromFile(m_commands[i].m_dir.c_str());
-				if (error < 0) 
+				if (error < asSUCCESS)
+				{
+					std::cout << "could not find or open file at " + m_commands[i].m_dir << "\n";
 					throw std::logic_error("could not find or open file at " + m_commands[i].m_dir);
+				}
 				error = m_scriptBuilder.BuildModule();
-				if (error < 0) 
+				if (error < asSUCCESS)
+				{
+					std::cout << "could not build module at " + m_commands[i].m_dir << "\n";
 					throw std::logic_error("could not build module at " + m_commands[i].m_dir);
+				}
 				std::unique_ptr<Module> temp(new Module(m_scriptBuilder.GetModule()));
 				temp->initializeModule(); // initialize before running
 				m_currentModuleList.insert(std::make_pair(m_commands[i].m_id, std::move(temp)));
@@ -373,6 +394,7 @@ void eeGames::ScriptEngine::executeCommands()
 			m_soundContainerEngine->loadMusicContainer(m_commands[i].m_id, m_commands[i].m_dir);
 			break;
 		default:
+			std::cout << "unknown command attempting to be executed\n";
 			throw std::runtime_error("unknown command attempting to be executed");
 		}
 	}

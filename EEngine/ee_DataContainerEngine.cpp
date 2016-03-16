@@ -3,7 +3,7 @@
 bool eeGames::DataContainerEngine::addContainer(const std::string &id)
 {
 	auto it = m_containerList.find(id);
-	if (it == m_containerList.end()) // make sure it doesn't already exist
+	if (it != m_containerList.end()) // make sure it doesn't already exist
 		return false;
 
 	m_containerList.insert(std::make_pair(id, std::move(std::unique_ptr<DataContainer>(new DataContainer()))));

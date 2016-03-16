@@ -8,8 +8,8 @@ eeGames::Module::Module(asIScriptModule *mod) : m_module(mod)
 
 eeGames::Module::~Module()
 {
-	m_context->Release();
 	m_module->Discard();
+	m_context->Release();
 }
 
 bool eeGames::Module::initializeModule()
@@ -27,7 +27,10 @@ void eeGames::Module::stepModule(uint32_t frameTime)
 
 	int error = m_context->Prepare(m_module->GetFunctionByDecl(_m_stepDecl.c_str()));
 	if (error != asSUCCESS)
+	{
+		std::cout << "there was an issue stepping the function\n";
 		throw std::logic_error("there was an issue stepping the function");
+	}
 	m_context->SetArgDWord(0, frameTime);
 	error = m_context->Execute();
 }
