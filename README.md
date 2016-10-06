@@ -6,6 +6,6 @@ The game engine has no UI and utilizes a script modules as the basis for making 
 called the Aeneid and a compilation test program for the scripts exist:
 
 Unfinished Aeneid video game:
-
-Compilaton Test:
+https://github.com/DennisVanEe/Aeneid-the-Video-Game
+Syntax Test:
 https://github.com/DennisVanEe/EEngineSyntaxChecker
