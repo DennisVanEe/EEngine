@@ -6,7 +6,7 @@ The Game Engine has no UI and is a single executable. The game is programmed ent
 Currently, the engine works on a single thread and uses a queue-messenger for modules to communicate with the engine (loading resources) and between modules (sending data). Data can also be stored either in a data module (an AngelScript module) or a data container, which is a proprietary binary file that associates data with strings and can be used as a "save file".
 
 The Aeneid Video Game was being built for the EEngine
-https://github.com/DennisVanEe/Aeneid-the-Video-Game
+https://github.com/DennisVanEe/Aeneid_the_Video_Game
 
 The EEngine did not provide any help when it comes to syntax checking for the individual modules. For this reason, a separate program was created to only check the syntax of AngelScript modules written for the EEngine.
-https://github.com/DennisVanEe/EEngineSyntaxChecker
+https://github.com/DennisVanEe/EEngine_Syntax_Checker
