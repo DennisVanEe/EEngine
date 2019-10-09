@@ -1,5 +1,5 @@
 # EEngine
-A 2D video game engine based on SFML with support for the AngelScript language.
+A 2D video game engine based on SFML with support for the AngelScript language I wrote in high school.
 
 The Game Engine has no UI and is a single executable. The game is programmed entirely through AngelScript modules that control graphics, resource loading, sound etc. Resources (like levels and textures and sprites) are defined using xml. The necessary files are placed in the same directory as the engine executable, and running the engine executable will in turn execute the initialization module which will execute the rest of the modules (resource loading, AI, etc.)
 
